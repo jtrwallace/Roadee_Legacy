@@ -59,4 +59,10 @@ def call():
     """
     return service()
 
+def user_sign_up():
+    return dict()
+
+@auth.requires_signature()
+def add_user():
+    return 0
 
