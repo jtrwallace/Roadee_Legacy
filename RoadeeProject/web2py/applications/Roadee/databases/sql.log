@@ -403,3 +403,16 @@ success!
 success!
 success!
 success!
+success!
+success!
+success!
+success!
+timestamp: 2016-01-30T10:33:22.084000
+ALTER TABLE routes ADD uuid CHAR(512);
+success!
+timestamp: 2016-01-30T10:33:22.142000
+ALTER TABLE waypoint ADD uuid CHAR(512);
+success!
+timestamp: 2016-01-30T10:33:22.207000
+ALTER TABLE review ADD uuid CHAR(512);
+success!
