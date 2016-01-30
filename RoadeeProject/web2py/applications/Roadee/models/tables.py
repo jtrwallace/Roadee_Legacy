@@ -18,7 +18,7 @@
 from datetime import datetime
 
 db.define_table('routes',
-    Field('uuid', default=uuid.uuid4()),
+    Field('uuid', 'string', default=str(uuid.uuid4())),
     Field('startingPointLatitude', 'decimal(9,6)'),
     Field('startingPointLongitude', 'decimal(9,6)'),
     Field('endingPointLatitude', 'decimal(9,6)'),
@@ -32,24 +32,24 @@ db.define_table('routes',
 )
 
 db.define_table('waypoint',
-    Field('uuid', default=uuid.uuid4()),
+    Field('uuid', 'string', default=str(uuid.uuid4())),
     Field('rating', 'integer'),
     Field('photosURLList', 'list:string'),
     Field('locationLatitude', 'decimal(9,6)'),
     Field('locationLongitude', 'decimal(9,6)'),
-    Field('waypointList', 'list:string'),
     Field('description', 'string'),
     Field('address', 'string'),
     Field('waypointName', 'string'),
     Field('phoneNumber', 'string'),
     Field('averageCost', 'double'),
+    Field('reviewList', 'list:string'),
     Field('numberOfReviews', 'integer'),
     Field('routeTypeList', 'list:string'),
     Field('timeSpentList', 'list:string')
 )
 
 db.define_table('review',
-    Field('uuid', default=uuid.uuid4()),
+    Field('uuid', 'string', default=str(uuid.uuid4())),
     Field('waypointID', 'string'),
     Field('userID', 'string'),
     Field('reviewDescription', 'string'),
