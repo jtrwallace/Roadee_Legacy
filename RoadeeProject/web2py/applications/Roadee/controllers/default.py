@@ -162,8 +162,30 @@ def get_waypoints_by_area():
 
     return response.json(matched_waypoints)
 
+def remove_waypoint_from_route():
+    route = db(db.route.uuid == request.vars.unique_id).select().first()
+    newWaypointList = filter(lambda waypointID : waypointID == request.vars.unique_id, route.waypointList)
+
+    db.route.update_or_insert((db.route.uuid == request.vars.unique_id),
+            waypointList = newWaypointList
+            )
+
+def remove_route():
+    del db(db.route.uuid == request.vars.unique_id).select().first()
+
+def remove_review_from_waypoint():
+    review = db(db.review.uuid == request.vars.unique_id).select().first()
+    waypoint = db(db.waypoint.uuid == review.waypointID).select().first()
+    newReviewList = filter(lambda reviewID : reviewID == request.vars.unique_id, waypoint.reviewList)
+
+    db.waypoint.update_or_insert((db.waypoint.uuid == review.waypointID),
+            reviewList = newReviewList
+            )
+
+    del review
+
 def update_route():
-    return 0;
+    return 0
 
 def update_waypoint():
-    return 0;
+    return 0
