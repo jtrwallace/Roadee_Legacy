@@ -9,7 +9,6 @@
 #########################################################################
 
 import json
-import gluon.contrib.simplejson
 
 def index():
     """
