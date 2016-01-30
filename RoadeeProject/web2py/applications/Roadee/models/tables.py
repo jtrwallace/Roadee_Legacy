@@ -23,12 +23,29 @@ db.define_table('routes',
     Field('startingPointLongitude', 'decimal(9,6)'),
     Field('endingPointLatitude', 'decimal(9,6)'),
     Field('endingPointLongitude', 'decimal(9,6)'),
-    ##field for waypointList
+    Field('waypointList', 'list:string'),
     Field('totalDistance', 'double'),
     Field('userID', 'integer'),
     Field('routeName', 'string'),
     Field('totalTime', 'integer'),
     Field('routeType', 'string')
+)
+
+db.define_table('waypoint',
+    Field('id', 'string'),
+    Field('rating', 'integer'),
+    Field('photosURLList', 'list:string'),
+    Field('locationLatitude', 'decimal(9,6)'),
+    Field('locationLongitude', 'decimal(9,6)'),
+    Field('waypointList', 'list:string'),
+    Field('description', 'string'),
+    Field('address', 'string'),
+    Field('waypointName', 'string'),
+    Field('phoneNumber', 'string'),
+    Field('averageCost', 'double'),
+    Field('numberOfReviews', 'integer'),
+    Field('routeTypeList', 'list:string'),
+    Field('timeSpentList', 'list:string')
 )
 
 db.define_tables('review',
@@ -38,20 +55,4 @@ db.define_tables('review',
     Field('reviewDescription', 'string'),
     Field('postingTime', default=datetime.utcnow()),
     Field('postingTimeString', 'string', default=str(datetime.utcnow()))
-)
-
-db.define_table('waypoint',
-    Field('id', 'string'),
-    Field('rating', 'integer'),
-    Field('locationLatitude', 'decimal(9,6)'),
-    Field('locationLongitude', 'decimal(9,6)'),
-    ##field for waypointList
-    Field('description', 'string'),
-    Field('address', 'string'),
-    Field('waypointName', 'string'),
-    Field('phoneNumber', 'string'),
-    Field('averageCost', 'double'),
-    Field('numberOfReviews', 'integer'),
-    ##Field('','') for routeTypeList
-    ##Field('','') for routeTypeList
 )
