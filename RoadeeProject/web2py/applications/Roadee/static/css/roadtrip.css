@@ -65,12 +65,19 @@ html, body { height: 100%; margin: 0; padding: 0; }
     height: 100%;
 }
 
-#listContainer {
-    width: 40%;
-    height: 100%;
-}
+
 
 #roadTripContainer {
     height: 100%;
     width: 100%;
+}
+
+input#pac-input {
+    width: 40%;
+    left: 20%;
+    right: 20%;
+    height: 30px;
+    margin: 10px auto auto auto;
+    font-size: 13pt;
+    text-align: center;
 }

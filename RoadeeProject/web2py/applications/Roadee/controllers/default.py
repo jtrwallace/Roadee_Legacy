@@ -111,3 +111,6 @@ def add_waypoint_photo():
     db.waypoint.update_or_insert((db.waypoint.uuid == request.vars.uuid),
             photosURLList = newPhotosURLList
             )
+
+def update_route():
+    return 0;
