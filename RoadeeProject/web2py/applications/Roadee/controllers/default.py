@@ -66,3 +66,6 @@ def user_login():
 
 def user_sign_up():
     return dict()
+
+def update_route():
+    return 0;
