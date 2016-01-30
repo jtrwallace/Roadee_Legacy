@@ -68,51 +68,74 @@ def user_sign_up():
     return dict()
 
 def add_review():
-    db.review.update_or_insert((db.review.uuid == request.vars.reviewID),
-            waypointID = request.vars.waypointID,
-            userID = request.vars.userID,
-            rating = request.vars.rating,
-            reviewDescription = request.vars.reviewDescription
+    db.review.update_or_insert((db.review.uuid == request.vars.data["reviewID"]),
+            waypointID = request.vars.data["waypointID"],
+            userID = request.vars.data["userID"],
+            rating = request.vars.data["rating"],
+            reviewDescription = request.vars.data["reviewDescription"]
             )
 
-    waypoint = db(db.waypoint.uuid == request.vars.waypointID).select().first()
-    newRating = (waypoint.rating + request.vars.rating) / 2
+    waypoint = db(db.waypoint.uuid == request.vars.data["waypointID"]).select().first()
+    newRating = (waypoint.rating + request.vars.data["rating"]) / 2
     newReviewList = waypoint.reviewList
-    newReviewList.append(request.vars.reviewID)
-    newAverageCost = (waypoint.averageCost + request.vars.cost) / 2
+    newReviewList.append(request.vars.data["reviewID"])
+    newAverageCost = (waypoint.averageCost + request.vars.data["cost"]) / 2
 
-    db.waypoint.update((db.waypoint.uuid == request.vars.waypointID),
+    db.waypoint.update((db.waypoint.uuid == request.vars.data["waypointID"]),
             rating = newRating,
             reviewList = newReviewList,
             averageCost = newAverageCost
             )
 
 def add_waypoint():
-    db.waypoint.update_or_insert((db.waypoint.uuid == request.vars.waypointID),
-            rating = request.vars.rating,
-            locationLatitude = request.vars.locationLatitude,
-            locationLongitude = request.vars.locationLongitude,
-            description = request.vars.description,
-            address = request.vars.address,
-            waypointName = request.vars.waypointName,
-            phoneNumber = request.vars.phoneNumber,
-            averageCost = request.vars.averageCost,
-            #routeTypeList = request.vars.routeTypeList,
-            #timeSpentList = request.vars.timeSpentList
+    db.waypoint.update_or_insert((db.waypoint.uuid == request.vars.data["waypointID"]),
+            rating = request.vars.data["rating"],
+            locationLatitude = request.vars.data["locationLatitude"],
+            locationLongitude = request.vars.data["locationLongitude"],
+            description = request.vars.data["description"],
+            address = request.vars.data["address"],
+            waypointName = request.vars.data["waypointName"],
+            phoneNumber = request.vars.data["phoneNumber"],
+            averageCost = request.vars.data["averageCost"],
+            #routeTypeList = request.vars.data["routeTypeList"],
+            #timeSpentList = request.vars.data["timeSpentLis"]t
             )
 
 def add_waypoint_photo():
-    waypoint = db(db.waypoint.uuid == request.vars.waypointID).select().first()
+    waypoint = db(db.waypoint.uuid == request.vars.data["waypointID"]).select().first()
     newPhotosURLList = waypoint.photosURLList
-    newPhotosURLList.append(request.vars.photoURL)
+    newPhotosURLList.append(request.vars.data["photoURL"])
 
-    db.waypoint.update_or_insert((db.waypoint.uuid == request.vars.waypointID),
+    db.waypoint.update_or_insert((db.waypoint.uuid == request.vars.data["waypointID)"],
             photosURLList = newPhotosURLList
             )
 
-def get_reviews_for_waypoint():
-    reviews = db(db.review.waypointID == request.vars.waypointID).select()
+def get_reviews_by_waypoint():
+    reviews = db(db.review.waypointID == request.vars.data["waypointID"]).select()
     return response.json(list(reviews))
+
+def get_routes_by_user():
+    routes = db(db.route.userID = request.vars.data["userID"]).select()
+    return response.json(list(routes))
+
+def get_waypoints_by_route():
+    route = db(db.route.uuid == request.vars.data["routeID"]).select()
+
+    waypoints = []
+    for waypointID in route.waypointList:
+        waypoints.append(db(db.waypoint.uuid == waypointID).select().first())
+
+    return response.json(list(waypoints))
+
+def get_waypoints_by_name():
+    search_input = request.vars.data["search_input"].lower()
+    waypoints = db().select(db.waypoint.ALL)
+    matched_waypoints = []
+    for waypoint in waypoints:
+        first_chars = waypoint['waypointName'][:len(search_input)].lower()
+        if search_input == first_chars:
+            matched_waypoints.append(waypoint)
+    return response.json(list(matched_waypoints))
 
 def update_route():
     return 0;
