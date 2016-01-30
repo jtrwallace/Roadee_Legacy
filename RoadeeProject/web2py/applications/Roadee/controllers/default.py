@@ -114,18 +114,14 @@ def add_waypoint_photo():
             photosURLList = newPhotosURLList
             )
 
-
-    return 0;
+    return 0
 
 def get_reviews_by_waypoint():
     reviews = db(db.review.waypointID == request.vars.data["waypointID"]).select()
-    return response.json(list(reviews))
+    return response.json(reviews)
 
 def get_routes_by_user():
-    print (request.vars.unique_id)
     routes = db(db.routes.userID == request.vars.unique_id).select().first()
-
-    print (routes)
     return response.json(routes)
 
 def get_waypoints_by_route():
@@ -135,7 +131,7 @@ def get_waypoints_by_route():
     for waypointID in route.waypointList:
         waypoints.append(db(db.waypoint.uuid == waypointID).select().first())
 
-    return response.json(list(waypoints))
+    return response.json(waypoints)
 
 def get_waypoints_by_name():
     search_input = request.vars.data["waypointName"].lower()
@@ -147,7 +143,7 @@ def get_waypoints_by_name():
         if search_input == first_chars:
             matched_waypoints.append(waypoint)
 
-    return response.json(list(matched_waypoints))
+    return response.json(matched_waypoints)
 
 def get_waypoints_by_area():
     minlo = request.vars.data["minLongitude"]
@@ -164,7 +160,7 @@ def get_waypoints_by_area():
         if containsLocation(waypoint.locationLongitude, waypoint.locationLatitude):
             matched_waypoints.append(waypoint)
 
-    return response.json(list(matched_waypoints))
+    return response.json(matched_waypoints)
 
 def update_route():
     return 0;
