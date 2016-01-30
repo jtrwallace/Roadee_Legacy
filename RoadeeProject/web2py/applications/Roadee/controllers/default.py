@@ -61,12 +61,6 @@ def call():
     """
     return service()
 
-def user_login():
-    return dict()
-
-def user_sign_up():
-    return dict()
-
 def add_review():
     db.review.update_or_insert((db.review.uuid == request.vars.unique_id),
             waypointID = request.vars.data["waypointID"],
@@ -146,10 +140,10 @@ def get_waypoints_by_name():
     return response.json(matched_waypoints)
 
 def get_waypoints_by_area():
-    minlo = request.vars.data["minLongitude"]
-    maxlo = request.vars.data["maxLongitude"]
-    minla = request.vars.data["minLatitude"]
-    maxla = request.vars.data["maxLatitude"]
+    minlo = request.vars.data["west"]
+    maxlo = request.vars.data["east"]
+    minla = request.vars.data["south"]
+    maxla = request.vars.data["north"]
 
     containsLocation = lambda lo, la : minlo <= lo and lo <= maxlo and minla <= la and la <= maxla
 
