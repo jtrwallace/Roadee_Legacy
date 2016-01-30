@@ -1,4 +1,4 @@
-function get_something(OBJECT, dataName, controllerURL, unique_id) {
+function get_something(controllerURL, unique_id) {
     $.ajax(controllerURL,
         {
             data: {
@@ -6,7 +6,7 @@ function get_something(OBJECT, dataName, controllerURL, unique_id) {
             },
             method: 'POST',
             success: function (data) {
-                OBJECT.set("\'" + dataName + "\'", data);
+                return data;
             },
             error: function(data) {
                 return "Server Error"
@@ -15,11 +15,11 @@ function get_something(OBJECT, dataName, controllerURL, unique_id) {
     );
 }
 
-function add_something(OBJECT, dataName, controllerURL, data) {
+function add_something(controllerURL, data) {
     $.ajax(controllerURL,
         {
             data: {
-                data: OBJECT.get(data) //request.vars.data
+                data: data //request.vars.data
             },
             method: 'POST',
             error: function(data) {
@@ -30,7 +30,7 @@ function add_something(OBJECT, dataName, controllerURL, data) {
 }
 
 //
-function delete_something(OBJECT, dataName, controllerURL, unique_id) {
+function delete_something(controllerURL, unique_id) {
     $.ajax(controllerURL,
         {
             data: {
