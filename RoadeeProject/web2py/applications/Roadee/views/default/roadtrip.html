@@ -46,7 +46,28 @@
             <li><p class="address-label">Ending Point</p></li>
             <li><input class="address-input" id="pac-input-end" /></li>
             <li><p class="route-label">Trip Name</p></li>
-            <li><input class="route-name-input" id="route-name-input" type="text" name="routeName" value="{% routeName %}"/></li>
+            <li><input class="route-name-input" id="route-name-input" type="text" name="routeName" value="{% route['routeName'] %}"/></li>
+            <li><p class="route-label">Trip Type</p></li>
+            <li>
+                <select class="route-type-input" id="route-type-input" type="text" name="routeType" value="{% route['routeType'] %}">
+                    <option value="family">Family</option>
+                    <option value="romantic">Romantic</option>
+                    <option value="adventure">Adventure</option>
+                </select>
+            </li>
+            <li class="flex-row"><p class="dist-label">Total Trip Distance: </p><p class="dist-text" type="text" name="totalDistance" value="{% routeType['totalDistance'] %}">DIST HERE</p></li>
+            <li class="flex-row"><p class="dist-label">Total Trip Time: </p><p class="dist-text" type="text" name="totalTime" value="{% routeType['totalTime'] %}">TIME HERE</p></li>
+        </ul>
+</script>
+
+<script id="waypoint-template" type="text/ractive">
+        <ul class="waypoint-list">
+            <li><p class="address-label">Starting Point</p></li>
+            <li><input class="address-input" id="pac-input-start" /></li>
+            <li><p class="address-label">Ending Point</p></li>
+            <li><input class="address-input" id="pac-input-end" /></li>
+            <li><p class="route-label">Trip Name</p></li>
+            <li><input class="route-name-input" id="route-name-input" type="text" name="routeName" value={% routeName %}/></li>
             <li><p class="route-label">Trip Type</p></li>
             <li>
                 <select class="route-type-input" id="route-type-input" type="text" name="routeType" value="{% routeType %}">
@@ -60,27 +81,6 @@
         </ul>
 </script>
 
-<script id="waypoint-template" type="text/ractive">
-        <ul class="waypoint-list">
-            <li><p class="address-label">Starting Point</p></li>
-            <li><input class="address-input" id="pac-input-start" /></li>
-            <li><p class="address-label">Ending Point</p></li>
-            <li><input class="address-input" id="pac-input-end" /></li>
-            <li><p class="route-label">Trip Name</p></li>
-            <li><input class="route-name-input" id="route-name-input" type="text" name="routeName" value="{% routeName %}/></li>
-            <li><p class="route-label">Trip Type</p></li>
-            <li>
-                <select class="route-type-input" id="route-type-input" type="text" name="routeType" value="{% routeType %}>
-                    <option value="family">Family</option>
-                    <option value="romantic">Romantic</option>
-                    <option value="adventure">Adventure</option>
-                </select>
-            </li>
-            <li class="flex-row"><p class="dist-label">Total Trip Distance: </p><p class="dist-text" type="text" name="totalDistance" value="{% totalDistance %}>DIST HERE</p></li>
-            <li class="flex-row"><p class="dist-label">Total Trip Time: </p><p class="dist-text" type="text" name="totalTime" value="{% totalTime %}>TIME HERE</p></li>
-        </ul>
-</script>
-
 <script>
 	$(function() {
         // Ractive object
@@ -90,19 +90,11 @@
             delimiters: ['{%', '%}'],
             tripleDelimiters: ['{%%', '%%}'],
             data: {
-                uuid: "",
-                startingPointLatitude: "",
-                startingPointLongitude:"",
-                endingPointLatitude: "",
-                endingPointLongitude: "",
-                waypointList:"",
-                totalDistance:"",
-                userID:"",
-                routeName:"",
-                totalTime:"",
-                routeType:""
+                route: {}
             }
         });
+
+        BODY.on("route-type-input", get_something('BODY','route',"{{=URL('default', 'get_routes_by_user')}}","{{=auth.user_id}}"));
 
         BODY.on("route-type-input", function() {
             $.ajax("{{=URL('default', 'update_route')}}",
