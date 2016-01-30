@@ -96,19 +96,36 @@
         });
 
         $.ajax("{{=URL('default', 'get_routes_by_user')}}",
-        {
-            data: {
-                unique_id: "{{=auth.user_id}}" //request.vars.unique_id
-            },
-            method: 'POST',
-            success: function (data) {
-                BODY.set('route', data);
-            },
-            error: function(data) {
-                return "Server Error"
-            }
-        }
-    );
+                {
+                    data: {
+                        unique_id: "{{=auth.user_id}}" //request.vars.unique_id
+                    },
+                    method: 'POST',
+                    success: function (data) {
+                        BODY.set('route', data);
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("GET", "http://maps.googleapis.com/maps/api/geocode/json?latlng="+data['startingPointLatitude'].toString()+","+data['startingPointLongitude'].toString(), false);
+                        xhr.send();
+
+                        var jsonAPIStart = JSON.parse(xhr.responseText);
+
+                        document.getElementById("pac-input-start").value = jsonAPIStart['results'][0]['formatted_address'];
+
+                        var xhrSecond = new XMLHttpRequest();
+                        xhrSecond.open("GET", "http://maps.googleapis.com/maps/api/geocode/json?latlng="+data['endingPointLatitude'].toString()+","+data['endingPointLongitude'].toString(), false);
+                        xhrSecond.send();
+
+                        var jsonAPIEnd = JSON.parse(xhrSecond.responseText);
+
+                        console.log("http://maps.googleapis.com/maps/api/geocode/json?latlng="+data['endingPointLatitude'].toString()+","+data['endingPointLongitude'].toString());
+
+                        document.getElementById("pac-input-end").value = jsonAPIEnd['results'][0]['formatted_address'];
+                    },
+                    error: function (data) {
+                        return "Server Error"
+                    }
+                }
+        );
     });
 </script>
 
