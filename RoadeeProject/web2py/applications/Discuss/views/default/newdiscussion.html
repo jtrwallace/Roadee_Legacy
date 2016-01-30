@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <!-- www.phpied.com/conditional-comments-block-downloads/ -->
+    <!-- Always force latest IE rendering engine
+         (even in intranet) & Chrome Frame
+         Remove this if you use the .htaccess -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge{{=not request.is_local and ',chrome=1' or ''}}">
+    <!--  Mobile Viewport Fix
+          j.mp/mobileviewport & davidbcalhoun.com/2010/viewport-metatag
+          device-width: Occupy full width of the screen in its current orientation
+          initial-scale = 1.0 retains dimensions instead of zooming out if page height > device height
+          user-scalable = yes allows the user to zoom in -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{=response.title or request.application}}</title>
+    <!-- http://dev.w3.org/html5/markup/meta.name.html -->
+    <meta name="application-name" content="{{=request.application}}">
+    <!-- Speaking of Google, don't forget to set your site up:
+         http://google.com/webmasters -->
+    <meta name="google-site-verification" content="">
+    <!-- include stylesheets -->
+    <link rel="stylesheet" href="{{=URL('static','css/bootstrap.min.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static','css/bootstrap-theme.min.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static','css/web2py-bootstrap3.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static','css/myapp.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static', 'font-awesome-4.4.0/css/font-awesome.min.css')}}"/>
+    <link rel="shortcut icon" href="{{=URL('static','images/favicon.ico')}}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{=URL('static','images/favicon.png')}}">
+	<link href='https://fonts.googleapis.com/css?family=Lato:400,300,100,700,900,100italic,300italic,400italic,700italic,900italic|Open+Sans:400,300,600,700,800,300italic,400italic,600italic,700italic,800italic|Montserrat' rel='stylesheet' type='text/css'>    <!-- All JavaScript at the bottom, except for Modernizr which enables
+         HTML5 elements & feature detects -->
+    <script src="{{=URL('static','js/modernizr-2.8.3.min.js')}}"></script>
+    <!--[if lt IE 9]>
+        <script src="{{=URL('static','js/respond-1.4.2.min.js')}}"></script>
+        <![endif]-->
+    <!-- Favicons -->
+    {{include 'web2py_ajax.html'}} <!-- this includes jquery.js, calendar.js/.css and web2py.js -->
+</head>
+<body>
+	<div id="wrap">
+		<div id="new-discussion-target" class="content-wrapper"></div>
+	</div>
+	<footer><div class="orange-bar"></div></footer>
+	<!-- The javascript =============================== -->
+    <script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
+    <script src="{{=URL('static','js/web2py-bootstrap3.js')}}"></script>
+    <script src="{{=URL('static', 'js/ractive.min.js')}}"></script>
+</body>
+
+<script id="new-discussion-template" type="text/ractive">
+	<nav id="index-nav" class="flex-row space-between full-width center-aligned">
+		{{=A('Discuss', _class='title', _href=URL('default', 'index'))}}
+		<div class="nav-buttons flex-row space-around">
+		{{if not auth.is_logged_in():}}
+			{{=A('Get Started', _class='btn', _id='signup-button', _href=URL('default', 'user', args=['register'], vars=dict(_next=URL(args=request.args, vars=request.vars))))}}
+            {{=A('Sign In', _class='btn', _id='signin-button', _href=URL('default', 'user', args=['login'], vars=dict(_next=URL(args=request.args, vars=request.vars))))}}
+        {{pass}}
+        {{if auth.is_logged_in():}}
+            {{=A('Sign Out', _class='btn', _id='signout-button', _href=URL('default', 'user', args=['logout'], vars=dict(_next=URL('default'))))}}
+        {{pass}}
+        </div>
+	</nav>
+	<main>
+		<div id="new-discussion-form-container" class="flex-column center-aligned form-container">
+			<div id="new-discussion-greeting" class="form-greeting">
+				<h1>New Discussion</h1>
+			</div>
+			<div class="flex-column center-aligned form-column">
+				<div class="flex-column form-column full-width" id="register-form">
+					<div class="flex-column form-row space-between center-aligned" id="discussionname-row">
+						<h4>What do you want to discuss?</h4>
+						<input type="text" class="text-widget custom-form form-control" id="form-discussionname" name="new_discussion_name" value="{% discussion_name %}" maxlength="25" data-boardid=""/>
+					</div>
+					<div class="flex-column form-row space-between center-aligned" id="discussiondescription-row">
+						<h4>Short description of your dicsussion</h4>
+						<textarea name="new_discussion_description" class="new_discussion_description form-control" value="{% discussion_description %}" cols="40" rows="4" maxlength="130"></textarea>
+					</div>
+					<div class="flex-column form-row space-between center-aligned" id="discussionlocation-row">
+						<h4>City <i>(Optional)</i></h4>
+						<input type="text" class="text-widget custom-form form-control" id="form-discussionlocation" name="new_discussion_location" value="{% discussion_location %}" maxlength="50" data-boardid=""/>
+					</div>
+					<div class="flex-column form-row space-between center-aligned" id="bannerphotourl-row">
+						<h4>Banner Photo URL</h4>
+						<input type="text" class="text-widget custom-form form-control" id="form-discussionlocation" name="new_discussion_location" value="{% banner_photo_url %}" data-boardid=""/>
+					</div>
+					<button class="btn blue-button" id="submit-button" on-click="submit-button">Submit</button>
+				</div>
+			</div>
+			</div>
+	</main>
+</script>
+
+<script>
+	$(function() {
+		// Ractive object
+		var BODY = new Ractive({
+			el: '#new-discussion-target',
+			template: '#new-discussion-template',
+			delimiters: ['{%', '%}'],
+			tripleDelimiters: ['{%%', '%%}'],
+			data: {
+				discussion_name: "",
+				discussion_description: "",
+				discussion_location: "",
+				banner_photo_url: "http://www.cocc.edu/uploadedImages/Departments_/ITS/Computer_Labs/20141104_133038.jpg",
+				discussion_id: "{{=discussion_id}}",
+				index_url: "{{=URL('default', 'index')}}"
+			}
+		});
+
+		//To retrieve the time in UTC string format
+		function get_UTC_String() {
+			var date = new Date();
+			return date.toUTCString();
+		}
+
+		//Makes the date more readable and in user's time zone.
+		function get_pretty_time() {
+			var date = new Date();
+			var full_date = date.toString();
+			var split_date = full_date.split(" ");
+			var split_time = split_date[4].split(":");
+			return split_date[1] + " " + split_date[2] + " " + split_time[0] + ":" + split_time[1];
+		}
+
+
+		function send() {
+			$.ajax("{{=URL('default', 'add_discussion', user_signature=True)}}",
+					{
+						data: {
+							discussion_name: BODY.get('discussion_name'), //request.vars.discussion_name
+							discussion_description: BODY.get('discussion_description'), //request.vars.discussion_description
+							discussion_location: BODY.get('discussion_location'), //request.vars.discussion_location
+							banner_photo_url: BODY.get('banner_photo_url'), //request.vars.banner_photo_url
+							discussion_id: BODY.get('discussion_id'), //request.vars.discussion_id
+							discussion_last_updated: get_UTC_String(), //request.vars.discussion_last_updated
+							discussion_pretty_updated: get_pretty_time() //request.vars.discussion_pretty_updated
+						},
+						method: 'POST',
+						success: function() {},
+						error: function() {}
+					}
+			);
+		}
+
+		BODY.on("submit-button", function(e) {
+            send();
+            window.location.href = BODY.get('index_url');
+        });
+
+	});
+</script>

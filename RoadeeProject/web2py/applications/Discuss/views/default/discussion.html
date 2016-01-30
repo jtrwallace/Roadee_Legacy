@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <!-- www.phpied.com/conditional-comments-block-downloads/ -->
+    <!-- Always force latest IE rendering engine
+         (even in intranet) & Chrome Frame
+         Remove this if you use the .htaccess -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge{{=not request.is_local and ',chrome=1' or ''}}">
+    <!--  Mobile Viewport Fix
+          j.mp/mobileviewport & davidbcalhoun.com/2010/viewport-metatag
+          device-width: Occupy full width of the screen in its current orientation
+          initial-scale = 1.0 retains dimensions instead of zooming out if page height > device height
+          user-scalable = yes allows the user to zoom in -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{=response.title or request.application}}</title>
+    <!-- http://dev.w3.org/html5/markup/meta.name.html -->
+    <meta name="application-name" content="{{=request.application}}">
+    <!-- Speaking of Google, don't forget to set your site up:
+         http://google.com/webmasters -->
+    <meta name="google-site-verification" content="">
+    <!-- include stylesheets -->
+    <link rel="stylesheet" href="{{=URL('static','css/bootstrap.min.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static','css/bootstrap-theme.min.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static','css/web2py-bootstrap3.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static','css/myapp.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static', 'font-awesome-4.4.0/css/font-awesome.min.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static','fullcalendar-2.5.0/fullcalendar.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static','fullcalendar-2.5.0/fullcalendar.print.css')}}"/>
+    <link rel="shortcut icon" href="{{=URL('static','images/favicon.ico')}}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{=URL('static','images/favicon.png')}}">
+	<link href='https://fonts.googleapis.com/css?family=Lato:400,300,100,700,900,100italic,300italic,400italic,700italic,900italic|Open+Sans:400,300,600,700,800,300italic,400italic,600italic,700italic,800italic|Montserrat' rel='stylesheet' type='text/css'>    <!-- All JavaScript at the bottom, except for Modernizr which enables
+         HTML5 elements & feature detects -->
+    <script src="{{=URL('static','js/modernizr-2.8.3.min.js')}}"></script>
+    <!--[if lt IE 9]>
+        <script src="{{=URL('static','js/respond-1.4.2.min.js')}}"></script>
+        <![endif]-->
+    <!-- Favicons -->
+    {{include 'web2py_ajax.html'}} <!-- this includes jquery.js, calendar.js/.css and web2py.js -->
+</head>
+<body>
+	<div id="wrap">
+		<div class="content-wrapper">
+			<div id="discussion-target"></div>
+			<div id="discussion-forum-target"></div>
+			<div id="discussion-calendar-target"></div>
+			<div id="discussion-members-target"></div>
+		</div>
+	</div>
+	<footer><div class="orange-bar"></div></footer>
+	<!-- The javascript =============================== -->
+    <script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
+    <script src="{{=URL('static','js/web2py-bootstrap3.js')}}"></script>
+    <script src="{{=URL('static', 'js/ractive.min.js')}}"></script>
+    <script src="{{=URL('static', 'fullcalendar-2.5.0/lib/moment.min.js')}}"></script>
+    <script src="{{=URL('static', 'fullcalendar-2.5.0/lib/jquery.min.js')}}"></script>
+    <script src="{{=URL('static', 'fullcalendar-2.5.0/fullcalendar.min.js')}}"></script>
+</body>
+
+<script id="discussion-template" type="text/ractive">
+	<nav id="discussion-nav" class="flex-row space-between full-width center-aligned">
+		{{=A('Discuss', _class='title', _href=URL('default', 'index'))}}
+		<div class="nav-buttons flex-row space-around">
+		{{if not auth.is_logged_in():}}
+			{{=A('Get Started', _class='btn', _id='signup-button', _href=URL('default', 'user', args=['register'], vars=dict(_next=URL(args=request.args, vars=request.vars))))}}
+            {{=A('Sign In', _class='btn', _id='signin-button', _href=URL('default', 'user', args=['login'], vars=dict(_next=URL(args=request.args, vars=request.vars))))}}
+        {{pass}}
+        {{if auth.is_logged_in():}}
+            {{=A('Sign Out', _class='btn', _id='signout-button', _href=URL('default', 'user', args=['logout'], vars=dict(_next=URL(args=request.args, vars=request.vars))))}}
+        {{pass}}
+        </div>
+	</nav>
+	<main id="discussion-main">
+		<div class="banner-photo">
+			<img src="{% discussion['banner_photo_url'] %}" alt="Bicycle Commuter">
+			<div id="discussion-greeting" class="banner-content">
+				<div class="banner-title">{% discussion['discussion_name'] %}</div>
+				<div class="banner-text">{% discussion['discussion_description'] %}</div>
+			</div>
+		</div>
+		<div id="discussion-nav-container">
+			<div id="join-or-post-container" class="{% join_or_post_container_class %}">
+				{{if auth.is_logged_in():}}
+					{% #if is_member %}
+						<button class="btn blue-button" id="post-button" on-click="new-post-button">New Post</button>
+						<button class="btn" id="leave-button" on-click="leave-button">Leave Discussion</button>
+					{% /if %}
+					{% #if is_not_member %}
+						<button class="btn blue-button" id="join-button" on-click="join-button">Join Discussion</button>
+					{% /if %}
+				{{pass}}
+			</div>
+			<div id="discussion-nav-options" class="flex-row space-around center-aligned">
+				<button class="{% discuss_button_class %}" id="discuss-button" on-click="discuss-button">Discuss</button>
+				<button class="{% calendar_button_class %}" id="calendar-button" on-click="calendar-button">Calendar</button>
+				<button class="{% members_button_class %}" id="members-button" on-click="members-button">Members</button>
+			</div>
+		</div>
+	</main>
+</script>
+
+<script id="discussion-forum-template" type="text/ractive">
+	<div id="forum-container" class="flex-column center-aligned">
+		<div id="forum-heading-container" class="flex-row center-aligned space-between">
+			<div id="forum-heading-topic" class="forum-heading topic">Topic</div>
+			<div id="forum-heading-replies" class="forum-heading replies">Replies</div>
+			<div id="forum-heading-views" class="forum-heading views">Views</div>
+			<div id="forum-heading-last-post" class="forum-heading last-post">Last Post</div>
+		</div>
+		{% #if number_of_posts > 0 %}
+		{% #posts_list %}
+			{% #if is_draft === false %}
+				<div id="forum-post" class="flex-row center-aligned single-forum-post">
+					<div id="forum-post-subject-author-container" class="flex-column topic">
+						<div id="forum-post-subject"><a href="{% post_url + "/" + post_id %}">{% post_title %}</a></div>
+						<div id="forum-post-author-and-date">by {% post_author_name %} on {% posting_time_pretty %}</div>
+					</div>
+					<div id="forum-post-replies" class="replies">{% post_replies %}</div>
+					<div id="forum-post-views" class="views">{% post_views %}</div>
+					<div id="forum-post-last-post-container" class="flex-column last-post">
+						<div id="forum-post-last-post-author">by {% last_reply_author_name %}</div>
+						<div id="forum-post-last-post-date">on {% last_reply_time %}</div>
+					</div>
+				</div>
+			{% /if %}
+            {% #if is_draft === true %}
+                <div id="forum-post-draft" class="flex-row single-forum-post space-between">
+                    <div id="form-post-draft-container">
+                        <div id="forum-post-draft-title-label">Title</div>
+                        <input type="text" class="forum-post-draft-title form-control" id="focus_input" name="new_board_name" value="{% active_draft_title %}" maxlength="40" data-postid="{% post_id %}" on-blur="loses-focus" on-focus="gains-focus" />
+                        <div id="forum-post-draft-content-label">Content</div>
+						<textarea name="new_draft_content" class="post_draft_content form-control" value="{% active_draft_content %}" cols="37" rows="2" on-blur="loses-focus" data-postid="{% post_id %}" on-focus="gains-focus"></textarea>
+					</div>
+					<div id="save-button-container">
+						<button class="btn save_button_class blue-button" id="save-button" data-postid="{% post_id %}" on-click="save-post-button">Save</button>
+					</div>
+                </div>
+            {% /if %}
+		{% /posts_list %}
+		{% /if %}
+	</div>
+	{% #if number_of_posts === 0 %}
+        <div class="no_posts">
+            {{if auth.is_logged_in():}}
+            <p>No posts yet!<br>Click <b>New Post</b> above to be the first!</p>
+            {{else:}}
+            <p>No posts yet!<br><b>Log in</b> or create an account above to be the first!</p>
+            {{pass}}
+        </div>
+    {% /if %}
+</script>
+
+<script id="discussion-calendar-template" type="text/ractive">
+	<div id="calendar"></div>
+</script>
+
+<script id="discussion-members-template" type="text/ractive">
+	<div id="members-container" class="flex-column center-aligned">
+		<div id="members-heading-container" class="flex-row center-aligned space-between">
+			<div id="members-heading-name" class="forum-heading">Name</div>
+			<div id="members-heading-age" class="forum-heading">Age</div>
+			<div id="members-heading-location" class="forum-heading">Location</div>
+		</div>
+	</div>
+	{% #members %}
+		<div id="member" class="flex-row center-aligned single-forum-post">
+			<div id="member-name">{% first_name %} {% last_name %}</div>
+			<div id="member-age">{% age %}</div>
+			<div id="member-location">{% city %}</div>
+		</div>
+	{% /members %}
+</script>
+
+<script>
+	$(function() {
+		// Ractive object
+		var MAIN = new Ractive({
+			el: '#discussion-target',
+			template: '#discussion-template',
+			delimiters: ['{%', '%}'],
+			tripleDelimiters: ['{%%', '%%}'],
+			data: {
+				discussion: "",
+				discuss_button_class: "btn discussion-btn-active",
+				calendar_button_class: "btn discussion-btn",
+				members_button_class: "btn discussion-btn",
+				join_or_post_container_class: "flex-row space-around center-aligned join",
+				is_member: false,
+				is_not_member: true
+			}
+		});
+		
+		var DISCUSS = new Ractive({
+			el: '#discussion-forum-target',
+			template: '#discussion-forum-template',
+			delimiters: ['{%', '%}'],
+			tripleDelimiters: ['{%%', '%%}'],
+			data: {
+				posts_list: [],
+				number_of_posts: 0,
+				latest_post_id: "",
+				post_url: "{{=URL('default', 'post')}}"
+			}
+		});
+		
+		var CALENDAR = new Ractive({
+			el: '#discussion-calendar-target',
+			template: '#discussion-calendar-template',
+			delimiters: ['{%', '%}'],
+			tripleDelimiters: ['{%%', '%%}'],
+			data: {
+
+			}
+		});
+		
+		var MEMBERS = new Ractive({
+			el: '#discussion-members-target',
+			template: '#discussion-members-template',
+			delimiters: ['{%', '%}'],
+			tripleDelimiters: ['{%%', '%%}'],
+			data: {
+				members: []
+			}
+		});
+
+		function load_posts() {
+			$.ajax("{{=URL('default', 'load_posts')}}",
+					{
+						data: {
+							discussion_id: "{{=discussion_id}}" //request.vars.discussion_id
+						},
+						method: 'POST',
+						success: function (data) {
+							if (data.length > 0 && typeof data !== 'undefined') {
+								var posts_list = DISCUSS.get('posts_list');
+								if (posts_list.length > 0) {
+									var new_list = posts_list;
+									var has_match = false;
+									for (var i = 0; i < data.length; i += 1) {
+										for (var j = 0; j < posts_list.length; j += 1) {
+											if (hasValue(posts_list[j], 'post_id', data[i]['post_id'])) {
+												has_match = true;
+												new_list[j] = data[i];
+											}
+											if (j == posts_list.length) {
+												if (has_match == false) {
+													new_list.push(data[i]);
+													has_match = false;
+												}
+											}
+										}
+									}
+									DISCUSS.set('number_of_posts', data.length);
+									sort_list_by_date(new_list, 'last_reply_time', set_DISCUSS_list);
+								} else {
+									DISCUSS.set('number_of_posts', data.length);
+									sort_list_by_date(data, 'last_reply_time', set_DISCUSS_list);
+								}
+							}
+						}
+					}
+			);
+		}
+
+		function load_discussion() {
+			//Load the discussion information.
+			$.ajax("{{=URL('default', 'load_single_discussion')}}",
+					{
+						data: {
+							discussion_id: "{{=discussion_id}}" //request.vars.discussion_id
+						},
+						method: 'POST',
+						success: function (data) {
+							MAIN.set('discussion', data);
+							set_discuss_active();
+						}
+					}
+			);
+			if("{{=is_member}}" == "false") {
+				MAIN.set('is_member', false);
+				MAIN.set('is_not_member', true);
+				MAIN.set('join_or_post_container_class', "flex-row space-between center-aligned join")
+			} else {
+				MAIN.set('is_member', true);
+				MAIN.set('is_not_member', false);
+				MAIN.set('join_or_post_container_class', "flex-row space-between center-aligned new-leave")
+			}
+		}
+
+		function load_calendar() {
+			$(document).ready(function() {
+
+				$('#calendar').fullCalendar({
+					header: {
+						left: 'prev,next today',
+						center: 'title',
+						right: 'month,agendaWeek,agendaDay'
+					},
+					defaultDate: '2015-12-12',
+					editable: true,
+					eventLimit: true, // allow "more" link when too many events
+					events: [
+						{
+							title: 'All Day Event',
+							start: '2015-12-01'
+						},
+						{
+							title: 'Long Event',
+							start: '2015-12-07',
+							end: '2015-12-10'
+						},
+						{
+							id: 999,
+							title: 'Repeating Event',
+							start: '2015-12-09T16:00:00'
+						},
+						{
+							id: 999,
+							title: 'Repeating Event',
+							start: '2015-12-16T16:00:00'
+						},
+						{
+							title: 'Conference',
+							start: '2015-12-11',
+							end: '2015-12-13'
+						},
+						{
+							title: 'Meeting',
+							start: '2015-12-12T10:30:00',
+							end: '2015-12-12T12:30:00'
+						},
+						{
+							title: 'Lunch',
+							start: '2015-12-12T12:00:00'
+						},
+						{
+							title: 'Meeting',
+							start: '2015-12-12T14:30:00'
+						},
+						{
+							title: 'Happy Hour',
+							start: '2015-12-12T17:30:00'
+						},
+						{
+							title: 'Dinner',
+							start: '2015-12-12T20:00:00'
+						},
+						{
+							title: 'Birthday Party',
+							start: '2015-12-13T07:00:00'
+						},
+						{
+							title: 'Click for Google',
+							url: 'http://google.com/',
+							start: '2015-12-28'
+						}
+					]
+				});
+
+			});
+
+		}
+
+		function load_members() {
+			$.ajax("{{=URL('default', 'load_members')}}",
+					{
+						data: {
+							discussion_id: "{{=discussion_id}}" //request.vars.discussion_id
+						},
+						method: 'POST',
+						success: function (data) {
+							MEMBERS.set('members', data);
+							set_members_active();
+						}
+					}
+			);
+
+		}
+
+		function hasValue(obj, key, value) {
+			return obj.hasOwnProperty(key) && obj[key] === value;
+		}
+
+		//Creates an empty post with a new UUID.
+		function create_draft_post_object() {
+			return {
+				active_draft_content: "",
+				active_draft_title: "",
+				post_author: parseInt("{{=auth.user_id}}"),
+				post_content: "",
+				post_title: "",
+				discussion_id: "{{=discussion_id}}",
+				post_id: generateUUID(),
+				posting_time: get_UTC_String(),
+				posting_time_pretty: get_pretty_time(),
+				post_views: 0,
+				post_replies: 0,
+				last_reply_author: parseInt("{{=auth.user_id}}"),
+				last_reply_time: get_UTC_String(),
+				last_reply_time_pretty: get_pretty_time(),
+				is_draft: true
+			};
+		}
+
+		//Updates the time and draft status before becoming a real post and being sent to the server.
+		function prepare_saved_post_object(post) {
+			post['is_draft'] = false;
+			post['posting_time'] = get_UTC_String();
+			post['posting_time_pretty'] = get_pretty_time();
+			post['last_reply_time'] = get_UTC_String();
+			post['last_reply_time_pretty'] = get_pretty_time();
+			post['active_draft_title'] = "";
+			post['active_draft_content'] = "";
+			return post;
+		}
+
+		//http://stackoverflow.com/questions/7176908/how-to-get-index-of-object-by-its-property-in-javascript
+		function findWithAttr(array, attr, value) {
+			for(var i = 0; i < array.length; i += 1) {
+				if(array[i][attr] === value) {
+					return i;
+				}
+			}
+		}
+
+		//To retrieve the time in UTC string format
+		function get_UTC_String() {
+			var date = new Date();
+			return date.toUTCString();
+		}
+
+		//Makes the date more readable and in user's time zone.
+		function get_pretty_time() {
+			var date = new Date();
+			var full_date = date.toString();
+			var split_date = full_date.split(" ");
+			var split_time = split_date[4].split(":");
+			return split_date[1] + " " + split_date[2] + " " + split_time[0] + ":" + split_time[1];
+		}
+
+		//Save the active draft to the real title and content.
+		function copy_active(post) {
+			post['post_title'] = post['active_draft_title'];
+			post['post_content'] = post['active_draft_content'];
+			return post;
+		}
+
+		function set_discuss_active() {
+			MAIN.set('discuss_button_class', "btn discussion-btn-active");
+			MAIN.set('calendar_button_class', "btn discussion-btn");
+			MAIN.set('members_button_class', "btn discussion-btn");
+			DISCUSS.resetTemplate('#discussion-forum-template');
+			CALENDAR.resetTemplate('');
+			MEMBERS.resetTemplate('');
+		}
+
+		function set_calendar_active() {
+			MAIN.set('discuss_button_class', "btn discussion-btn");
+			MAIN.set('calendar_button_class', "btn discussion-btn-active");
+			MAIN.set('members_button_class', "btn discussion-btn");
+			DISCUSS.resetTemplate('');
+			CALENDAR.resetTemplate('#discussion-calendar-template');
+			MEMBERS.resetTemplate('');
+		}
+
+		function set_members_active() {
+			MAIN.set('discuss_button_class', "btn discussion-btn");
+			MAIN.set('calendar_button_class', "btn discussion-btn");
+			MAIN.set('members_button_class', "btn discussion-btn-active");
+			DISCUSS.resetTemplate('');
+			CALENDAR.resetTemplate('');
+			MEMBERS.resetTemplate('#discussion-members-template');
+		}
+
+		load_discussion();
+		load_posts();
+
+		//Sort the posts based on the last_updated field and update the MAIN list.
+		function sort_list_by_date(data, field, callback) {
+			if (data.length > 1) {
+				data.sort(function (a, b) {
+					var date1 = Date.parse(a[field]);
+					var date2 = Date.parse(b[field]);
+					return date2 - date1;
+				});
+			}
+			callback(data);
+		}
+
+		//Reset the DISCUSS posts list.
+		function set_DISCUSS_list(list) {
+			DISCUSS.set('posts_list', list);
+			DISCUSS.set('number_of_posts', list.length)
+		}
+
+		//Moves the cursor to the specified element in a specific post.
+		function set_focus(post_id, element_id) {
+			MAIN.set('latest_post_id', post_id);
+			document.getElementById(element_id).focus();
+		}
+
+		function become_member() {
+			$.ajax("{{=URL('default', 'become_member', user_signature=True)}}",
+					{
+						data: {
+							discussion_id: "{{=discussion_id}}" //request.vars.discussion_id
+						},
+						method: 'POST',
+						success: function (data) {
+							MAIN.set('is_member', true);
+							MAIN.set('is_not_member', false);
+						}
+					}
+			);
+		}
+
+		function remove_member() {
+			$.ajax("{{=URL('default', 'remove_member', user_signature=True)}}",
+					{
+						data: {
+							discussion_id: "{{=discussion_id}}" //request.vars.discussion_id
+						},
+						method: 'POST',
+						success: function (data) {
+							MAIN.set('is_member', false);
+							MAIN.set('is_not_member', true);
+						}
+					}
+			);
+		}
+
+		//Called every 5 seconds
+		function periodic() {
+			//Send
+			var posts_list = DISCUSS.get('posts_list');
+			//Find the drafts and check if they've had any updates.
+			for (var i = 0; i < posts_list.length; i += 1) {
+				if(posts_list[i]['is_draft'] === true) {
+					var post = posts_list[i];
+					//If the two fields differ
+					if (post['post_title'] !== post['active_draft_title'] || post['post_content'] !== post['active_draft_content']) {
+						//If they differ such that there is no text now but there was before
+						if (($.trim(post['post_title']).length > 0 && $.trim(post['active_draft_title']).length === 0) && ($.trim(post['active_draft_content']).length === 0)) {
+							//Then we know that this is a draft that was on the server and we should now delete it from the server but not from the local list.
+							post = copy_active(post);
+							sort_list_by_date(posts_list, 'last_reply_time', set_DISCUSS_list);
+							delete_record(post);
+						} else {
+							post = copy_active(post);
+							sort_list_by_date(posts_list, 'last_reply_time', set_DISCUSS_list);
+							send_record(post);
+						}
+					}
+				}
+			}
+			//Receive
+			load_posts();
+		}
+
+		//Simply sends a complete post to the controller.
+		function send_record(post) {
+			$.ajax("{{=URL('default', 'add_post', user_signature=True)}}",
+					{
+						data: {
+							post_title: post['post_title'], //request.vars.post_title
+							post_content: post['post_content'], //request.vars.post_content
+							is_draft: post['is_draft'], //request.vars.is_draft
+							post_id: post['post_id'], //request.vars.post_id
+							active_draft_content: post['active_draft_content'], //request.vars.active_draft_content
+							active_draft_title: post['active_draft_title'], //request.vars.active_draft_title
+							posting_time: post['posting_time'], //request.vars.posting_time
+							posting_time_pretty: post['posting_time_pretty'], //request.vars.posting_time_pretty
+							last_reply_time: post['last_reply_time'], //request.vars.last_reply_time
+							last_reply_time_pretty: post['last_reply_time_pretty'], //request.vars.last_reply_time_pretty
+							discussion_id: post['discussion_id']
+						},
+						method: 'POST',
+						success: function() {
+							load_posts();
+						},
+						error: function() {}
+					}
+			);
+		}
+
+		//Deletes a record by post_id
+		function delete_record(post) {
+			$.ajax("{{=URL('default', 'del_post', user_signature=True)}}",
+					{
+						data: {
+							post_id: post['post_id'] // request.vars.post_id
+						},
+						method: 'POST',
+						success: function() {},
+						error: function() {}
+					}
+			);
+		}
+
+		MAIN.on("discuss-button", function(e) {
+			set_discuss_active();
+		});
+
+		MAIN.on("calendar-button", function(e) {
+			set_calendar_active();
+			load_calendar();
+		});
+
+		MAIN.on("members-button", function(e) {
+			set_members_active();
+			load_members();
+		});
+
+		MAIN.on("join-button", function(e) {
+			become_member();
+		});
+
+		MAIN.on("leave-button", function(e) {
+			remove_member();
+		});
+
+		//Create a new draft post when the New Post button is clicked.
+		MAIN.on("new-post-button", function(e) {
+			var posts_list = DISCUSS.get('posts_list');
+			//Add a new post to the posts_list with a unique UUID. Not sending this to the server yet.
+			var new_draft_post = create_draft_post_object();
+			posts_list.push(new_draft_post);
+			if (posts_list.length > 1) {
+				sort_list_by_date(posts_list, 'last_reply_time', set_DISCUSS_list);
+			} else {
+				set_DISCUSS_list(posts_list);
+			}
+			//Set the focus to the newly created post.
+			set_focus(new_draft_post['post_id'], "focus_input");
+		});
+
+		//Save the post to the server when the Save Post button is clicked.
+		DISCUSS.on("save-post-button", function(e) {
+			console.log("1");
+			var posts_list = DISCUSS.get('posts_list');
+			//Get the ID from the click.
+			var save_button = $(e.original.target);
+			var clicked_id = save_button.data('postid');
+			//Retrieve the specific post from the list.
+			console.log("2");
+			var post_list_index = findWithAttr(posts_list, 'post_id', clicked_id);
+			var post = posts_list[post_list_index];
+			post = copy_active(post);
+			//If the post title isn't empty, then:
+			console.log("3");
+			if ($.trim(post['post_title']).length > 0) {
+				//Set its fields for inclusion as a permanent post.
+				var prepared_post = prepare_saved_post_object(post);
+				//Put that altered post back into the local posts_list
+				posts_list[post_list_index] = prepared_post;
+				sort_list_by_date(posts_list, 'last_reply_time', set_DISCUSS_list);
+				//Then send it to the server.
+				console.log("4");
+				send_record(prepared_post);
+			} else {
+			console.log("5");
+				set_focus(clicked_id, "focus_input");
+			}
+		});
+
+		// http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+		function generateUUID(){
+			var d = new Date().getTime();
+			if(window.performance && typeof window.performance.now === "function"){
+				d += performance.now(); //use high-precision timer if available
+			}
+			return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+				var r = (d + Math.random()*16)%16 | 0;
+				d = Math.floor(d/16);
+				return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+			});
+		}
+
+		setInterval(periodic, 5000);
+
+	});
+</script>
+

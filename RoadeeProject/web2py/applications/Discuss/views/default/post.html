@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <!-- www.phpied.com/conditional-comments-block-downloads/ -->
+    <!-- Always force latest IE rendering engine
+         (even in intranet) & Chrome Frame
+         Remove this if you use the .htaccess -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge{{=not request.is_local and ',chrome=1' or ''}}">
+    <!--  Mobile Viewport Fix
+          j.mp/mobileviewport & davidbcalhoun.com/2010/viewport-metatag
+          device-width: Occupy full width of the screen in its current orientation
+          initial-scale = 1.0 retains dimensions instead of zooming out if page height > device height
+          user-scalable = yes allows the user to zoom in -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{=response.title or request.application}}</title>
+    <!-- http://dev.w3.org/html5/markup/meta.name.html -->
+    <meta name="application-name" content="{{=request.application}}">
+    <!-- Speaking of Google, don't forget to set your site up:
+         http://google.com/webmasters -->
+    <meta name="google-site-verification" content="">
+    <!-- include stylesheets -->
+    <link rel="stylesheet" href="{{=URL('static','css/bootstrap.min.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static','css/bootstrap-theme.min.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static','css/web2py-bootstrap3.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static','css/myapp.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static', 'font-awesome-4.4.0/css/font-awesome.min.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static','fullcalendar-2.5.0/fullcalendar.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static','fullcalendar-2.5.0/fullcalendar.print.css')}}"/>
+    <link rel="shortcut icon" href="{{=URL('static','images/favicon.ico')}}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{=URL('static','images/favicon.png')}}">
+	<link href='https://fonts.googleapis.com/css?family=Lato:400,300,100,700,900,100italic,300italic,400italic,700italic,900italic|Open+Sans:400,300,600,700,800,300italic,400italic,600italic,700italic,800italic|Montserrat' rel='stylesheet' type='text/css'>    <!-- All JavaScript at the bottom, except for Modernizr which enables
+         HTML5 elements & feature detects -->
+    <script src="{{=URL('static','js/modernizr-2.8.3.min.js')}}"></script>
+    <!--[if lt IE 9]>
+        <script src="{{=URL('static','js/respond-1.4.2.min.js')}}"></script>
+        <![endif]-->
+    <!-- Favicons -->
+    {{include 'web2py_ajax.html'}} <!-- this includes jquery.js, calendar.js/.css and web2py.js -->
+</head>
+<body>
+	<div id="wrap">
+		<div class="content-wrapper">
+			<div id="post-target"></div>
+			<div id="post-replies-target"></div>
+		</div>
+	</div>
+	<footer><div class="orange-bar"></div></footer>
+	<!-- The javascript =============================== -->
+    <script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
+    <script src="{{=URL('static','js/web2py-bootstrap3.js')}}"></script>
+    <script src="{{=URL('static', 'js/ractive.min.js')}}"></script>
+    <script src="{{=URL('static', 'fullcalendar-2.5.0/lib/moment.min.js')}}"></script>
+    <script src="{{=URL('static', 'fullcalendar-2.5.0/lib/jquery.min.js')}}"></script>
+    <script src="{{=URL('static', 'fullcalendar-2.5.0/fullcalendar.min.js')}}"></script>
+</body>
+
+<script id="post-template" type="text/ractive">
+	<nav id="post-nav" class="flex-row space-between full-width center-aligned">
+		{{=A('Discuss', _class='title', _href=URL('default', 'index'))}}
+		<div class="nav-buttons flex-row space-around">
+		{{if not auth.is_logged_in():}}
+			{{=A('Get Started', _class='btn', _id='signup-button', _href=URL('default', 'user', args=['register'], vars=dict(_next=URL(args=request.args, vars=request.vars))))}}
+            {{=A('Sign In', _class='btn', _id='signin-button', _href=URL('default', 'user', args=['login'], vars=dict(_next=URL(args=request.args, vars=request.vars))))}}
+        {{pass}}
+        {{if auth.is_logged_in():}}
+            {{=A('Sign Out', _class='btn', _id='signout-button', _href=URL('default', 'user', args=['logout'], vars=dict(_next=URL(args=request.args, vars=request.vars))))}}
+        {{pass}}
+        </div>
+	</nav>
+	<main id="post-main">
+		<div class="banner-photo">
+			<img src="{% discussion['banner_photo_url'] %}" alt="Bicycle Commuter">
+			<div id="discussion-greeting" class="banner-content">
+				<div class="banner-title">{% discussion['discussion_name'] %}</div>
+				<div class="banner-text">{% discussion['discussion_description'] %}</div>
+			</div>
+		</div>
+	</main>
+	<div id="post-container" class="flex-column center-aligned">
+		<div id="original-post" class="flex-row center-aligned single-forum-post">
+			<div id="original-post-title-content-container" class="flex-column">
+				<div id="original-post-title">{% post['post_title'] %}</div>
+				<div id="original-post-content">{% post['post_content'] %}</div>
+			</div>
+			<div id="original-post-rest-container" class="flex-column center-aligned">
+				<div id="original-post-time" class="rest-div">{% post['posting_time_pretty'] %}</div>
+				<div id="original-post-author" class="rest-div">{% post['post_author_name'] %}</div>
+				<div id="original-post-views" class="rest-div">Views: {% post['post_views'] %}</div>
+				<div id="original-post-replies" class="rest-div">Replies: {% post['post_replies'] %}</div>
+			</div>
+		</div>
+		{% #if number_of_replies == 0 %}
+			{% /if %}
+		{% #if number_of_replies > 0 %}
+		{% #replies_list %}
+			{% #if is_draft === false %}
+				<div id="reply-post" class="flex-row center-aligned single-forum-post">
+					<div id="reply-post-content"><p>{% reply_content %}</p></div>
+					<div id="reply-post-rest-container" class="flex-column center-aligned">
+						<div id="reply-post-time" class="reply-div">{% reply_time_pretty %}</div>
+						<div id="reply-post-author" class="reply-div">{% reply_author_name %}</div>
+					</div>
+				</div>
+			{% /if %}
+            {% #if is_draft === true %}
+                <div id="reply-post-draft" class="flex-row center-aligned single-forum-post">
+					<div id="reply-post-title-content-container" class="flex-column">
+						<textarea name="new_reply_content" class="reply-post_draft_content form-control" value="{% active_draft_content %}" cols="70" rows="8" on-blur="loses-focus" data-replyid="{% reply_id %}" on-focus="gains-focus"></textarea>
+					</div>
+					<button class="btn blue-button" id="save-reply-button" on-click="save-reply-button" data-replyid="{% reply_id %}">Save Reply</button>
+				</div>
+            {% /if %}
+		{% /replies_list %}
+		{% /if %}
+		<button class="btn blue-button" id="post-reply-button" on-click="new-reply-button" data-replyid="{% reply_id %}">Post Reply</button>
+		</div>
+		<a href="{% discussion_url + "/" + discussion['discussion_id'] %}" class="btn" id="back-button">Back to Discussion</a>
+</script>
+
+<script>
+	$(function() {
+		// Ractive object
+		var MAIN = new Ractive({
+			el: '#post-target',
+			template: '#post-template',
+			delimiters: ['{%', '%}'],
+			tripleDelimiters: ['{%%', '%%}'],
+			data: {
+				post: "",
+				discussion: "",
+				replies_list: [],
+				is_member: false,
+				is_not_member: true,
+				number_of_replies: 0,
+                discussion_url: "{{=URL('default', 'discussion')}}"
+			}
+		});
+
+        function update_views() {
+            $.ajax("{{=URL('default', 'update_views')}}",
+					{
+						data: {
+							post_id: "{{=post_id}}" //request.vars.post_id
+						},
+						method: 'POST',
+						success: function (data) {
+						}
+					}
+			);
+        }
+
+        update_views();
+
+		function load_replies() {
+			$.ajax("{{=URL('default', 'load_replies')}}",
+					{
+						data: {
+							post_id: "{{=post_id}}" //request.vars.post_id
+						},
+						method: 'POST',
+						success: function (data) {
+							if (data.length > 0 && typeof data !== 'undefined') {
+								var replies_list = MAIN.get('replies_list');
+								if (replies_list.length > 0) {
+									var new_list = replies_list;
+									var has_match = false;
+									for (var i = 0; i < data.length; i += 1) {
+										for (var j = 0; j < replies_list.length; j += 1) {
+											if (hasValue(replies_list[j], 'reply_id', data[i]['reply_id'])) {
+												has_match = true;
+												new_list[j] = data[i];
+											}
+											if (j == replies_list.length) {
+												if (has_match == false) {
+													new_list.push(data[i]);
+													has_match = false;
+												}
+											}
+										}
+									}
+									MAIN.set('number_of_replies', data.length);
+									sort_list_by_date(new_list, 'reply_time', set_MAIN_list);
+								} else {
+									MAIN.set('number_of_replies', data.length);
+									sort_list_by_date(data, 'reply_time', set_MAIN_list);
+								}
+							}
+						}
+					}
+			);
+		}
+
+		function load_post() {
+			//Load the discussion information.
+			$.ajax("{{=URL('default', 'load_single_post')}}",
+					{
+						data: {
+							post_id: "{{=post_id}}" //request.vars.post_id
+						},
+						method: 'POST',
+						success: function (data) {
+							MAIN.set('post', data);
+						}
+					}
+			);
+			if("{{=is_member}}" == "false") {
+				MAIN.set('is_member', false);
+				MAIN.set('is_not_member', true);
+			} else {
+				MAIN.set('is_member', true);
+				MAIN.set('is_not_member', false);
+			}
+		}
+
+		function load_discussion() {
+			//Load the discussion information.
+			$.ajax("{{=URL('default', 'load_discussion_from_post')}}",
+					{
+						data: {
+							post_id: "{{=post_id}}" //request.vars.post_id
+						},
+						method: 'POST',
+						success: function (data) {
+							MAIN.set('discussion', data);
+						}
+					}
+			);
+			if("{{=is_member}}" == "false") {
+				MAIN.set('is_member', false);
+				MAIN.set('is_not_member', true);
+			} else {
+				MAIN.set('is_member', true);
+				MAIN.set('is_not_member', false);
+			}
+		}
+
+
+		function hasValue(obj, key, value) {
+			return obj.hasOwnProperty(key) && obj[key] === value;
+		}
+
+		//Creates an empty reply with a new UUID.
+		function create_draft_reply_object() {
+			return {
+				active_draft_content: "",
+				active_draft_title: "",
+				reply_author: parseInt("{{=auth.user_id}}"),
+				reply_content: "",
+				reply_title: "",
+				post_id: "{{=post_id}}",
+				reply_id: generateUUID(),
+				reply_time: get_UTC_String(),
+				reply_time_pretty: get_pretty_time(),
+				is_draft: true
+			};
+		}
+
+		//Updates the time and draft status before becoming a real reply and being sent to the server.
+		function prepare_saved_reply_object(reply) {
+			reply['is_draft'] = false;
+			reply['reply_time'] = get_UTC_String();
+			reply['reply_time_pretty'] = get_pretty_time();
+			reply['active_draft_title'] = "";
+			reply['active_draft_content'] = "";
+			return reply;
+		}
+
+		//http://stackoverflow.com/questions/7176908/how-to-get-index-of-object-by-its-property-in-javascript
+		function findWithAttr(array, attr, value) {
+			for(var i = 0; i < array.length; i += 1) {
+				if(array[i][attr] === value) {
+					return i;
+				}
+			}
+		}
+
+		//To retrieve the time in UTC string format
+		function get_UTC_String() {
+			var date = new Date();
+			return date.toUTCString();
+		}
+
+		//Makes the date more readable and in user's time zone.
+		function get_pretty_time() {
+			var date = new Date();
+			var full_date = date.toString();
+			var split_date = full_date.split(" ");
+			var split_time = split_date[4].split(":");
+			return split_date[1] + " " + split_date[2] + " " + split_time[0] + ":" + split_time[1];
+		}
+
+		//Save the active draft to the real title and content.
+		function copy_active(reply) {
+			reply['reply_title'] = reply['active_draft_title'];
+			reply['reply_content'] = reply['active_draft_content'];
+			return reply;
+		}
+
+		load_post();
+		load_discussion();
+		load_replies();
+
+		//Sort the posts based on the last_updated field and update the MAIN list.
+		function sort_list_by_date(data, field, callback) {
+			if (data.length > 1) {
+				data.sort(function (a, b) {
+					var date1 = Date.parse(a[field]);
+					var date2 = Date.parse(b[field]);
+					return date2 - date1;
+				});
+			}
+			callback(data);
+		}
+
+		//Reset the MAIN posts list.
+		function set_MAIN_list(list) {
+			MAIN.set('replies_list', list);
+			MAIN.set('number_of_replies', list.length)
+		}
+
+		//Moves the cursor to the specified element in a specific post.
+		function set_focus(reply_id, element_id) {
+			MAIN.set('latest_post_id', reply_id);
+			document.getElementById(element_id).focus();
+		}
+
+		//Called every 5 seconds
+		function periodic() {
+			//Send
+			var replies_list = MAIN.get('replies_list');
+			//Find the drafts and check if they've had any updates.
+			for (var i = 0; i < replies_list.length; i += 1) {
+				if(replies_list[i]['is_draft'] === true) {
+					var reply = replies_list[i];
+					//If the two fields differ
+					if (reply['reply_title'] !== reply['active_draft_title'] || reply['reply_content'] !== reply['active_draft_content']) {
+						//If they differ such that there is no text now but there was before
+						if (($.trim(reply['reply_content']).length > 0 && $.trim(reply['active_draft_content']).length === 0) && ($.trim(reply['active_draft_title']).length === 0)) {
+							//Then we know that this is a draft that was on the server and we should now delete it from the server but not from the local list.
+							reply = copy_active(reply);
+							sort_list_by_date(replies_list, 'reply_time', set_MAIN_list);
+							delete_record(reply);
+						} else {
+							reply = copy_active(post);
+							sort_list_by_date(replies_list, 'reply_time', set_MAIN_list);
+							send_record(reply);
+						}
+					}
+				}
+			}
+			//Receive
+			load_replies();
+		}
+
+		//Simply sends a complete post to the controller.
+		function send_record(reply) {
+			$.ajax("{{=URL('default', 'add_reply', user_signature=True)}}",
+					{
+						data: {
+							reply_title: reply['reply_title'], //request.vars.reply_title
+							reply_content: reply['reply_content'], //request.vars.reply_content
+							is_draft: reply['is_draft'], //request.vars.is_draft
+							reply_id: reply['reply_id'], //request.vars.reply_id
+							active_draft_content: reply['active_draft_content'], //request.vars.active_draft_content
+							active_draft_title: reply['active_draft_title'], //request.vars.active_draft_title
+							reply_time: reply['reply_time'], //request.vars.reply_time
+							reply_time_pretty: reply['reply_time_pretty'], //request.vars.reply_time_pretty
+							post_id: reply['post_id']
+						},
+						method: 'POST',
+						success: function() {
+							load_replies();
+                            var post = MAIN.get('post');
+                            replies = post['post_replies'] + 1;
+                            post['post_replies'] = replies;
+                            MAIN.set('post', post);
+						},
+						error: function() {}
+					}
+			);
+		}
+
+		//Deletes a record by post_id
+		function delete_record(reply) {
+			$.ajax("{{=URL('default', 'del_reply', user_signature=True)}}",
+					{
+						data: {
+							reply_id: reply['reply_id'] // request.vars.reply_id
+						},
+						method: 'POST',
+						success: function() {},
+						error: function() {}
+					}
+			);
+		}
+
+		//Create a new draft reply when the New Post button is clicked.
+		MAIN.on("new-reply-button", function(e) {
+			var replies_list = MAIN.get('replies_list');
+			//Add a new post to the replies_list with a unique UUID. Not sending this to the server yet.
+			var new_draft_reply = create_draft_reply_object();
+			replies_list.push(new_draft_reply);
+			console.log(new_draft_reply);
+			if (replies_list.length > 1) {
+				sort_list_by_date(replies_list, 'reply_time', set_MAIN_list);
+			} else {
+				set_MAIN_list(replies_list);
+			}
+			//Set the focus to the newly created post.
+			set_focus(new_draft_reply['reply_id'], "focus_input");
+		});
+
+		//Save the reply to the server when the Save Post button is clicked.
+		MAIN.on("save-reply-button", function(e) {
+			var replies_list = MAIN.get('replies_list');
+			console.log(replies_list);
+			//Get the ID from the click.
+			var save_button = $(e.original.target);
+			var clicked_id = save_button.data('replyid');
+			//Retrieve the specific reply from the list.
+			var reply_list_index = findWithAttr(replies_list, 'reply_id', clicked_id);
+			console.log(reply_list_index);
+			var reply = replies_list[reply_list_index];
+			reply = copy_active(reply);
+			console.log(reply);
+			//If the post title isn't empty, then:
+			if ($.trim(reply['reply_content']).length > 0) {
+				//Set its fields for inclusion as a permanent post.
+				var prepared_reply = prepare_saved_reply_object(reply);
+				console.log("prepared");
+				//Put that altered reply back into the local replies_list
+				replies_list[reply_list_index] = prepared_reply;
+				sort_list_by_date(replies_list, 'last_reply_time', set_MAIN_list);
+				//Then send it to the server.
+				send_record(prepared_reply);
+			} else {
+				set_focus(clicked_id, "focus_input");
+			}
+		});
+
+		// http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+		function generateUUID(){
+			var d = new Date().getTime();
+			if(window.performance && typeof window.performance.now === "function"){
+				d += performance.now(); //use high-precision timer if available
+			}
+			return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+				var r = (d + Math.random()*16)%16 | 0;
+				d = Math.floor(d/16);
+				return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+			});
+		}
+
+		//setInterval(periodic, 5000);
+
+	});
+</script>
+
