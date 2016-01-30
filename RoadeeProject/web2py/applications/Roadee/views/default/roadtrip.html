@@ -17,7 +17,23 @@
             <div id="map"></div>
         </div>
         <div id="listContainer">
-            <p>Fields</p>
+            <ul class="inner-list">
+                <li><p class="address-label">Starting Point</p></li>
+                <li><input class="address-input" id="pac-input-start"></input></li>
+                <li><p class="address-label">Ending Point</p></li>
+                <li><input class="address-input" id="pac-input-end"></input></li>
+                <li><p class="route-label">Trip Name</p></li>
+                <li><input class="route-name-input" id="route-name-input" ></input></li>
+                <li><p class="route-label">Trip Type</p></li>
+                <li>
+                    <select class="route-type-input" id="route-type-input" >
+                        <option value="family">Family</option>
+                        <option value="romantic">Romantic</option>
+                        <option value="adventure">Adventure</option>
+                    </select>
+                </li>
+                <li class="flex-row"><p class="dist-label">Total Trip Distance: </p><p class="dist-text">DIST HERE</p></li>
+            </ul>
         </div>
     </div>
 

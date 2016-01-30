@@ -9,8 +9,64 @@ html, body { height: 100%; margin: 0; padding: 0; }
     flex-direction: row;
 }
 
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.address-input{
+    width: 90%;
+    margin-top: 0px;
+}
+
+.route-name-input {
+    width: 90%;
+    margin-top: 0px;
+}
+
+.route-type-input {
+    width: 91%;
+    padding: 1px 0px;
+    border: 1px solid;
+    border-color: #A9A9A9 !important;
+    margin-top: 0px;
+}
+
+.address-label{
+    margin-bottom: 2px !important;
+}
+
+.route-label {
+    margin-bottom: 2px !important;
+}
+
+
+.dist-label{
+    width: 50%;
+    margin-left: 0!important;
+    margin-right: 0!important;
+}
+
+.dist-text{
+    width: 50%;
+    margin-left: 0!important;
+    margin-right: 0!important;
+}
+
+.inner-list {
+    list-style-type: none;
+    margin: auto;
+    overflow: auto;
+    width:90%;
+}
+
 #mapContainer {
     width: 60%;
+    height: 100%;
+}
+
+#listContainer {
+    width: 40%;
     height: 100%;
 }
 
