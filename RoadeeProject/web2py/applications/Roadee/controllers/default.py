@@ -139,3 +139,6 @@ def get_waypoints_by_name():
 
 def update_route():
     return 0;
+
+def update_waypoint():
+    return 0;
