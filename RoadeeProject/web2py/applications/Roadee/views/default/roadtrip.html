@@ -28,7 +28,11 @@
             <input id="pac-input" />
             <div id="map"></div>
         </div>
-        <div id="route-target">
+        <div class="right-tab">
+            <div id="route-target">
+            </div>
+            <div id="waypoint-target">
+            </div>
         </div>
     </div>
 
@@ -37,6 +41,26 @@
 
 <script id="route-template" type="text/ractive">
         <ul class="inner-list">
+            <li><p class="address-label">Starting Point</p></li>
+            <li><input class="address-input" id="pac-input-start" /></li>
+            <li><p class="address-label">Ending Point</p></li>
+            <li><input class="address-input" id="pac-input-end" /></li>
+            <li><p class="route-label">Trip Name</p></li>
+            <li><input class="route-name-input" id="route-name-input" /></li>
+            <li><p class="route-label">Trip Type</p></li>
+            <li>
+                <select class="route-type-input" id="route-type-input" >
+                    <option value="family">Family</option>
+                    <option value="romantic">Romantic</option>
+                    <option value="adventure">Adventure</option>
+                </select>
+            </li>
+            <li class="flex-row"><p class="dist-label">Total Trip Distance: </p><p class="dist-text">DIST HERE</p></li>
+        </ul>
+</script>
+
+<script id="waypoint-template" type="text/ractive">
+        <ul class="waypoint-list">
             <li><p class="address-label">Starting Point</p></li>
             <li><input class="address-input" id="pac-input-start" /></li>
             <li><p class="address-label">Ending Point</p></li>
@@ -80,6 +104,72 @@
 
         BODY.on("route-type-input", function() {
             $.ajax("{{=URL('default', 'update_route')}}",
+					{
+						data: {
+                            uuid: BODY.get('uuid'),
+                            startingPointLatitude: BODY.get('startingPointLatitude'),
+                            startingPointLongitude: BODY.get('startingPointLongitude'),
+                            endingPointLatitude: BODY.get('endingPointLatitude'),
+                            endingPointLongitude: BODY.get('endingPointLongitude'),
+                            waypointList: BODY.get('waypointList'),
+                            totalDistance: BODY.get('totalDistance'),
+                            userID: BODY.get('userID'),
+                            routeName: BODY.get('routeName'),
+                            totalTime: BODY.get('totalTime'),
+                            routeType: BODY.get('routeType')
+						},
+						method: 'POST',
+
+						success: function(data) {
+                            /*if (data == "\"success\"") {
+                                alert(data);
+                                window.location.href = "{{=URL('default','index')}}";
+                            } else if (data == "\"username_failure\"") {
+                                BODY.set('username',"");
+                                BODY.set('email',"");
+                                BODY.set('password',"");
+                                alert("Username is already in use");
+                            } else {
+                                BODY.set('username',"");
+                                BODY.set('email',"");
+                                BODY.set('password',"");
+                                alert("Email address already in use");
+                            }*/
+						},
+						error: function() {
+                            alert("An error occurred. Please try again");
+                        }
+					}
+			);
+        });
+    });
+</script>
+
+<script>
+	$(function() {
+        // Ractive object
+        var WAYPOINTS = new Ractive({
+            el: '#waypoint-target',
+            template: '#waypoint-template',
+            delimiters: ['{%', '%}'],
+            tripleDelimiters: ['{%%', '%%}'],
+            data: {
+                /*uuid: "",
+                startingPointLatitude: "",
+                startingPointLongitude:"",
+                endingPointLatitude: "",
+                endingPointLongitude: "",
+                waypointList:"",
+                totalDistance:"",
+                userID:"",
+                routeName:"",
+                totalTime:"",
+                routeType:""*/
+            }
+        });
+
+        WAYPOINTS.on("route-type-input", function() {
+            $.ajax("{{=URL('default', 'update_waypoint')}}",
 					{
 						data: {
                             uuid: BODY.get('uuid'),

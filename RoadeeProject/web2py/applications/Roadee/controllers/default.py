@@ -114,3 +114,6 @@ def add_waypoint_photo():
 
 def update_route():
     return 0;
+
+def update_waypoint():
+    return 0;
