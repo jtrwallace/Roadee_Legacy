@@ -15,17 +15,25 @@ html, body { height: 100%; margin: 0; padding: 0; }
 }
 
 .address-input{
-    width: 90%;
+    width: 100%;
     margin-top: 0px;
 }
 
 .route-name-input {
-    width: 90%;
+    width: 100%;
     margin-top: 0px;
 }
 
+#route-target {
+    width:40%;
+    height: 40%;
+    margin: 3%;
+    background-color: #00aaaa;
+    border-radius: 2px;
+}
+
 .route-type-input {
-    width: 91%;
+    width: 100%;
     padding: 1px 0px;
     border: 1px solid;
     border-color: #A9A9A9 !important;
@@ -43,12 +51,14 @@ html, body { height: 100%; margin: 0; padding: 0; }
 
 .dist-label{
     width: 50%;
+    margin-top: 1%;
     margin-left: 0!important;
     margin-right: 0!important;
 }
 
 .dist-text{
     width: 50%;
+    margin-top: 1%;
     margin-left: 0!important;
     margin-right: 0!important;
 }
@@ -58,6 +68,11 @@ html, body { height: 100%; margin: 0; padding: 0; }
     margin: auto;
     overflow: auto;
     width:90%;
+    padding-left: 0px;
+}
+
+.inner-list li {
+    margin: 2%;
 }
 
 #mapContainer {
