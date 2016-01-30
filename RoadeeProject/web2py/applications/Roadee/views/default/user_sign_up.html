@@ -82,7 +82,7 @@
         });
 
         BODY.on("sign-up-button", function() {
-            $.ajax("{{=URL('default', 'add_user', user_signature=True)}}",
+            $.ajax("{{=URL('default', 'add_user')}}",
 					{
 						data: {
                             username: BODY.get('username'),
