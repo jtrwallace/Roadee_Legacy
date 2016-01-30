@@ -66,3 +66,48 @@ def user_login():
 
 def user_sign_up():
     return dict()
+
+def add_review():
+    db.review.update_or_insert((db.review.uuid == request.vars.uuid),
+            waypointID = request.vars.waypointID,
+            userID = request.vars.userID,
+            rating = request.vars.rating,
+            reviewDescription = request.vars.reviewDescription
+            )
+
+    waypoint = db.waypoint[request.vars.uuid]
+    newRating = (waypoint.rating + request.vars.rating) / 2
+    newReviewList = waypoint.reviewList
+    newReviewList.append(request.vars.uuid)
+    newAverageCost = (waypoint.averageCost + request.vars.cost) / 2
+
+    db.waypoint.update((db.waypoint.uuid == request.vars.uuid),
+            rating = newRating,
+            reviewList = newReviewList,
+            averageCost = newAverageCost
+            )
+
+def add_waypoint():
+    db.waypoint.update_or_insert((db.waypoint.uuid == request.vars.uuid),
+            rating = request.vars.rating,
+            locationLatitude = request.vars.locationLatitude,
+            locationLongitude = request.vars.locationLongitude,
+            description = request.vars.description,
+            address = request.vars.address,
+            waypointName = request.vars.waypointName,
+            phoneNumber = request.vars.phoneNumber,
+            averageCost = request.vars.averageCost,
+            #routeTypeList = request.vars.routeTypeList,
+            #timeSpentList = request.vars.timeSpentList
+            )
+
+def add_waypoint_photo():
+    waypoint = db.waypoint[request.vars.uuid]
+
+    waypoint = db.waypoint[request.vars.uuid]
+    newPhotosURLList = waypoint.photosURLList
+    newPhotosURLList.append(request.vars.photoURL)
+
+    db.waypoint.update_or_insert((db.waypoint.uuid == request.vars.uuid),
+            photosURLList = newPhotosURLList
+            )
