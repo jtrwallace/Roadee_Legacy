@@ -8,6 +8,9 @@
 ## - download is for downloading files uploaded in the db (does streaming)
 #########################################################################
 
+import json
+import gluon.contrib.simplejson
+
 def index():
     """
     example action using the internationalization operator T and flash
@@ -70,9 +73,9 @@ def email_exists(email):
 
 def add_user():
     if username_exists(request.vars.username):
-        return json.dumps({"msg" : "username_failure"})
+        return json.dumps("username_failure")
     elif email_exists(request.vars.email):
-        return json.dumps({"msg" : "email_failure"})
+        return json.dumps("email_failure")
     else:
         db.auth_user.insert(
                 username = request.vars.username,
@@ -80,5 +83,5 @@ def add_user():
                 email = request.vars.email
                 )
 
-        return json.dumps({"msg" : "success"})
+        return json.dumps("success")
 

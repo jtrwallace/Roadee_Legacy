@@ -90,8 +90,9 @@
                             password: BODY.get('password')
 						},
 						method: 'POST',
-						success: function() {
-							alert("success");
+						success: function(data) {
+							alert(data);
+
 						},
 						error: function() {
                             alert("failure");
