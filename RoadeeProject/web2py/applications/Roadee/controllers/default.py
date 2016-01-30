@@ -66,30 +66,3 @@ def user_login():
 
 def user_sign_up():
     return dict()
-
-def username_exists(username):
-    return len(db(db.auth_user.username == username).select())
-
-def email_exists(email):
-    return len(db(db.auth_user.email == email).select())
-
-def add_user():
-    if username_exists(request.vars.username):
-        return json.dumps("username_failure")
-    elif email_exists(request.vars.email):
-        return json.dumps("email_failure")
-    else:
-        db.auth_user.insert(
-                username = request.vars.username,
-                password = request.vars.password,
-                email = request.vars.email
-                )
-
-        return json.dumps("success")
-
-
-def login_user():
-    '''
-    LOGIN USER, return in a similar fashion to add_user()
-    '''
-
