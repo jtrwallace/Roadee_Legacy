@@ -15,6 +15,23 @@ function get_something(controllerURL, unique_id) {
     );
 }
 
+function get_waypoints_by_area(data) {
+    $.ajax("/get_waypoints_by_area",
+        {
+            data: {
+                data: data //request.vars.unique_id
+            },
+            method: 'POST',
+            success: function (data) {
+                return data;
+            },
+            error: function(data) {
+                return "Server Error"
+            }
+        }
+    );
+}
+
 function add_something(controllerURL, data) {
     $.ajax(controllerURL,
         {
