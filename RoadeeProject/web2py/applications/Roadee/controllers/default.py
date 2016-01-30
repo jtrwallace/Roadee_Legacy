@@ -122,8 +122,11 @@ def get_reviews_by_waypoint():
     return response.json(list(reviews))
 
 def get_routes_by_user():
-    routes = db(db.route.userID == request.vars.data["userID"]).select().first()
-    return response.json(dict(routes))
+    print (request.vars.unique_id)
+    routes = db(db.routes.userID == request.vars.unique_id).select().first()
+
+    print (routes)
+    return response.json(routes)
 
 def get_waypoints_by_route():
     route = db(db.route.uuid == request.vars.data["routeID"]).select()

@@ -17,7 +17,7 @@
 
 from datetime import datetime
 
-db.define_table('route',
+db.define_table('routes',
     Field('uuid', 'string', default=str(uuid.uuid4())),
     Field('startingPointLatitude', 'decimal(9,6)'),
     Field('startingPointLongitude', 'decimal(9,6)'),

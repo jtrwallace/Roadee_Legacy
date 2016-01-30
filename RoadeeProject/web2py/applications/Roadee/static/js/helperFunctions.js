@@ -6,7 +6,7 @@ function get_something(OBJECT, dataName, controllerURL, unique_id) {
             },
             method: 'POST',
             success: function (data) {
-                OBJECT.set(dataName, data);
+                OBJECT.set("\'" + dataName + "\'", data);
             },
             error: function(data) {
                 return "Server Error"
