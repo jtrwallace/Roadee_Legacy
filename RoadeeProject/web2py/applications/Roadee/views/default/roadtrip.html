@@ -5,14 +5,22 @@
       <!--html, body { height: 100%; margin: 0; padding: 0; }-->
       <!--#map { height: 100%; }-->
     <!--</style>-->
-    <link rel="stylesheet" href="{{=URL('static','css/style.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static','css/roadtrip.css')}}"/>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkK54tO80JNw9dMYg0bUoxyGqG-apvdn4&callback=initAutocomplete&libraries=places"></script>
     <script src="{{=URL('static','js/scripts.js')}}"></script>
 </head>
 
 <body>
-    <input id="pac-input"></input>
-    <div id="map"></div>
+    <div id="roadTripContainer" class="flex-row">
+        <div id="mapContainer">
+            <input id="pac-input"></input>
+            <div id="map"></div>
+        </div>
+        <div id="listContainer">
+            <p>Fields</p>
+        </div>
+    </div>
+
 </body>
 
 </html>
