@@ -170,9 +170,11 @@ def remove_route():
 def remove_review_from_waypoint():
     review = db(db.review.uuid == request.vars.unique_id).select().first()
     waypoint = db(db.waypoint.uuid == review.waypointID).select().first()
+    newRating = (waypoint.rating * len(reviewList) - review.rating) / (len(reviewList) - 1)
     newReviewList = filter(lambda reviewID : reviewID == request.vars.unique_id, waypoint.reviewList)
 
     db.waypoint.update_or_insert((db.waypoint.uuid == review.waypointID),
+            rating = newRating,
             reviewList = newReviewList
             )
 
