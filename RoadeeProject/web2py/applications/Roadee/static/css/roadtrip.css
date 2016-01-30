@@ -65,14 +65,12 @@ html, body { height: 100%; margin: 0; padding: 0; }
     height: 100%;
 }
 
-
-
 #roadTripContainer {
     height: 100%;
     width: 100%;
 }
 
-input#pac-input {
+#pac-input {
     width: 40%;
     left: 20%;
     right: 20%;
