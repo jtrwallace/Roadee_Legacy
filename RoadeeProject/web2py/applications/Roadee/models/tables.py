@@ -18,3 +18,8 @@
 db.define_table('routes',
     Field()
 )
+
+db.define_tables('review'
+    Field('waypointID', 'integer'),
+    Field()
+)
