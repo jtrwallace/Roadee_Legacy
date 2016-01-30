@@ -76,6 +76,13 @@ html, body { height: 100%; margin: 0; padding: 0; }
     margin-right: 0!important;
 }
 
+.time-text{
+    width: 50%;
+    margin-top: 1%;
+    margin-left: 0!important;
+    margin-right: 0!important;
+}
+
 .inner-list {
     list-style-type: none;
     margin: auto;

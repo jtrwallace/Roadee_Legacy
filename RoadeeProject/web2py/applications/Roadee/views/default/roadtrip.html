@@ -51,13 +51,13 @@
             <li><p class="route-label">Trip Type</p></li>
             <li>
                 <select class="route-type-input" id="route-type-input" type="text" name="routeType" value="{% route['routeType'] %}">
-                    <option value="family">Family</option>
-                    <option value="romantic">Romantic</option>
-                    <option value="adventure">Adventure</option>
+                    <option value="Family">Family</option>
+                    <option value="Romantic">Romantic</option>
+                    <option value="Adventure">Adventure</option>
                 </select>
             </li>
-            <li class="flex-row"><p class="dist-label">Total Trip Distance: </p><p class="dist-text" type="text" name="totalDistance" value="{% routeType['totalDistance'] %}">DIST HERE</p></li>
-            <li class="flex-row"><p class="dist-label">Total Trip Time: </p><p class="dist-text" type="text" name="totalTime" value="{% routeType['totalTime'] %}">TIME HERE</p></li>
+            <li class="flex-row"><p class="dist-label">Total Trip Distance: </p><p class="dist-text" type="text" name="totalDistance">{% route['totalDistance'] %}</p></li>
+            <li class="flex-row"><p class="dist-label">Total Trip Time: </p><p class="dist-text" type="text" name="totalTime">{% route['totalTime'] %}</p></li>
         </ul>
 </script>
 
@@ -78,7 +78,7 @@
                 </select>
             </li>
             <li class="flex-row"><p class="dist-label">Total Trip Distance: </p><p class="dist-text" type="text" name="totalDistance" value="{% totalDistance %}">DIST HERE</p></li>
-            <li class="flex-row"><p class="dist-label">Total Trip Time: </p><p class="dist-text" type="text" name="totalTime" value="{% totalTime %}">TIME HERE</p></li>
+            <li class="flex-row"><p class="dist-label">Total Trip Time: </p><p class="time-text" type="text" name="totalTime" value="{% totalTime %}">TIME HERE</p></li>
         </ul>
 </script>
 
