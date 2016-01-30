@@ -18,7 +18,7 @@
     margin-right: auto;
     margin-left: auto;
     min-width: 300px;
-    max-width: 310px;
+    max-width: 300px;
     min-height: 300px;
     text-align: center;
     list-style-type: none;
@@ -27,7 +27,15 @@
 
 .input-box {
     float: right;
+    width:100%;
+}
+
+.outer-sign-up-box {
+    min-width: 380px;
+    width: 30%;
+    background-color: #00a8c6;
 }
 
 .sign-up-submit-button {
+    width: 100%;
 }

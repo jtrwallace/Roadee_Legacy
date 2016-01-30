@@ -34,8 +34,10 @@
     {{include 'web2py_ajax.html'}} <!-- this includes jquery.js, calendar.js/.css and web2py.js -->
 </head>
 <body>
-    <h2 class="sign-up-title">Sign Up</h2>
-    <div id="sign-up-target" class="content-wrapper"></div>
+    <div class="container outer-sign-up-box">
+        <h2 class="sign-up-title">Sign Up</h2>
+        <div id="sign-up-target" class="content-wrapper"></div>
+    </div>
 	<script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
     <script src="{{=URL('static','js/web2py-bootstrap3.js')}}"></script>
     <script src="{{=URL('static', 'js/ractive.min.js')}}"></script>
@@ -45,15 +47,15 @@
     <div class="input-container">
         <ul class="inner-input-container">
             <li class="input-wrapper">
-                Username: <input class="input-box" type="text" name="username" value="{% username %}"/>
+                <input class="input-box" type="text" name="username" placeholder="Username" value="{% username %}"/>
             </li>
 
             <li class="input-wrapper">
-                Email: <input class="input-box" type="text" name="email" value="{% email %}"/>
+                <input class="input-box" type="text" name="email" placeholder="Email Address" value="{% email %}"/>
             </li>
 
             <li class="input-wrapper">
-                Password: <input class="input-box" type="text" name="password" value="{% password %}"/>
+                <input class="input-box" type="text" name="password" placeholder="Password" value="{% password %}"/>
             </li>
 
             <li class="input-wrapper">
@@ -89,24 +91,23 @@
 						method: 'POST',
 
 						success: function(data) {
-                            alert(data);
                             if (data == "\"success\"") {
                                 alert(data);
                                 window.location.href = "{{=URL('default','index')}}";
-                            } else if (data == "\"username_falure\"") {
+                            } else if (data == "\"username_failure\"") {
                                 BODY.set('username',"");
                                 BODY.set('email',"");
                                 BODY.set('password',"");
-                                alert(data);
+                                alert("Username is already in use");
                             } else {
                                 BODY.set('username',"");
                                 BODY.set('email',"");
                                 BODY.set('password',"");
-                                alert(data);
+                                alert("Email address already in use");
                             }
 						},
 						error: function() {
-                            alert("failure");
+                            alert("An error occurred. Please try again");
                         }
 					}
 			);
