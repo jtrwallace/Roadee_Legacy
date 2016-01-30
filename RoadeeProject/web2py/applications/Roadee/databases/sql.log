@@ -796,3 +796,31 @@ success!
 success!
 success!
 success!
+success!
+timestamp: 2016-01-30T13:22:33.561000
+CREATE TABLE route(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    uuid CHAR(512),
+    startingPointLatitude DOUBLE,
+    startingPointLongitude DOUBLE,
+    endingPointLatitude DOUBLE,
+    endingPointLongitude DOUBLE,
+    waypointList TEXT,
+    totalDistance DOUBLE,
+    userID CHAR(512),
+    routeName CHAR(512),
+    totalTime INTEGER,
+    routeType CHAR(512)
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!

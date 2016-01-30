@@ -106,17 +106,19 @@ def add_waypoint_photo():
     newPhotosURLList = waypoint.photosURLList
     newPhotosURLList.append(request.vars.data["photoURL"])
 
+'''
     db.waypoint.update_or_insert((db.waypoint.uuid == request.vars.data["waypointID)"],
             photosURLList = newPhotosURLList
             )
+'''
 
 def get_reviews_by_waypoint():
     reviews = db(db.review.waypointID == request.vars.data["waypointID"]).select()
     return response.json(list(reviews))
 
 def get_routes_by_user():
-    routes = db(db.route.userID = request.vars.data["userID"]).select()
-    return response.json(list(routes))
+    routes = db(db.route.userID == request.vars.data["userID"]).select().first()
+    return response.json(dict(routes))
 
 def get_waypoints_by_route():
     route = db(db.route.uuid == request.vars.data["routeID"]).select()
