@@ -87,6 +87,8 @@ def add_review():
             averageCost = newAverageCost
             )
 
+    return
+
 def add_waypoint():
     db.waypoint.update_or_insert((db.waypoint.uuid == request.vars.data["waypointID"]),
             rating = request.vars.data["rating"],
@@ -101,16 +103,19 @@ def add_waypoint():
             #timeSpentList = request.vars.data["timeSpentLis"]t
             )
 
+    return
+
 def add_waypoint_photo():
     waypoint = db(db.waypoint.uuid == request.vars.data["waypointID"]).select().first()
     newPhotosURLList = waypoint.photosURLList
     newPhotosURLList.append(request.vars.data["photoURL"])
 
-'''
-    db.waypoint.update_or_insert((db.waypoint.uuid == request.vars.data["waypointID)"],
+    db.waypoint.update_or_insert((db.waypoint.uuid == request.vars.data["waypointID"]),
             photosURLList = newPhotosURLList
             )
-'''
+
+
+    return 0;
 
 def get_reviews_by_waypoint():
     reviews = db(db.review.waypointID == request.vars.data["waypointID"]).select()
@@ -130,13 +135,32 @@ def get_waypoints_by_route():
     return response.json(list(waypoints))
 
 def get_waypoints_by_name():
-    search_input = request.vars.data["search_input"].lower()
+    search_input = request.vars.data["waypointName"].lower()
     waypoints = db().select(db.waypoint.ALL)
+
     matched_waypoints = []
     for waypoint in waypoints:
-        first_chars = waypoint['waypointName'][:len(search_input)].lower()
+        first_chars = waypoint["waypointName"][:len(search_input)].lower()
         if search_input == first_chars:
             matched_waypoints.append(waypoint)
+
+    return response.json(list(matched_waypoints))
+
+def get_waypoints_by_area():
+    minlo = request.vars.data["minLongitude"]
+    maxlo = request.vars.data["maxLongitude"]
+    minla = request.vars.data["minLatitude"]
+    maxla = request.vars.data["maxLatitude"]
+
+    containsLocation = lambda lo, la : minlo <= lo and lo <= maxlo and minla <= la and la <= maxla
+
+    waypoints = db().select(db.waypoint.ALL)
+
+    matched_waypoints = []
+    for waypoint in waypoints:
+        if containsLocation(waypoint.locationLongitude, waypoint.locationLatitude):
+            matched_waypoints.append(waypoint)
+
     return response.json(list(matched_waypoints))
 
 def update_route():
