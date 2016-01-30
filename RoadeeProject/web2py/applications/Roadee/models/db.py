@@ -57,8 +57,15 @@ auth = Auth(db)
 service = Service()
 plugins = PluginManager()
 
+auth.settings.extra_fields['auth_user'] = [
+  Field('profile', 'string'),
+  Field('description', 'string'),
+  Field('locationLatitude', 'decimal(9,6)'),
+  Field('locationLongitude', 'decimal(9,6)'),
+  Field('homeTown', 'string')]
+
 ## create all tables needed by auth if not custom tables
-auth.define_tables(username=False, signature=False)
+auth.define_tables(username=True, signature=False)
 
 ## configure email
 mail = auth.settings.mailer

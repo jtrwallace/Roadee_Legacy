@@ -96,3 +96,18 @@ CREATE TABLE review(
     postingTimeString CHAR(512)
 );
 success!
+timestamp: 2016-01-29T19:11:12.300000
+ALTER TABLE auth_user ADD username CHAR(128);
+timestamp: 2016-01-29T19:11:12.325000
+ALTER TABLE auth_user ADD profile CHAR(512);
+timestamp: 2016-01-29T19:11:12.396000
+ALTER TABLE auth_user ADD description CHAR(512);
+timestamp: 2016-01-29T19:11:12.414000
+ALTER TABLE auth_user ADD locationlongitude DOUBLE;
+timestamp: 2016-01-29T19:11:12.434000
+ALTER TABLE auth_user ADD hometown CHAR(512);
+timestamp: 2016-01-29T19:11:12.453000
+ALTER TABLE auth_user ADD locationlatitude DOUBLE;
+success!
+success!
+success!
