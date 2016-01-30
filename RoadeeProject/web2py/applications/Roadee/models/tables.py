@@ -48,7 +48,7 @@ db.define_table('waypoint',
     Field('timeSpentList', 'list:string')
 )
 
-db.define_tables('review',
+db.define_table('review',
     Field('id', 'string'),
     Field('waypointID', 'string'),
     Field('userID', 'string'),

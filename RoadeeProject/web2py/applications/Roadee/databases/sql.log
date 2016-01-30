@@ -53,3 +53,46 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 success!
+timestamp: 2016-01-29T18:22:38.096303
+CREATE TABLE routes(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    startingPointLatitude DOUBLE,
+    startingPointLongitude DOUBLE,
+    endingPointLatitude DOUBLE,
+    endingPointLongitude DOUBLE,
+    waypointList TEXT,
+    totalDistance DOUBLE,
+    userID INTEGER,
+    routeName CHAR(512),
+    totalTime INTEGER,
+    routeType CHAR(512)
+);
+success!
+timestamp: 2016-01-29T18:22:38.098779
+CREATE TABLE waypoint(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    rating INTEGER,
+    photosURLList TEXT,
+    locationLatitude DOUBLE,
+    locationLongitude DOUBLE,
+    waypointList TEXT,
+    description CHAR(512),
+    address CHAR(512),
+    waypointName CHAR(512),
+    phoneNumber CHAR(512),
+    averageCost DOUBLE,
+    numberOfReviews INTEGER,
+    routeTypeList TEXT,
+    timeSpentList TEXT
+);
+success!
+timestamp: 2016-01-29T18:23:01.766857
+CREATE TABLE review(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    waypointID CHAR(512),
+    userID CHAR(512),
+    reviewDescription CHAR(512),
+    postingTime CHAR(512),
+    postingTimeString CHAR(512)
+);
+success!
