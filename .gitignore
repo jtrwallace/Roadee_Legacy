@@ -2,6 +2,6 @@ RoadeeProject/.idea/encodings.xml
 **/*.pyc
 */.idea/*
 */.idea/workspace.xml
-RoadeeProject/web2py/httpserver.pid
-RoadeeProject/web2py/logs/web2py.log
-RoadeeProject/web2py/parameters_8000.py
+**/RoadeeProject/web2py/httpserver.pid
+**/RoadeeProject/web2py/logs/web2py.log
+**/RoadeeProject/web2py/parameters_8000.py

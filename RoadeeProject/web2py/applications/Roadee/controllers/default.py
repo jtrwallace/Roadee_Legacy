@@ -61,6 +61,9 @@ def call():
     """
     return service()
 
+def user_login():
+    return dict()
+
 def user_sign_up():
     return dict()
 
@@ -83,4 +86,10 @@ def add_user():
                 )
 
         return json.dumps("success")
+
+
+def login_user():
+    '''
+    LOGIN USER, return in a similar fashion to add_user()
+    '''
 

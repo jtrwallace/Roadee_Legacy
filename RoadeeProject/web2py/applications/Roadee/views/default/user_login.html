@@ -21,7 +21,7 @@
     <!-- include stylesheets -->
     <link rel="stylesheet" href="{{=URL('static','css/bootstrap.min.css')}}"/>
     <link rel="stylesheet" href="{{=URL('static','css/web2py-bootstrap3.css')}}"/>
-    <link rel="stylesheet" href="{{=URL('static','css/sign-up.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static','css/login.css')}}"/>
     <link rel="shortcut icon" href="{{=URL('static','images/favicon.ico')}}" type="image/x-icon">
     <link rel="apple-touch-icon" href="{{=URL('static','images/favicon.png')}}">
 	<link href='https://fonts.googleapis.com/css?family=Lato:400,300,100,700,900,100italic,300italic,400italic,700italic,900italic|Open+Sans:400,300,600,700,800,300italic,400italic,600italic,700italic,800italic|Montserrat' rel='stylesheet' type='text/css'>    <!-- All JavaScript at the bottom, except for Modernizr which enables
@@ -34,16 +34,16 @@
     {{include 'web2py_ajax.html'}} <!-- this includes jquery.js, calendar.js/.css and web2py.js -->
 </head>
 <body>
-    <div class="container outer-sign-up-box">
-        <h2 class="sign-up-title">Sign Up</h2>
-        <div id="sign-up-target" class="content-wrapper"></div>
+    <div class="container outer-login-box">
+        <h2 class="login-title">Login</h2>
+        <div id="login-target" class="content-wrapper"></div>
     </div>
 	<script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
     <script src="{{=URL('static','js/web2py-bootstrap3.js')}}"></script>
     <script src="{{=URL('static', 'js/ractive.min.js')}}"></script>
 </body>
 
-<script id="sign-up-template" type="text/ractive">
+<script id="login-template" type="text/ractive">
     <div class="input-container">
         <ul class="inner-input-container">
             <li class="input-wrapper">
@@ -51,15 +51,11 @@
             </li>
 
             <li class="input-wrapper">
-                <input class="input-box" type="text" name="email" placeholder="Email Address" value="{% email %}"/>
-            </li>
-
-            <li class="input-wrapper">
                 <input class="input-box" type="text" name="password" placeholder="Password" value="{% password %}"/>
             </li>
 
             <li class="input-wrapper">
-                <button class="sign-up-submit-button" on-click="sign-up-button" >Submit</button>
+                <button class="login-submit-button" on-click="login-button" >Submit</button>
             </li>
         </ul>
     </div>
@@ -69,31 +65,30 @@
 	$(function() {
         // Ractive object
         var BODY = new Ractive({
-            el: '#sign-up-target',
-            template: '#sign-up-template',
+            el: '#login-target',
+            template: '#login-template',
             delimiters: ['{%', '%}'],
             tripleDelimiters: ['{%%', '%%}'],
             data: {
                 username: "",
-                email:"",
                 password:""
             }
         });
 
-        BODY.on("sign-up-button", function() {
-            $.ajax("{{=URL('default', 'add_user')}}",
+        BODY.on("login-button", function() {
+            $.ajax("{{=URL('default', 'login_user')}}",
 					{
 						data: {
                             username: BODY.get('username'),
-                            email: BODY.get('email'),
                             password: BODY.get('password')
 						},
 						method: 'POST',
 
 						success: function(data) {
-                            if (data == "\"success\"") {
+                            alert("success");
+                            /*if (data == "\"success\"") {
                                 alert(data);
-                                window.location.href = "{{=URL('default','index')}}";
+                                window.location.href = "=URL('default','index')}}";
                             } else if (data == "\"username_failure\"") {
                                 BODY.set('username',"");
                                 BODY.set('email',"");
@@ -104,7 +99,7 @@
                                 BODY.set('email',"");
                                 BODY.set('password',"");
                                 alert("Email address already in use");
-                            }
+                            }*/
 						},
 						error: function() {
                             alert("An error occurred. Please try again");
