@@ -8,6 +8,9 @@
 ## - download is for downloading files uploaded in the db (does streaming)
 #########################################################################
 
+import json
+import gluon.contrib.simplejson
+
 def index():
     """
     example action using the internationalization operator T and flash
@@ -62,12 +65,23 @@ def call():
 def user_sign_up():
     return dict()
 
-def add_user():
-    db.auth_user.insert(
-            username = request.vars.username,
-            password = request.vars.password,
-            email = request.vars.email
-            )
+def username_exists(username):
+    return len(db(db.auth_user.username == username).select())
 
-    return 0
+def email_exists(email):
+    return len(db(db.auth_user.email == email).select())
+
+def add_user():
+    if username_exists(request.vars.username):
+        return json.dumps("username_failure")
+    elif email_exists(request.vars.email):
+        return json.dumps("email_failure")
+    else:
+        db.auth_user.insert(
+                username = request.vars.username,
+                password = request.vars.password,
+                email = request.vars.email
+                )
+
+        return json.dumps("success")
 

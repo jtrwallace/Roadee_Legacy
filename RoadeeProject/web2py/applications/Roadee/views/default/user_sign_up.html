@@ -87,15 +87,9 @@
                             password: BODY.get('password')
 						},
 						method: 'POST',
-						success: function(msg) {
-                            if (msg.status == "success") {
-                                alert("success");
-                            } else if (msg.status == "email_fail") {
-                                alert("email failed");
-                            } else {
-                                alert("username failed");
-                            }
 
+						success: function(data) {
+							alert(data);
 						},
 						error: function() {
                             alert("failure");
