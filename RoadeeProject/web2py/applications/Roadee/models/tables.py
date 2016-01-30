@@ -43,15 +43,16 @@ db.define_table('waypoint',
     Field('phoneNumber', 'string'),
     Field('averageCost', 'double'),
     Field('reviewList', 'list:string'),
-    Field('numberOfReviews', 'integer'),
-    Field('routeTypeList', 'list:string'),
-    Field('timeSpentList', 'list:string')
+    #Field('numberOfReviews', 'integer'),
+    #Field('routeTypeList', 'list:string'),
+    #Field('timeSpentList', 'list:string')
 )
 
 db.define_table('review',
     Field('uuid', 'string', default=str(uuid.uuid4())),
     Field('waypointID', 'string'),
     Field('userID', 'string'),
+    Field('rating', 'integer'),
     Field('reviewDescription', 'string'),
     Field('postingTime', default=datetime.utcnow()),
     Field('postingTimeString', 'string', default=str(datetime.utcnow()))
