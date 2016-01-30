@@ -15,11 +15,16 @@
 ## >>> for row in rows: print row.id, row.myfield
 #########################################################################
 
+from datetime import datetime
+
 db.define_table('routes',
     Field()
 )
 
-db.define_tables('review'
+db.define_tables('review',
     Field('waypointID', 'integer'),
-    Field()
+    Field('userID', 'integer'),
+    Field('reviewDescription', 'string'),
+    Field('postingTime',default=datetime.utcnow()),
+    Field('postingTimeString','string', default=str(datetime.utcnow()))
 )
