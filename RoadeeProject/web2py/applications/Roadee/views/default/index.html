@@ -6,18 +6,71 @@
     <title>Roadee - It's a waypoint kinda thing</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{=URL('static','css/style.css')}}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="{{=URL('static','js/scripts.js')}}"></script>
 </head>
 
 <body>
-    <h1>Homepage</h1>
-    <h2><a href="{{=URL('default','roadtrip')}}">Go to next page</a></h2>
-    <h2>{{if not auth.is_logged_in():}}
-			{{=A('Get Started', _class='btn', _id='signup-button', _href=URL('default', 'user', args=['register'], vars=dict(_next=URL('default', 'index'))))}}
-            {{=A('Sign In', _class='btn', _id='signin-button', _href=URL('default', 'user', args=['login'], vars=dict(_next=URL(args=request.args, vars=request.vars))))}}
-        {{pass}}
-        {{if auth.is_logged_in():}}
-            {{=A('Sign Out', _class='btn', _id='signout-button', _href=URL('default', 'user', args=['logout'], vars=dict(_next=URL('default', 'index'))))}}
-        {{pass}}<h2>
+
+    <div id="hero">
+
+        <video autoplay loop muted class="bgvideo" id="bgvideo" >
+                <source src="http://ak0.picdn.net/shutterstock/videos/3867593/preview/stock-footage-family-on-their-way-to-summer-holiday.mp4">
+            </video>
+
+        <div id="content">
+
+            <div id="nav">
+                <tr>
+                    <td><a href="{{=URL('default','index')}}"><img src="{{=URL('static','images/logo.png')}}" alt="Roadee Logo"></a></td>
+                    <td><a href="#" class="login">Log In</a></td>
+                    <td><a href="#" class="signup">Sign Up</a></td>
+                </tr>
+            </div>
+
+            <div id="welcome-message">PLAN THE TRIP OF A LIFETIME</div>
+
+            <div id="outside">
+                <div id="inside">
+                    <div id="arrow"><img src="{{=URL('static','images/chevron.png')}}"></div>
+                    <div id="filters">
+                    <input type="checkbox" name="vehicle" value="Bike"><tab>Romantic</tab><input type="checkbox" name="vehicle" value="Bike"><tab>Family</tab><input type="checkbox" name="vehicle" value="Bike"><tab>Adventure</tab>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="location-title"><h2>Popular Destinations</h2>  <br> <h4 style="margin-top: -30px;">Explore a New City</h4></div>
+
+
+        <table id="popular-locations" table max-width="100%" border="0" style="text-align:center" cellspacing="0" cellpadding="0">
+              <tbody>
+                <tr>
+                  <td><a href="{{=URL('default','roadtrip')}}"><img src="{{=URL('static','images/SanFrancisco.jpg')}}" alt="San Francisco" width="100%"></a></td>
+                  <td><a href="{{=URL('default','roadtrip')}}"><img src="{{=URL('static','images/Yosemite.jpg')}}" alt="Yosemite" width="100%"></a></td>
+                  <td><a href="{{=URL('default','roadtrip')}}"><img src="{{=URL('static','images/NewYork.jpg')}}" alt="New York" width="100%"></a></td>
+                  <td><a href="{{=URL('default','roadtrip')}}"><img src="{{=URL('static','images/LasVegas.jpg')}}" alt="Las Vegas" width="100%"></a></td>
+                  <td><a href="{{=URL('default','roadtrip')}}"><img src="{{=URL('static','images/LosAngeles.jpg')}}" alt="Los Angeles" width="100%"></a></td>
+                  <td><a href="{{=URL('default','roadtrip')}}"><img src="{{=URL('static','images/NewOrleans.jpg')}}" alt="New Orleans" width="100%"></a></td>
+                </tr>
+              </tbody>
+        </table>
+
+        <div id="location-title"></div>
+
+    <footer>
+        <div id="footer-links">
+            <ul>
+                <li>Terms of Service</li>
+                <li>FAQ</li>
+                <li>About</li>
+            </ul>
+        </div>
+    </footer>
+
 </body>
 
 </html>
