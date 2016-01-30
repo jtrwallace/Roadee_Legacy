@@ -18,20 +18,40 @@
 from datetime import datetime
 
 db.define_table('routes',
-    Field('startingPoint','decimal(9,6)'),
-    Field('endingPoint','decimal(9,6)'),
+    Field('id', 'string'),
+    Field('startingPointLatitude', 'decimal(9,6)'),
+    Field('startingPointLongitude', 'decimal(9,6)'),
+    Field('endingPointLatitude', 'decimal(9,6)'),
+    Field('endingPointLongitude', 'decimal(9,6)'),
     ##field for waypointList
     Field('totalDistance', 'double'),
-    Field('userID','integer'),
-    Field('routeName','string'),
-    Field('totalTime','integer'),
-    Field('routeType','string')
+    Field('userID', 'integer'),
+    Field('routeName', 'string'),
+    Field('totalTime', 'integer'),
+    Field('routeType', 'string')
 )
 
 db.define_tables('review',
-    Field('waypointID', 'integer'),
-    Field('userID', 'integer'),
+    Field('id', 'string'),
+    Field('waypointID', 'string'),
+    Field('userID', 'string'),
     Field('reviewDescription', 'string'),
-    Field('postingTime',default=datetime.utcnow()),
-    Field('postingTimeString','string', default=str(datetime.utcnow()))
+    Field('postingTime', default=datetime.utcnow()),
+    Field('postingTimeString', 'string', default=str(datetime.utcnow()))
+)
+
+db.define_table('waypoint',
+    Field('id', 'string'),
+    Field('rating', 'integer'),
+    Field('locationLatitude', 'decimal(9,6)'),
+    Field('locationLongitude', 'decimal(9,6)'),
+    ##field for waypointList
+    Field('description', 'string'),
+    Field('address', 'string'),
+    Field('waypointName', 'string'),
+    Field('phoneNumber', 'string'),
+    Field('averageCost', 'double'),
+    Field('numberOfReviews', 'integer'),
+    ##Field('','') for routeTypeList
+    ##Field('','') for routeTypeList
 )
