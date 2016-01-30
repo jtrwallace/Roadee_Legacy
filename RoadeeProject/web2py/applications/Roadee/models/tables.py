@@ -18,7 +18,14 @@
 from datetime import datetime
 
 db.define_table('routes',
-    Field()
+    Field('startingPoint','decimal(9,6)'),
+    Field('endingPoint','decimal(9,6)'),
+    ##field for waypointList
+    Field('totalDistance', 'double'),
+    Field('userID','integer'),
+    Field('routeName','string'),
+    Field('totalTime','integer'),
+    Field('routeType','string')
 )
 
 db.define_tables('review',
