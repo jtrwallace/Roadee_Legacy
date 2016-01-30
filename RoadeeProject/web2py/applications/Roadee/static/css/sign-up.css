@@ -4,21 +4,25 @@
     padding-left: 15px;
     padding-right: 15px;
     padding-bottom: 20px;
+    text-align: center;
 }
 
 .input-wrapper {
     margin-right: auto;
     margin-left: auto;
-    padding-left: 15px;
+    margin-bottom: 15px;
     verticle-align: middle;
 }
 
 .inner-input-container {
+    margin-right: auto;
+    margin-left: auto;
     min-width: 300px;
     max-width: 310px;
     min-height: 300px;
     text-align: center;
     list-style-type: none;
+    padding: 0px;
 }
 
 .input-box {
