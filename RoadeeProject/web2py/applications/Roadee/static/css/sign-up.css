@@ -10,5 +10,20 @@
     margin-right: auto;
     margin-left: auto;
     padding-left: 15px;
-    padding-right: 15px;
+    verticle-align: middle;
+}
+
+.inner-input-container {
+    min-width: 300px;
+    max-width: 310px;
+    min-height: 300px;
+    text-align: center;
+    list-style-type: none;
+}
+
+.input-box {
+    float: right;
+}
+
+.sign-up-submit-button {
 }

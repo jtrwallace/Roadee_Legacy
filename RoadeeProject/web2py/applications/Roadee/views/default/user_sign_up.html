@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html>
 <head>
     <meta charset="utf-8">
     <!-- www.phpied.com/conditional-comments-block-downloads/ -->
@@ -44,21 +43,23 @@
 
 <script id="sign-up-template" type="text/ractive">
     <div class="input-container">
-        <div class="input-wrapper">
-            <input type="text" name="username" value="{% username %}"/>
-        </div>
+        <ul class="inner-input-container">
+            <li class="input-wrapper">
+                Username: <input class="input-box" type="text" name="username" value="{% username %}"/>
+            </li>
 
-        <div class="input-wrapper">
-            <input type="text" name="email" value="{% email %}"/>
-        </div>
+            <li class="input-wrapper">
+                Email: <input class="input-box" type="text" name="email" value="{% email %}"/>
+            </li>
 
-        <div class="input-wrapper">
-            <input type="text" name="password" value="{% password %}"/>
-        </div>
+            <li class="input-wrapper">
+                Password: <input class="input-box" type="text" name="password" value="{% password %}"/>
+            </li>
 
-        <div class="input-wrapper">
-            <button on-click="sign-up-button" >Submit</button>
-        </div>
+            <li class="input-wrapper">
+                <button class="sign-up-submit-button" on-click="sign-up-button" >Submit</button>
+            </li>
+        </ul>
     </div>
 </script>
 
@@ -74,10 +75,6 @@
                 username: "",
                 email:"",
                 password:""
-
-                /*new_discussion_url: "{{=URL('default', 'newdiscussion')}}",
-                discussion_url: "{{=URL('default', 'discussion')}}",
-                search_input: ""*/
             }
         });
 
@@ -90,8 +87,15 @@
                             password: BODY.get('password')
 						},
 						method: 'POST',
-						success: function() {
-							alert("success");
+						success: function(msg) {
+                            if (msg.status == "success") {
+                                alert("success");
+                            } else if (msg.status == "email_fail") {
+                                alert("email failed");
+                            } else {
+                                alert("username failed");
+                            }
+
 						},
 						error: function() {
                             alert("failure");
@@ -100,7 +104,5 @@
 			);
         });
     });
-
-
 </script>
 
