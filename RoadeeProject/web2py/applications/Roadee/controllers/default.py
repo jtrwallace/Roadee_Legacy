@@ -68,7 +68,7 @@ def user_sign_up():
     return dict()
 
 def add_review():
-    db.review.update_or_insert((db.review.uuid == request.vars.unique_id)),
+    db.review.update_or_insert((db.review.uuid == request.vars.unique_id),
             waypointID = request.vars.data["waypointID"],
             userID = request.vars.data["userID"],
             rating = request.vars.data["rating"],
