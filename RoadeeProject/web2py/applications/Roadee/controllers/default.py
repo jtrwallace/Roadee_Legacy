@@ -64,5 +64,11 @@ def user_sign_up():
 
 @auth.requires_signature()
 def add_user():
+    db.auth_user.insert(
+            username = request.vars.username,
+            password = request.vars.password,
+            email = request.vars.email
+            )
+
     return 0
 
