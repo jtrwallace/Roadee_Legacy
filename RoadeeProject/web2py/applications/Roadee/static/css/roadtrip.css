@@ -1,0 +1,109 @@
+#map {
+    height: 100%;
+}
+
+html, body { height: 100%; margin: 0; padding: 0; }
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.address-input{
+    width: 100%;
+    margin-top: 0px;
+}
+
+.route-name-input {
+    width: 100%;
+    margin-top: 0px;
+}
+
+.right-tab {
+    width: 40%;
+    height: 100%;
+}
+
+#route-target {
+    width:94%;
+    height: 40%;
+    margin: 3%;
+    background-color: #00aaaa;
+    border-radius: 2px;
+}
+
+#waypoint-target {
+    width:94%;
+    min-height: 55%;
+    margin: 3%;
+    background-color: #FF00FF;
+    border-radius: 2px;
+}
+
+.route-type-input {
+    width: 100%;
+    padding: 1px 0px;
+    border: 1px solid;
+    border-color: #A9A9A9 !important;
+    margin-top: 0px;
+}
+
+.address-label{
+    margin-bottom: 2px !important;
+}
+
+.route-label {
+    margin-bottom: 2px !important;
+}
+
+
+.dist-label{
+    width: 50%;
+    margin-top: 1%;
+    margin-left: 0!important;
+    margin-right: 0!important;
+}
+
+.dist-text{
+    width: 50%;
+    margin-top: 1%;
+    margin-left: 0!important;
+    margin-right: 0!important;
+}
+
+.inner-list {
+    list-style-type: none;
+    margin: auto;
+    overflow: auto;
+    width:90%;
+    padding-left: 0px;
+}
+
+.inner-list li {
+    margin: 2%;
+}
+
+#mapContainer {
+    width: 60%;
+    height: 100%;
+}
+
+#roadTripContainer {
+    height: 100%;
+    width: 100%;
+}
+
+#pac-input {
+    width: 40%;
+    left: 20%;
+    right: 20%;
+    height: 30px;
+    margin: 10px auto auto auto;
+    font-size: 13pt;
+    text-align: center;
+}

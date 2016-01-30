@@ -1,0 +1,40 @@
+.login-title {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.input-wrapper {
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 15px;
+}
+
+.inner-input-container {
+    margin-right: auto;
+    margin-left: auto;
+    min-width: 300px;
+    max-width: 300px;
+    min-height: 300px;
+    text-align: center;
+    list-style-type: none;
+    padding: 0px;
+}
+
+.input-box {
+    float: right;
+    width:100%;
+}
+
+.outer-login-box {
+    min-width: 380px;
+    width: 30%;
+    background-color: #00a8c6;
+}
+
+.login-submit-button {
+    width: 100%;
+}

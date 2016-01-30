@@ -1,9 +1,0 @@
-2016-01-29 18:22:38,145 - web2py - ERROR - Traceback (most recent call last):
-  File "/Users/Joshua/Github Repos/Roadee/RoadeeProject/web2py/gluon/restricted.py", line 227, in restricted
-    exec ccode in environment
-  File "/Users/Joshua/Github Repos/Roadee/RoadeeProject/web2py/applications/Roadee/models/tables.py", line 51, in <module>
-    db.define_tables('review',
-  File "/Users/Joshua/Github Repos/Roadee/RoadeeProject/web2py/gluon/packages/dal/pydal/base.py", line 921, in __getattr__
-    return BasicStorage.__getattribute__(self, key)
-AttributeError: 'DAL' object has no attribute 'define_tables'
-

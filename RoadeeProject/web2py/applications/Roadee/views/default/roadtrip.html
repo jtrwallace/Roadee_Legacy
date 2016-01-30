@@ -1,17 +1,181 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!--<style type="text/css">-->
-      <!--html, body { height: 100%; margin: 0; padding: 0; }-->
-      <!--#map { height: 100%; }-->
-    <!--</style>-->
+    
     <link rel="stylesheet" href="{{=URL('static','css/style.css')}}"/>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkK54tO80JNw9dMYg0bUoxyGqG-apvdn4&callback=initMap"></script>
-    <script src="{{=URL('static','js/scripts.js')}}">var image = "{{=IMG(_src = URL('static','image/waypoint.png'))}}";</script>
+
+
+    <!-- include stylesheets -->
+    <link rel="shortcut icon" href="{{=URL('static','images/favicon.ico')}}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{=URL('static','images/favicon.png')}}">
+	<link href='https://fonts.googleapis.com/css?family=Lato:400,300,100,700,900,100italic,300italic,400italic,700italic,900italic|Open+Sans:400,300,600,700,800,300italic,400italic,600italic,700italic,800italic|Montserrat' rel='stylesheet' type='text/css'>    <!-- All JavaScript at the bottom, except for Modernizr which enables
+         HTML5 elements & feature detects -->
+    {{include 'web2py_ajax.html'}} <!-- this includes jquery.js, calendar.js/.css and web2py.js -->
+    <script src="{{=URL('static','js/helperFunctions.js')}}"></script>
+    <script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
+    <script src="{{=URL('static','js/web2py-bootstrap3.js')}}"></script>
+    <script src="{{=URL('static', 'js/ractive.min.js')}}"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkK54tO80JNw9dMYg0bUoxyGqG-apvdn4&callback=initAutocomplete&libraries=places"></script>
+    <script src="{{=URL('static','js/scripts.js')}}"></script>
+    <script src="{{=URL('static','js/modernizr-2.8.3.min.js')}}"></script>
+    <!--[if lt IE 9]>
+        <script src="{{=URL('static','js/respond-1.4.2.min.js')}}"></script>
+        <![endif]-->
 </head>
 
 <body>
-    <div id="map"></div>
+    <div id="roadTripContainer" class="flex-row">
+        <div id="mapContainer">
+            <input id="pac-input" />
+            <div id="map"></div>
+        </div>
+        <div class="right-tab">
+            <div id="route-target">
+            </div>
+            <div id="waypoint-target">
+            </div>
+        </div>
+    </div>
+
+
 </body>
+
+<script id="route-template" type="text/ractive">
+        <ul class="inner-list">
+            <li><p class="address-label">Starting Point</p></li>
+            <li><input class="address-input" id="pac-input-start" /></li>
+            <li><p class="address-label">Ending Point</p></li>
+            <li><input class="address-input" id="pac-input-end" /></li>
+            <li><p class="route-label">Trip Name</p></li>
+            <li><input class="route-name-input" id="route-name-input" type="text" name="routeName" value="{% route['routeName'] %}"/></li>
+            <li><p class="route-label">Trip Type</p></li>
+            <li>
+                <select class="route-type-input" id="route-type-input" type="text" name="routeType" value="{% route['routeType'] %}">
+                    <option value="family">Family</option>
+                    <option value="romantic">Romantic</option>
+                    <option value="adventure">Adventure</option>
+                </select>
+            </li>
+            <li class="flex-row"><p class="dist-label">Total Trip Distance: </p><p class="dist-text" type="text" name="totalDistance" value="{% routeType['totalDistance'] %}">DIST HERE</p></li>
+            <li class="flex-row"><p class="dist-label">Total Trip Time: </p><p class="dist-text" type="text" name="totalTime" value="{% routeType['totalTime'] %}">TIME HERE</p></li>
+        </ul>
+</script>
+
+<script id="waypoint-template" type="text/ractive">
+        <ul class="waypoint-list">
+            <li><p class="address-label">Starting Point</p></li>
+            <li><input class="address-input" id="pac-input-start" /></li>
+            <li><p class="address-label">Ending Point</p></li>
+            <li><input class="address-input" id="pac-input-end" /></li>
+            <li><p class="route-label">Trip Name</p></li>
+            <li><input class="route-name-input" id="route-name-input" type="text" name="routeName" value={% routeName %}/></li>
+            <li><p class="route-label">Trip Type</p></li>
+            <li>
+                <select class="route-type-input" id="route-type-input" type="text" name="routeType" value="{% routeType %}">
+                    <option value="family">Family</option>
+                    <option value="romantic">Romantic</option>
+                    <option value="adventure">Adventure</option>
+                </select>
+            </li>
+            <li class="flex-row"><p class="dist-label">Total Trip Distance: </p><p class="dist-text" type="text" name="totalDistance" value="{% totalDistance %}">DIST HERE</p></li>
+            <li class="flex-row"><p class="dist-label">Total Trip Time: </p><p class="dist-text" type="text" name="totalTime" value="{% totalTime %}">TIME HERE</p></li>
+        </ul>
+</script>
+
+<script>
+	$(function() {
+        // Ractive object
+        var BODY = new Ractive({
+            el: '#route-target',
+            template: '#route-template',
+            delimiters: ['{%', '%}'],
+            tripleDelimiters: ['{%%', '%%}'],
+            data: {
+                route: {}
+            }
+        });
+
+        $.ajax("{{=URL('default', 'get_routes_by_user')}}",
+        {
+            data: {
+                unique_id: "{{=auth.user_id}}" //request.vars.unique_id
+            },
+            method: 'POST',
+            success: function (data) {
+                BODY.set('route', data);
+            },
+            error: function(data) {
+                return "Server Error"
+            }
+        }
+    );
+    });
+</script>
+
+<script>
+	$(function() {
+        // Ractive object
+        var WAYPOINTS = new Ractive({
+            el: '#waypoint-target',
+            template: '#waypoint-template',
+            delimiters: ['{%', '%}'],
+            tripleDelimiters: ['{%%', '%%}'],
+            data: {
+                /*uuid: "",
+                startingPointLatitude: "",
+                startingPointLongitude:"",
+                endingPointLatitude: "",
+                endingPointLongitude: "",
+                waypointList:"",
+                totalDistance:"",
+                userID:"",
+                routeName:"",
+                totalTime:"",
+                routeType:""*/
+            }
+        });
+
+        WAYPOINTS.on("route-type-input", function() {
+            $.ajax("{{=URL('default', 'update_waypoint')}}",
+					{
+						data: {
+                            uuid: BODY.get('uuid'),
+                            startingPointLatitude: BODY.get('startingPointLatitude'),
+                            startingPointLongitude: BODY.get('startingPointLongitude'),
+                            endingPointLatitude: BODY.get('endingPointLatitude'),
+                            endingPointLongitude: BODY.get('endingPointLongitude'),
+                            waypointList: BODY.get('waypointList'),
+                            totalDistance: BODY.get('totalDistance'),
+                            userID: BODY.get('userID'),
+                            routeName: BODY.get('routeName'),
+                            totalTime: BODY.get('totalTime'),
+                            routeType: BODY.get('routeType')
+						},
+						method: 'POST',
+
+						success: function(data) {
+                            /*if (data == "\"success\"") {
+                                alert(data);
+                                window.location.href = "{{=URL('default','index')}}";
+                            } else if (data == "\"username_failure\"") {
+                                BODY.set('username',"");
+                                BODY.set('email',"");
+                                BODY.set('password',"");
+                                alert("Username is already in use");
+                            } else {
+                                BODY.set('username',"");
+                                BODY.set('email',"");
+                                BODY.set('password',"");
+                                alert("Email address already in use");
+                            }*/
+						},
+						error: function() {
+                            alert("An error occurred. Please try again");
+                        }
+					}
+			);
+        });
+    });
+</script>
 
 </html>
