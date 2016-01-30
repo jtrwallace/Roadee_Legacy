@@ -46,16 +46,17 @@
             <li><p class="address-label">Ending Point</p></li>
             <li><input class="address-input" id="pac-input-end" /></li>
             <li><p class="route-label">Trip Name</p></li>
-            <li><input class="route-name-input" id="route-name-input" /></li>
+            <li><input class="route-name-input" id="route-name-input" type="text" name="routeName" value="{% routeName %}"/></li>
             <li><p class="route-label">Trip Type</p></li>
             <li>
-                <select class="route-type-input" id="route-type-input" >
+                <select class="route-type-input" id="route-type-input" type="text" name="routeType" value="{% routeType %}">
                     <option value="family">Family</option>
                     <option value="romantic">Romantic</option>
                     <option value="adventure">Adventure</option>
                 </select>
             </li>
-            <li class="flex-row"><p class="dist-label">Total Trip Distance: </p><p class="dist-text">DIST HERE</p></li>
+            <li class="flex-row"><p class="dist-label">Total Trip Distance: </p><p class="dist-text" type="text" name="totalDistance" value="{% totalDistance %}">DIST HERE</p></li>
+            <li class="flex-row"><p class="dist-label">Total Trip Time: </p><p class="dist-text" type="text" name="totalTime" value="{% totalTime %}">TIME HERE</p></li>
         </ul>
 </script>
 
@@ -66,16 +67,17 @@
             <li><p class="address-label">Ending Point</p></li>
             <li><input class="address-input" id="pac-input-end" /></li>
             <li><p class="route-label">Trip Name</p></li>
-            <li><input class="route-name-input" id="route-name-input" /></li>
+            <li><input class="route-name-input" id="route-name-input" type="text" name="routeName" value="{% routeName %}/></li>
             <li><p class="route-label">Trip Type</p></li>
             <li>
-                <select class="route-type-input" id="route-type-input" >
+                <select class="route-type-input" id="route-type-input" type="text" name="routeType" value="{% routeType %}>
                     <option value="family">Family</option>
                     <option value="romantic">Romantic</option>
                     <option value="adventure">Adventure</option>
                 </select>
             </li>
-            <li class="flex-row"><p class="dist-label">Total Trip Distance: </p><p class="dist-text">DIST HERE</p></li>
+            <li class="flex-row"><p class="dist-label">Total Trip Distance: </p><p class="dist-text" type="text" name="totalDistance" value="{% totalDistance %}>DIST HERE</p></li>
+            <li class="flex-row"><p class="dist-label">Total Trip Time: </p><p class="dist-text" type="text" name="totalTime" value="{% totalTime %}>TIME HERE</p></li>
         </ul>
 </script>
 
@@ -88,7 +90,7 @@
             delimiters: ['{%', '%}'],
             tripleDelimiters: ['{%%', '%%}'],
             data: {
-                /*uuid: "",
+                uuid: "",
                 startingPointLatitude: "",
                 startingPointLongitude:"",
                 endingPointLatitude: "",
@@ -98,7 +100,7 @@
                 userID:"",
                 routeName:"",
                 totalTime:"",
-                routeType:""*/
+                routeType:""
             }
         });
 
