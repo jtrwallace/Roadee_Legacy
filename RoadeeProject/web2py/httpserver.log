@@ -435,3 +435,7 @@
 127.0.0.1, 2016-01-29 20:10:02, GET, /Roadee/static/images/facebook.png, HTTP/1.1, 200, 0.001000
 127.0.0.1, 2016-01-29 20:10:02, GET, /Roadee/static/images/gplus-32.png, HTTP/1.1, 200, 0.001000
 127.0.0.1, 2016-01-29 20:10:02, GET, /Roadee/static/images/favicon.ico, HTTP/1.1, 200, 0.001000
+127.0.0.1, 2016-01-29 20:34:56, GET, /, HTTP/1.1, 200, 0.151210
+127.0.0.1, 2016-01-29 20:34:56, GET, /Roadee/static/css/style.css, HTTP/1.1, 304, 0.000386
+127.0.0.1, 2016-01-29 20:34:58, GET, /roadtrip, HTTP/1.1, 200, 0.021608
+127.0.0.1, 2016-01-29 20:34:58, GET, /Roadee/static/js/scripts.js, HTTP/1.1, 304, 0.000725

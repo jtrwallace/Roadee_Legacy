@@ -1,5 +1,5 @@
 RoadeeProject/.idea/encodings.xml
-*/*.pyc
+**/*.pyc
 */.idea/*
 */.idea/workspace.xml
 
