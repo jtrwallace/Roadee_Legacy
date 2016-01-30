@@ -171,7 +171,7 @@ def remove_waypoint_from_route():
             )
 
 def remove_route():
-    del db(db.route.uuid == request.vars.unique_id).select().first()
+    db(db.route.uuid == request.vars.unique_id).select().first().delete()
 
 def remove_review_from_waypoint():
     review = db(db.review.uuid == request.vars.unique_id).select().first()
@@ -182,7 +182,7 @@ def remove_review_from_waypoint():
             reviewList = newReviewList
             )
 
-    del review
+    review.delete()
 
 def update_route():
     return 0
