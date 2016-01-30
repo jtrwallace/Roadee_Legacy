@@ -89,7 +89,21 @@
 						method: 'POST',
 
 						success: function(data) {
-							alert(data);// data == username_falure || success || email_failure
+                            alert(data);
+                            if (data == "\"success\"") {
+                                alert(data);
+                                window.location.href = "{{=URL('default','index')}}";
+                            } else if (data == "\"username_falure\"") {
+                                BODY.set('username',"");
+                                BODY.set('email',"");
+                                BODY.set('password',"");
+                                alert(data);
+                            } else {
+                                BODY.set('username',"");
+                                BODY.set('email',"");
+                                BODY.set('password',"");
+                                alert(data);
+                            }
 						},
 						error: function() {
                             alert("failure");
