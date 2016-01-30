@@ -25,7 +25,7 @@
 <body>
     <div id="roadTripContainer" class="flex-row">
         <div id="mapContainer">
-            <input id="pac-input"></input>
+            <input id="pac-input" />
             <div id="map"></div>
         </div>
         <div id="route-target">
@@ -38,11 +38,11 @@
 <script id="route-template" type="text/ractive">
         <ul class="inner-list">
             <li><p class="address-label">Starting Point</p></li>
-            <li><input class="address-input" id="pac-input-start"></input></li>
+            <li><input class="address-input" id="pac-input-start" /></li>
             <li><p class="address-label">Ending Point</p></li>
-            <li><input class="address-input" id="pac-input-end"></input></li>
+            <li><input class="address-input" id="pac-input-end" /></li>
             <li><p class="route-label">Trip Name</p></li>
-            <li><input class="route-name-input" id="route-name-input" ></input></li>
+            <li><input class="route-name-input" id="route-name-input" /></li>
             <li><p class="route-label">Trip Type</p></li>
             <li>
                 <select class="route-type-input" id="route-type-input" >
@@ -64,7 +64,7 @@
             delimiters: ['{%', '%}'],
             tripleDelimiters: ['{%%', '%%}'],
             data: {
-                uuid: "",
+                /*uuid: "",
                 startingPointLatitude: "",
                 startingPointLongitude:"",
                 endingPointLatitude: "",
@@ -74,7 +74,7 @@
                 userID:"",
                 routeName:"",
                 totalTime:"",
-                routeType:""
+                routeType:""*/
             }
         });
 
