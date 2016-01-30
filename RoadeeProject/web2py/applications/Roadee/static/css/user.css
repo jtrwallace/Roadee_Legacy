@@ -1,0 +1,59 @@
+body {
+    max-width: 100%;
+    margin: 0;
+}
+
+nav#user-nav {
+    background-color: #2ecbb0;
+    height: 70px;
+    width: 100%;
+}
+
+#loginButtons {
+    margin-right: 10px;
+}
+
+.flex-column {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+}
+
+.flex-row {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+}
+
+.flex-wrap {
+    -webkit-flex-wrap: wrap;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.space-around {
+    justify-content: space-around;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.center-aligned {
+    align-items: center;
+    -webkit-align-items: center;
+}
+
+.btn {
+    text-decoration: none;
+    margin: 5px;
+}
+
+.title {
+    text-decoration: none;
+    margin-left: 10px;
+}
