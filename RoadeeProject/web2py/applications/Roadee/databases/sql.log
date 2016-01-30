@@ -219,3 +219,15 @@ success!
 success!
 success!
 success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2016-01-29T22:54:58.675244
+ALTER TABLE auth_user ADD uuid CHAR(512) UNIQUE;
+timestamp: 2016-01-29T22:56:16.372590
+ALTER TABLE auth_user ADD uuid CHAR(512);
+success!
+success!

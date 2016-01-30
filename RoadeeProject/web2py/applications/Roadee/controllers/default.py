@@ -62,7 +62,6 @@ def call():
 def user_sign_up():
     return dict()
 
-@auth.requires_signature()
 def add_user():
     db.auth_user.insert(
             username = request.vars.username,

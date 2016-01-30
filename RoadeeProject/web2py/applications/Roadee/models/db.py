@@ -52,6 +52,7 @@ response.form_label_separator = myconf.take('forms.separator')
 #########################################################################
 
 from gluon.tools import Auth, Service, PluginManager
+import uuid
 
 auth = Auth(db)
 service = Service()
@@ -62,7 +63,8 @@ auth.settings.extra_fields['auth_user'] = [
   Field('description', 'string'),
   Field('locationLatitude', 'decimal(9,6)'),
   Field('locationLongitude', 'decimal(9,6)'),
-  Field('homeTown', 'string')]
+  Field('homeTown', 'string'),
+  Field('uuid', default=uuid.uuid4())]
 
 ## create all tables needed by auth if not custom tables
 auth.define_tables(username=True, signature=False)
