@@ -202,7 +202,7 @@
 						success: function(data) {
                             console.log("waypoint: " + JSON.stringify(data, null, 4));
                             console.log(data.length);
-                            WAYPOINTS.set('waypoints');
+                            WAYPOINTS.set('waypoints', data);
                             WAYPOINTS.set('numberOfPoints', data.length);
 						},
 						error: function() {
