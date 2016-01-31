@@ -196,3 +196,116 @@
 </script>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!--
+
+
+        <!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Directions service</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+#floating-panel {
+  position: absolute;
+  top: 10px;
+  left: 25%;
+  z-index: 5;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #999;
+  text-align: center;
+  font-family: 'Roboto','sans-serif';
+  line-height: 30px;
+  padding-left: 10px;
+}
+
+    </style>
+  </head>
+  <body>
+
+    <div id="map"></div>
+    <script>
+function initMap() {
+  var directionsService = new google.maps.DirectionsService;
+  var directionsDisplay = new google.maps.DirectionsRenderer;
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 7,
+    center: {lat: 41.85, lng: -87.65}
+  });
+  directionsDisplay.setMap(map);
+
+
+  calculateAndDisplayRoute(directionsService, directionsDisplay);
+}
+
+var start = "san francisco, ca"
+var end = "los angeles, ca"
+var waypoint = ["fresno, ca","tranquility, ca"]
+function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+ 	var waypts = [];
+  for (var i = 0; i < waypoint.length; i++) {
+      waypts.push({
+        location: waypoint[i],
+        stopover: true
+      });
+  }
+
+  directionsService.route({
+    origin: start,
+    destination: end,
+	waypoints: waypts,
+    optimizeWaypoints: true,
+    travelMode: google.maps.TravelMode.DRIVING
+  }, function(response, status) {
+    if (status === google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
+      var route = response.routes[0];
+      var summaryPanel = document.getElementById('directions-panel');
+      summaryPanel.innerHTML = '';
+      // For each route, display summary information.
+      for (var i = 0; i < route.legs.length; i++) {
+        var routeSegment = i + 1;
+        summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+            '</b><br>';
+        summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+        summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+        summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+      }
+    } else {
+      window.alert('Directions request failed due to ' + status);
+    }
+  });
+}
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHGTR63WtP31io9rx2neXP5_BTiB23pEA&signed_in=true&callback=initMap"
+        async defer></script>
+
+        <div id="directions-panel" style="width: 200px; height: 500px; background-color: #000;"></div>
+
+  </body>
+</html>-->
