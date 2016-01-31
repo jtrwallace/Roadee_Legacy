@@ -53,7 +53,7 @@ db.define_table('review',
     Field('waypointID', 'string'),
     Field('userID', 'string'),
     Field('rating', 'double'),
-    Field('mycost', 'double'),
+    Field('placeCost', 'double'),
     Field('reviewDescription', 'string'),
     Field('postingTime', default=datetime.utcnow()),
     Field('postingTimeString', 'string', default=str(datetime.utcnow()))

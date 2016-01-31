@@ -104,3 +104,18 @@ CREATE TABLE review(
     postingTimeString CHAR(512)
 );
 success!
+success!
+success!
+timestamp: 2016-01-30T18:58:14.458000
+ALTER TABLE review ADD placecost DOUBLE;
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
