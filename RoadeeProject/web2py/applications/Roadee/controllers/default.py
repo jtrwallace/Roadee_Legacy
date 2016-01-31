@@ -101,7 +101,6 @@ def add_waypoint():
 
 def add_waypoint_to_route():
     route = db(db.route.uuid == request.vars["uuid"]).select().first()
-    waypoint = db(db.waypoint.uuid == request.vars["waypointID"]).select().first()
 
     newWaypointList = route.waypointList
     newWaypointList.append(request.vars["waypointID"])
