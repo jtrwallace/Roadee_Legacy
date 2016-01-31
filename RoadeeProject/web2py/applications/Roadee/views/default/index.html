@@ -10,7 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="{{=URL('static','js/scripts.js')}}"></script>
     <script src="http://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js"></script>
-    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,100,700,900,100italic,300italic,400italic,700italic,900italic|Open+Sans:400,300,600,700,800,300italic,400italic,600italic,700italic,800italic|Montserrat' rel='stylesheet' type='text/css'>    <!-- All JavaScript at the bottom, except for Modernizr which enables
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,100,700,900,100italic,300italic,400italic,700italic,900italic|Open+Sans:400,300,600,700,800,300italic,400italic,600italic,700italic,800italic|Montserrat' rel='stylesheet' type='text/css'>
     {{include 'web2py_ajax.html'}}
 </head>
 
@@ -39,6 +39,14 @@
 
             <div id="welcome-message">Plan the Trip of a Lifetime</div>
 
+            <div id="start_trip_container" class="flex-row space-between center-aligned">
+                <div id="start_location_container">
+                    <input class="index_entries" id="index_start_address" type="text" value="{% start_address %}"/>
+                    <button class="btn" id="gps_button" on-click="gps_button">Use Current Location</button>
+                </div>
+                <input class="index_entries" id="index_start_address" type="text" value="{% start_address %}"/>
+            </div>
+
             <div id="outside">
                 <div id="inside">
                     <div id="arrow"><img src="{{=URL('static','images/chevron.png')}}"></div>
@@ -47,7 +55,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
     </div>
