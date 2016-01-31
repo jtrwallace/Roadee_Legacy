@@ -83,6 +83,10 @@ def add_review():
 
     return
 
+
+def add_route():
+    return 0
+
 def add_waypoint():
     db.waypoint.update_or_insert((db.waypoint.uuid == request.vars.unique_id),
             rating = request.vars.data["rating"],
@@ -180,9 +184,3 @@ def remove_review_from_waypoint():
             )
 
     review.delete()
-
-def update_route():
-    return 0
-
-def update_waypoint():
-    return 0
