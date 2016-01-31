@@ -54,70 +54,70 @@ def call():
     return service()
 
 def add_review_to_waypoint():
-    db.review.update_or_insert((db.review.uuid == request.vars.unique_id),
-            waypointID = request.vars.data["waypointID"],
-            userID = request.vars.data["userID"],
-            rating = request.vars.data["rating"],
-            placeCost = request.vars.data["cost"],
-            reviewDescription = request.vars.data["reviewDescription"]
+    db.review.update_or_insert((db.review.uuid == request.vars["uuid"]),
+            waypointID = request.vars["waypointID"],
+            userID = request.vars["userID"],
+            rating = request.vars["rating"],
+            placeCost = request.vars["cost"],
+            reviewDescription = request.vars["reviewDescription"]
             )
 
-    waypoint = db(db.waypoint.uuid == request.vars.unique_id).select().first()
-    newRating = (waypoint.rating + request.vars.data["rating"]) / 2
+    waypoint = db(db.waypoint.uuid == request.vars["uuid"]).select().first()
+    newRating = (waypoint.rating + request.vars["rating"]) / 2
     newReviewList = waypoint.reviewList
-    newReviewList.append(request.vars.unique_id)
-    newAverageCost = (waypoint.averageCost + request.vars.data["cost"]) / 2
+    newReviewList.append(request.vars["uuid"])
+    newAverageCost = (waypoint.averageCost + request.vars["cost"]) / 2
 
-    db.waypoint.update((db.waypoint.uuid == request.vars.data["waypointID"]),
+    db.waypoint.update((db.waypoint.uuid == request.vars["waypointID"]),
             rating = newRating,
             reviewList = newReviewList,
             averageCost = newAverageCost
             )
 
 def add_route():
-    db.route.update_or_insert((db.route.uuid == request.vars.unique_id),
-            startingPointLatitude = request.vars.data["startingPointLatitude"],
-            startingPointLongitude = request.vars.data["startingPointLongitude"],
-            endingPointLatitude = request.vars.data["endingPointLatitude"],
-            endingPointLongitude = request.vars.data["endingPointLongitude"],
-            userID = request.vars.data["userID"],
-            routeName = request.vars.data["routeName"],
-            routeType = request.vars.data["routeType"]
+    db.route.update_or_insert((db.route.uuid == request.vars["uuid"]),
+            startingPointLatitude = request.vars["startingPointLatitude"],
+            startingPointLongitude = request.vars["startingPointLongitude"],
+            endingPointLatitude = request.vars["endingPointLatitude"],
+            endingPointLongitude = request.vars["endingPointLongitude"],
+            userID = request.vars["userID"],
+            routeName = request.vars["routeName"],
+            routeType = request.vars["routeType"]
             )
 
 def add_waypoint():
-    db.waypoint.update_or_insert((db.waypoint.uuid == request.vars.unique_id),
-            rating = request.vars.data["rating"],
-            locationLatitude = request.vars.data["locationLatitude"],
-            locationLongitude = request.vars.data["locationLongitude"],
-            description = request.vars.data["description"],
-            address = request.vars.data["address"],
-            waypointName = request.vars.data["waypointName"],
-            phoneNumber = request.vars.data["phoneNumber"],
-            averageCost = request.vars.data["averageCost"],
-            #routeTypeList = request.vars.data["routeTypeList"],
-            #timeSpentList = request.vars.data["timeSpentLis"]t
+    db.waypoint.update_or_insert((db.waypoint.uuid == request.vars["uuid"]),
+            rating = request.vars["rating"],
+            locationLatitude = request.vars["locationLatitude"],
+            locationLongitude = request.vars["locationLongitude"],
+            description = request.vars["description"],
+            address = request.vars["address"],
+            waypointName = request.vars["waypointName"],
+            phoneNumber = request.vars["phoneNumber"],
+            averageCost = request.vars["averageCost"],
+            #routeTypeList = request.vars["routeTypeList"],
+            #timeSpentList = request.vars["timeSpentLis"]t
             )
 
 def add_waypoint_to_route():
-    route = db(db.route.uuid == request.vars.unique_id).select().first()
-    waypoint = db(db.waypoint.uuid == request.vars.waypointID).select().first()
+    route = db(db.route.uuid == request.vars["uuid"]).select().first()
+    waypoint = db(db.waypoint.uuid == request.vars["waypointID"]).select().first()
 
     newWaypointList = route.waypointList
-    newWaypointList.append(request.vars.waypointID)
+    newWaypointList.append(request.vars["waypointID"])
     
-    db.route.update((db.route.uuid == request.vars.unique_id),
+    db.route.update((db.route.uuid == request.vars["uuid"]),
             waypointList = newWaypointList,
-            totalDistance = request.vars.data["totalDistance"],
-            totalTime = request.vars.data["totalTime"]
+            totalDistance = request.vars["totalDistance"],
+            totalTime = request.vars["totalTime"]
             )
 
 def add_photo_to_waypoint():
-    waypoint = db(db.waypoint.uuid == request.vars.unique_id).select().first()
+    waypoint = db(db.waypoint.uuid == request.vars["uuid"]).select().first()
     newPhotosURLList = waypoint.photosURLList
-    newPhotosURLList.append(request.vars.data["photoURL"])
+    newPhotosURLList.append(request.vars["photoURL"])
 
-    db.waypoint.update_or_insert((db.waypoint.uuid == request.vars.unique_id),
+    db.waypoint.update_or_insert((db.waypoint.uuid == request.vars["uuid"]),
             photosURLList = newPhotosURLList
             )
 
@@ -139,7 +139,7 @@ def get_waypoints_by_route():
     return response.json(waypoints)
 
 def get_waypoints_by_name():
-    search_input = request.vars.data["userInput"].lower()
+    search_input = request.vars["userInput"].lower()
     waypoints = db().select(db.waypoint.ALL)
 
     matched_waypoints = []
@@ -152,10 +152,10 @@ def get_waypoints_by_name():
     return response.json(matched_waypoints)
 
 def get_waypoints_by_area():
-    minlo = request.vars.data["west"]
-    maxlo = request.vars.data["east"]
-    minla = request.vars.data["south"]
-    maxla = request.vars.data["north"]
+    minlo = request.vars["west"]
+    maxlo = request.vars["east"]
+    minla = request.vars["south"]
+    maxla = request.vars["north"]
 
     containsLocation = lambda lo, la : minlo <= lo and lo <= maxlo and minla <= la and la <= maxla
 
