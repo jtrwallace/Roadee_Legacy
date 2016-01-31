@@ -21,6 +21,7 @@
     <meta name="google-site-verification" content="">
     <!-- include stylesheets -->
     <link rel="stylesheet" href="{{=URL('static','css/user.css')}}"/>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,100,700,900,100italic,300italic,400italic,700italic,900italic|Open+Sans:400,300,600,700,800,300italic,400italic,600italic,700italic,800italic|Montserrat' rel='stylesheet' type='text/css'>    <!-- All JavaScript at the bottom, except for Modernizr which enables
     <link rel="shortcut icon" href="{{=URL('static','images/favicon.ico')}}" type="image/x-icon">
     <link rel="apple-touch-icon" href="{{=URL('static','images/favicon.png')}}">
     <link href='https://fonts.googleapis.com/css?family=Lato:400,300,100,700,900,100italic,300italic,400italic,700italic,900italic|Open+Sans:400,300,600,700,800,300italic,400italic,600italic,700italic,800italic|Montserrat' rel='stylesheet' type='text/css'>    <!-- All JavaScript at the bottom, except for Modernizr which enables
@@ -33,24 +34,26 @@
 {{include 'web2py_ajax.html'}} <!-- this includes jquery.js, calendar.js/.css and web2py.js -->
 </head>
 <body>
-<nav id="user-nav" class="flex-row space-between full-width center-aligned">
-{{=A('Roadee', _class='title', _href=URL('default', 'index'))}}
-    <div id="loginButtons" class="flex-row space-around">
-    {{if not auth.is_logged_in():}}
-			{{=A('Get Started', _class='btn', _id='signup-button', _href=URL('default', 'user', args=['register'], vars=dict(_next=URL('default', 'index'))))}}
-            {{=A('Sign In', _class='btn', _id='signin-button', _href=URL('default', 'user', args=['login'], vars=dict(_next=URL(args=request.args, vars=request.vars))))}}
+<video autoplay loop muted class="bgvideo" id="bgvideo" >
+            <source src="http://ak0.picdn.net/shutterstock/videos/3867593/preview/stock-footage-family-on-their-way-to-summer-holiday.mp4">
+        </video>
+
+<div id="nav">
+    <tr>
+        <td><a href="{{=URL('default','index')}}"><img src="{{=URL('static','images/logo.png')}}" alt="Roadee Logo"></a></td>
+        {{if not auth.is_logged_in():}}
+            <td>{{=A('Sign Up', _class='signup', _href=URL('default', 'user', args=['register'], vars=dict(_next=URL(args=request.args, vars=request.vars))))}}</td>
+            <td>{{=A('Log In', _class='login', _href=URL('default', 'user', args=['login'], vars=dict(_next=URL(args=request.args, vars=request.vars))))}}</td>
         {{pass}}
         {{if auth.is_logged_in():}}
-            {{=A('Sign Out', _class='btn', _id='signout-button', _href=URL('default', 'user', args=['logout'], vars=dict(_next=URL('default'))))}}
+            <td>{{=A('Sign Out', _class='login', _href=URL('default', 'user', args=['logout'], vars=dict(_next=URL(args=request.args, vars=request.vars))))}}</td>
         {{pass}}
-    </div>
-</nav>
-<main>
-    <div id="signin-form-container" class="flex-column center-aligned form-container">
+    </tr>
+</div>
+    <div id="auth-form-container" class="flex-column center-aligned">
         <div id="login-greeting" class="form-greeting">
-            <h1>{{=T('Your Details') if request.args(0) == 'register' else T('Sign In') if request.args(0) == 'login' else T(request.args(0).replace('_',' ').title())}}</h1>
+            <h1>{{=T('Your Adventure Starts Here.') if request.args(0) == 'register' else T('Welcome Back') if request.args(0) == 'login' else T(request.args(0).replace('_',' ').title())}}</h1>
         </div>
-        <div class="flex-column center-aligned form-column">
         {{
         if request.args(0)=='login':
         if not 'register' in auth.settings.actions_disabled:
@@ -62,82 +65,62 @@
         pass
         }}
         {{if request.args(0)=='login':}}
-            <div class="flex-column form-column full-width" id="signin-form">
+            <div id="register_form_container" class="flex-column full-width">
             {{=form.custom.begin}}
-                <div class="flex-column form-row space-between center-aligned" id="firstname-row">
-                    <h4>Email</h4>
-                    <div class="text-widget custom-form" id="form-email">
-                    {{=form.custom.widget.email}}
-                    </div>
+                <div id="homeTown_form" class="form-row">
+                    {{=form.custom.widget.email.update(_placeholder="Email")}}
                 </div>
-                <div class="flex-column form-row space-between center-aligned" id="firstname-row">
-                    <h4>Password</h4>
-                    <div class="text-widget custom-form" id="form-password">
-                    {{=form.custom.widget.password}}
-                    </div>
+                <div id="email_form" class="form-row">
+                    {{=form.custom.widget.password.update(_placeholder="Password")}}
                 </div>
+                <div id="signup-form-button" class="form-row">{{=form.custom.submit}}</div>
             </div>
-            <div id="signup-form-button">{{=form.custom.submit}}</div>
         {{=form.custom.end}}
         {{pass}}
         {{if request.args(0)=='register':}}
         {{if not auth.is_logged_in():}}
-            <div class="flex-column form-column full-width" id="register-form">
+            <div id="register_form_container" class="flex-column full-width">
             {{=form.custom.begin}}
-                <div class="flex-column form-row space-between center-aligned" id="firstname-row">
-                    <h4>First Name</h4>
-                    <div class="text-widget custom-form" id="form-firstname">
-                    {{=form.custom.widget.first_name}}
+                <div id="names_container" class="flex-row space-between center-aligned form-row">
+                    <div id="first_name_form" class="name_field">
+                        {{=form.custom.widget.first_name.update(_placeholder="First Name")}}
+                    </div>
+                    <div id="last_name_form" class="name_field">
+                        {{=form.custom.widget.last_name.update(_placeholder="Last Name")}}
                     </div>
                 </div>
-                <div class="flex-column form-row space-between center-aligned" id="lastname-row">
-                    <h4>Last Name</h4>
-                    <div class="text-widget custom-form" id="form-lastname">
-                    {{=form.custom.widget.last_name}}
+                <div id="homeTown_form" class="form-row">
+                    {{=form.custom.widget.homeTown.update(_placeholder="Hometown")}}
+                </div>
+                <div id="email_form" class="form-row">
+                    {{=form.custom.widget.email.update(_placeholder="Email")}}
+                </div>
+                <div id="password_container" class="flex-row space-between center-aligned form-row">
+                    <div id="password_form" class="password_field">
+                        {{=form.custom.widget.password.update(_placeholder="Password")}}
+                    </div>
+                    <div id="password2_form" class="password_field">
+                        {{=form.custom.widget.password_two.update(_placeholder="Confirm Password")}}
                     </div>
                 </div>
-                <div class="flex-column form-row space-between center-aligned" id="city-row">
-                    <h4>Hometown</h4>
-                    <div class="text-widget custom-form" id="form-city">
-                    {{=form.custom.widget.homeTown}}
-                    </div>
-                </div>
-                <div class="flex-column form-row space-between center-aligned" id="email-row">
-                    <h4>Email</h4>
-                    <div class="text-widget custom-form" id="form-email">
-                    {{=form.custom.widget.email}}
-                    </div>
-                </div>
-                <div class="flex-column form-row space-between center-aligned" id="password-row">
-                    <h4>Password</h4>
-                    <div class="password-widget custom-form" id="form-password">
-                    {{=form.custom.widget.password}}
-                    </div>
-                </div>
-                <div class="flex-column form-row space-between center-aligned" id="confirm-password-row">
-                    <h4>Confirm Password</h4>
-                    <div class="password-widget custom-form" id="form-confirm-password">
-                    {{=form.custom.widget.password_two}}
-                    </div>
-                </div>
+
+                <div id="signup-form-button" class="form-row">{{=form.custom.submit}}</div>
             </div>
-            <div id="signup-form-button">{{=form.custom.submit}}</div>
         {{=form.custom.end}}
         {{pass}}
         {{pass}}
-        </div>
+
     </div>
-</main>
 </body>
 </html>
 
 {{block page_js}}
 <script>
     jQuery("#web2py_user_form input:visible:enabled:first").focus();
-{{if request.args(0)=='register':}}
+    {{if request.args(0)=='register':}}
     web2py_validate_entropy(jQuery('#auth_user_password'),100);
-{{elif request.args(0)=='change_password':}}
+    {{elif request.args(0)=='change_password':}}
     web2py_validate_entropy(jQuery('#no_table_new_password'),100);
-{{pass}}
+    {{pass}}
 </script>
 {{end page_js}}
