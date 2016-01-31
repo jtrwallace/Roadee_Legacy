@@ -1,6 +1,7 @@
 body {
-    max-width: 100%;
+    max-width: 30%;
     margin: 0;
+    background-color: #2ecbb0;
 }
 
 nav#user-nav {

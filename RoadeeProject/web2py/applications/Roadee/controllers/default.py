@@ -11,15 +11,12 @@
 import json
 
 def index():
-    """
-    example action using the internationalization operator T and flash
-    rendered by views/default/index.html or views/generic.html
-
-    if you need a simple wiki simply replace the two lines below with:
-    return auth.wiki()
-    """
-    response.flash = T("Hello World")
-    return dict(message=T('Welcome to web2py!'))
+    db.auth_user.profile.writable = False
+    db.auth_user.description.writable = False
+    db.auth_user.locationLatitude.writable = False
+    db.auth_user.locationLongitude.writable = False
+    db.auth_user.uuid.writable = False
+    return dict(registerForm=auth.register(), loginForm=auth.login())
 
 def roadtrip():
     return dict(message=T('Welcome to web2py!'))
@@ -61,7 +58,7 @@ def call():
     """
     return service()
 
-def add_review():
+def add_review_to_waypoint():
     db.review.update_or_insert((db.review.uuid == request.vars.unique_id),
             waypointID = request.vars.data["waypointID"],
             userID = request.vars.data["userID"],
@@ -120,7 +117,7 @@ def add_waypoint_to_route():
             totalTime = request.vars.data["totalTime"]
             )
 
-def add_waypoint_photo():
+def add_photo_to_waypoint():
     waypoint = db(db.waypoint.uuid == request.vars.unique_id).select().first()
     newPhotosURLList = waypoint.photosURLList
     newPhotosURLList.append(request.vars.data["photoURL"])
@@ -200,3 +197,12 @@ def remove_review_from_waypoint():
             )
 
     review.delete()
+
+def update_route():
+    return 0
+
+def update_waypoint():
+    return 0
+
+def test():
+    return dict(form=auth.login())

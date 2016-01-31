@@ -153,7 +153,7 @@
         });
 
         WAYPOINTS.on("route-type-input", function() {
-            $.ajax("{{=URL('default', 'add_waypoint')}}",
+            $.ajax("{{=URL('default', 'update_waypoint')}}",
 					{
 						data: {
                             uuid: BODY.get('uuid'),
@@ -435,6 +435,7 @@
             }
          });
 
+<<<<<<< HEAD
          function deleteMarkers(markersArray) {
              for (var i = 0; i < markersArray.length; i++) {
                  markersArray[i].setMap(null);
@@ -559,3 +560,6 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 
   </body>
 </html>-->
+=======
+</html>
+>>>>>>> 992a96edd3554fb721cc56f56bf6435d7d476cf8

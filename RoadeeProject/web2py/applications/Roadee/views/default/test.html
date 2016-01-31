@@ -2,9 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Roadee - It's a waypoint kinda thing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{=URL('static','css/style.css')}}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="{{=URL('static','js/scripts.js')}}"></script>
+    <script src="http://cdn.jquerytools.org/1.2.6/full/jquery.tools.min.js"></script>
+{{include 'web2py_ajax.html'}}
 </head>
 <body>
+<!-- Add an optional button to open the popup -->
+<button class="my_popup_open">Open popup</button>
+
+<!-- Add content to the popup -->
+<div id="my_popup">
+
+{{=form}}
+
+    <!-- Add an optional button to close the popup -->
+    <button class="my_popup_close">Close</button>
+
+</div>
 
 </body>
 </html>
+<script src="https://code.jquery.com/jquery-1.8.2.min.js"></script>
+<script src="https://cdn.rawgit.com/vast-engineering/jquery-popup-overlay/1.7.10/jquery.popupoverlay.js"></script>
+<script>
+    $(document).ready(function() {
+
+        // Initialize the plugin
+        $('#my_popup').popup({
+        });
+    });
+</script>

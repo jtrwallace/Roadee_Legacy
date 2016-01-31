@@ -189,13 +189,14 @@ footer {
     }
 }
 
-#lean_overlay {
-    position: fixed;
-    z-index:100;
-    top: 0px;
-    left: 0px;
-    height:100%;
-    width:100%;
-    background: #000;
-    display: none;
-}
+/* use a semi-transparent image for the overlay */
+  #overlay {
+    background-image: url(../images/transparent.png);
+    color:#efefef;
+    height:450px;
+  }
+  /* container for external content. uses vertical scrollbar, if needed */
+  div.contentWrap {
+    height:441px;
+    overflow-y:auto;
+  }
