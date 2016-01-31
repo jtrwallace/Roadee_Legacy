@@ -1,4 +1,4 @@
-timestamp: 2016-01-30T16:07:12.853000
+timestamp: 2016-01-30T19:47:12.770000
 CREATE TABLE auth_user(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name CHAR(128),
@@ -17,21 +17,21 @@ CREATE TABLE auth_user(
     uuid CHAR(512)
 );
 success!
-timestamp: 2016-01-30T16:07:12.938000
+timestamp: 2016-01-30T19:47:12.796000
 CREATE TABLE auth_group(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     role CHAR(512),
     description TEXT
 );
 success!
-timestamp: 2016-01-30T16:07:12.977000
+timestamp: 2016-01-30T19:47:12.817000
 CREATE TABLE auth_membership(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-01-30T16:07:13
+timestamp: 2016-01-30T19:47:12.842000
 CREATE TABLE auth_permission(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  ,
@@ -40,7 +40,7 @@ CREATE TABLE auth_permission(
     record_id INTEGER
 );
 success!
-timestamp: 2016-01-30T16:07:13.023000
+timestamp: 2016-01-30T19:47:12.864000
 CREATE TABLE auth_event(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     time_stamp TIMESTAMP,
@@ -50,7 +50,7 @@ CREATE TABLE auth_event(
     description TEXT
 );
 success!
-timestamp: 2016-01-30T16:07:13.062000
+timestamp: 2016-01-30T19:47:12.891000
 CREATE TABLE auth_cas(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
@@ -60,7 +60,7 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 success!
-timestamp: 2016-01-30T16:07:13.092000
+timestamp: 2016-01-30T19:47:12.918000
 CREATE TABLE route(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     uuid CHAR(512),
@@ -76,11 +76,11 @@ CREATE TABLE route(
     routeType CHAR(512)
 );
 success!
-timestamp: 2016-01-30T16:07:13.115000
+timestamp: 2016-01-30T19:47:12.940000
 CREATE TABLE waypoint(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     uuid CHAR(512),
-    rating INTEGER,
+    rating DOUBLE,
     photosURLList TEXT,
     locationLatitude DOUBLE,
     locationLongitude DOUBLE,
@@ -92,64 +92,16 @@ CREATE TABLE waypoint(
     reviewList TEXT
 );
 success!
-timestamp: 2016-01-30T16:07:13.142000
+timestamp: 2016-01-30T19:47:12.963000
 CREATE TABLE review(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     uuid CHAR(512),
     waypointID CHAR(512),
     userID CHAR(512),
-    rating INTEGER,
+    rating DOUBLE,
+    placeCost DOUBLE,
     reviewDescription CHAR(512),
     postingTime CHAR(512),
     postingTimeString CHAR(512)
 );
-success!
-success!
-success!
-timestamp: 2016-01-30T18:58:14.458000
-ALTER TABLE review ADD placecost DOUBLE;
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
 success!

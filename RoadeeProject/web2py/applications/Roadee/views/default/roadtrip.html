@@ -2,7 +2,7 @@
 <html>
 <head>
     
-    <link rel="stylesheet" href="{{=URL('static','css/style.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static','css/roadtrip.css')}}"/>
 
 
     <!-- include stylesheets -->
@@ -15,7 +15,7 @@
     <script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
     <script src="{{=URL('static','js/web2py-bootstrap3.js')}}"></script>
     <script src="{{=URL('static', 'js/ractive.min.js')}}"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkK54tO80JNw9dMYg0bUoxyGqG-apvdn4&callback=initAutocomplete&libraries=places"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkK54tO80JNw9dMYg0bUoxyGqG-apvdn4&callback=initAutocomplete&libraries=places,geometry"></script>
     <script src="{{=URL('static','js/scripts.js')}}"></script>
     <script src="{{=URL('static','js/modernizr-2.8.3.min.js')}}"></script>
     <!--[if lt IE 9]>
@@ -56,8 +56,8 @@
                     <option value="Adventure">Adventure</option>
                 </select>
             </li>
-            <li class="flex-row"><p class="dist-label">Total Trip Distance: </p><p class="dist-text" type="text" name="totalDistance">{% route['totalDistance'] %}</p></li>
-            <li class="flex-row"><p class="dist-label">Total Trip Time: </p><p class="dist-text" type="text" name="totalTime">{% route['totalTime'] %}</p></li>
+            <li class="flex-row"><p class="dist-label">Total Trip Distance: </p><p id="totalDistance" class="dist-text" type="text" name="totalDistance">{% route['totalDistance'] %}</p></li>
+            <li class="flex-row"><p class="dist-label">Total Trip Time: </p><p id="totalTime" class="time-text" type="text" name="totalTime">{% route['totalTime'] %}</p></li>
         </ul>
 </script>
 

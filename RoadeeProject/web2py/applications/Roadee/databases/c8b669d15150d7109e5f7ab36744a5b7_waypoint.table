@@ -1,5 +1,5 @@
 (dp1
-S'locationlongitude'
+S'locationLongitude'
 p2
 (dp3
 S'length'
@@ -56,7 +56,7 @@ I00
 sg10
 S'double'
 p19
-ssS'locationlatitude'
+ssS'locationLatitude'
 p20
 (dp21
 g4
@@ -72,7 +72,7 @@ sg9
 I00
 sg10
 g11
-ssS'waypointname'
+ssS'waypointName'
 p23
 (dp24
 g4
@@ -88,7 +88,7 @@ sg9
 I00
 sg10
 g15
-ssS'averagecost'
+ssS'averageCost'
 p26
 (dp27
 g4
@@ -104,7 +104,7 @@ sg9
 I00
 sg10
 g19
-ssS'photosurllist'
+ssS'photosURLList'
 p29
 (dp30
 g4
@@ -121,7 +121,7 @@ I00
 sg10
 S'list:string'
 p32
-ssS'phonenumber'
+ssS'phoneNumber'
 p33
 (dp34
 g4
@@ -168,11 +168,10 @@ p41
 sg9
 I00
 sg10
-S'id'
+g39
+ssS'reviewList'
 p42
-ssS'reviewlist'
-p43
-(dp44
+(dp43
 g4
 I512
 sg5
@@ -181,14 +180,14 @@ sg6
 I12
 sg7
 S'TEXT'
-p45
+p44
 sg9
 I00
 sg10
 g32
 ssS'description'
-p46
-(dp47
+p45
+(dp46
 g4
 I512
 sg5
@@ -197,7 +196,7 @@ sg6
 I7
 sg7
 S'CHAR(512)'
-p48
+p47
 sg9
 I00
 sg10
