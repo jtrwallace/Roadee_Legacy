@@ -66,21 +66,20 @@
 </script>
 
 <script id="waypoint-template" type="text/ractive">
-        {% #if numberOfPoints > 0 %}
+        <p>Rating</p>
         {% #waypoints %}
-		    <ul class="waypoint-list">
-                 <li><p id="rating"> value={% waypoints['rating'] %} </p></li>
-                 <li><img id="waypointPicture" src={% waypoints['photosURLList'][0] %}></li>
-                 <li><p id="description"> {% waypoints['description'] %} </p></li>
-                 <li><p id="address"> {% waypoints['address'] %} </p></li>
-                 <li><p id="waypointName"> {% waypoints['waypointName'] %} </p></li>
-                 <li><p id="phoneNumber"> {% waypoints['phoneNumber'] %} </p></li>
-                 <li><p id="averageCost"> {% waypoints['averageCost'] %} </p></li>
-                 <li><p id="reviewList"> {% waypoints['averageCost'][0] %}</p></li>
+		    <ul class="waypoint-list" id="waypoint">
+		         <p>Rating</p>
+                 <li><p id="rating">{% rating %}</p></li>
+                 <li><img id="waypointPicture" src="{% photosURLList %}"></li>
+                 <li><p id="description"> {% description %} </p></li>
+                 <li><p id="address"> {% address %} </p></li>
+                 <li><p id="waypointName"> {% waypointName %} </p></li>
+                 <li><p id="phoneNumber"> {% phoneNumber %} </p></li>
+                 <li><p id="averageCost"> {% averageCost %} </p></li>
+                 <li><p id="reviewList"> {% averageCost %}</p></li>
 		    </ul>
         {% /waypoints %}
-        {% /if %}
-
 </script>
 
 <script>
@@ -202,6 +201,7 @@
 
 						success: function(data) {
                             console.log("waypoint: " + JSON.stringify(data, null, 4));
+                            console.log(data.length);
                             WAYPOINTS.set('waypoints');
                             WAYPOINTS.set('numberOfPoints', data.length);
 						},
