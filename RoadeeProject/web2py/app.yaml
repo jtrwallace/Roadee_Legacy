@@ -33,8 +33,8 @@ handlers:
   secure: optional
 
 - url: /favicon.ico
-  static_files: applications/Roadee/static/favicon.ico
-  upload: applications/Roadee/static/favicon.ico
+  static_files: applications/welcome/static/favicon.ico
+  upload: applications/welcome/static/favicon.ico
 
 - url: /robots.txt
   static_files: applications/welcome/static/robots.txt
