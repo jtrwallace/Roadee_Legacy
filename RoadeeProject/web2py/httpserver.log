@@ -697,7 +697,6 @@
 127.0.0.1, 2016-01-29 22:56:16, GET, /Roadee/static/js/bootstrap.min.js, HTTP/1.1, 304, 0.001515
 127.0.0.1, 2016-01-29 22:56:16, GET, /Roadee/static/js/ractive.min.js, HTTP/1.1, 304, 0.001154
 127.0.0.1, 2016-01-29 22:56:22, POST, /add_user, HTTP/1.1, 200, 0.020333
-<<<<<<< HEAD
 127.0.0.1, 2016-01-29 23:12:30, GET, /user_sign_up, HTTP/1.1, 200, 0.077000
 127.0.0.1, 2016-01-29 23:12:30, GET, /Roadee/static/css/bootstrap.min.css, HTTP/1.1, 304, 0.001000
 127.0.0.1, 2016-01-29 23:12:30, GET, /Roadee/static/css/web2py-bootstrap3.css, HTTP/1.1, 304, 0.000000
@@ -4161,6 +4160,7 @@
 127.0.0.1, 2016-01-30 16:29:08, GET, /Roadee/static/css/style.css, HTTP/1.1, 304, 0.001000
 127.0.0.1, 2016-01-30 16:29:08, GET, /Roadee/static/js/helperFunctions.js, HTTP/1.1, 304, 0.000000
 127.0.0.1, 2016-01-30 16:29:08, POST, /get_routes_by_user, HTTP/1.1, 200, 0.022000
+<<<<<<< HEAD
 127.0.0.1, 2016-01-30 16:32:08, GET, /roadtrip, HTTP/1.1, 200, 0.028000
 127.0.0.1, 2016-01-30 16:32:08, GET, /Roadee/static/css/style.css, HTTP/1.1, 304, 0.001000
 127.0.0.1, 2016-01-30 16:32:08, GET, /Roadee/static/js/jquery.js, HTTP/1.1, 304, 0.000000
