@@ -100,7 +100,7 @@ footer {
 #arrow {
     margin-right: auto;
     margin-left: auto;
-    postion: relative;
+    position: relative;
     padding: 10px;
 }
 
@@ -167,7 +167,7 @@ footer {
     position: relative;
     margin-top: -70px;
     min-width: 100%;
-    width: auto;
+    min-height: 675px;
     z-index: -9999;
     overflow: hidden;
 }
@@ -186,6 +186,22 @@ footer {
 @media only screen and (max-width: 667px) {
     #footer-links {
         max-width: 334px;
+    }
+
+    .bgvideo {
+        min-height: 475px;
+    }
+
+    #outside{
+       margin-top:64px;
+    }
+
+    #hero {
+        height: 405px;
+    }
+
+    #welcome-message {
+        font-size: 25px;
     }
 }
 
