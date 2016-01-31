@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{=URL('static','css/style.css')}}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="{{=URL('static','js/scripts.js')}}"></script>
+    <script src="{{=URL('static','js/jquery.leanModal.min.js')}}"></script>
 </head>
 
 <body>
@@ -23,8 +24,13 @@
             <div id="nav">
                 <tr>
                     <td><a href="{{=URL('default','index')}}"><img src="{{=URL('static','images/logo.png')}}" alt="Roadee Logo"></a></td>
-                    <td><a href="#" class="login">Log In</a></td>
-                    <td><a href="#" class="signup">Sign Up</a></td>
+                    {{if not auth.is_logged_in():}}
+                        <td>{{=A('Sign Up', _class='signup', _href=URL('default', 'user', args=['register'], vars=dict(_next=URL(args=request.args, vars=request.vars))))}}</td>
+                        <td>{{=A('Log In', _class='login', _href=URL('default', 'user', args=['login'], vars=dict(_next=URL(args=request.args, vars=request.vars))))}}</td>
+                    {{pass}}
+                    {{if auth.is_logged_in():}}
+                        <td>{{=A('Sign Out', _class='login', _href=URL('default', 'user', args=['logout'], vars=dict(_next=URL(args=request.args, vars=request.vars))))}}</td>
+                    {{pass}}
                 </tr>
             </div>
 
