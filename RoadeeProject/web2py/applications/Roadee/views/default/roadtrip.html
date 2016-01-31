@@ -78,6 +78,7 @@
                  <li><p id="phoneNumber"> {% phoneNumber %} </p></li>
                  <li><p id="averageCost"> {% averageCost %} </p></li>
                  <li><p id="reviewList"> {% averageCost %}</p></li>
+                 <li><button on-click='buttonActivate'> Add to Trip </button></li>
 		    </ul>
         {% /waypoints %}
 </script>
@@ -95,9 +96,31 @@
             delimiters: ['{%', '%}'],
             tripleDelimiters: ['{%%', '%%}'],
             data: {
-                route: {}
+                route: {},
+                waypointID: ""
             }
         });
+
+        function getRoute(waypointIDParameter) {
+            $.ajax("{{=URL('default', 'add_waypoint_to_route()')}}",
+                    {
+                        data: {
+                            waypointID: waypointIDParameter
+                        },
+                        method: 'POST',
+
+                        success: function (data) {
+                            console.log( JSON.stringify(data, null, 4));
+                            console.log(data.length);
+                            //BODY.set('', data[]);
+                            //BODY.set('', data[]);
+                        },
+                        error: function () {
+                            alert("An error occurred. Please try again");
+                        }
+                    }
+            );
+        }
 
         $.ajax("{{=URL('default', 'get_routes_by_user')}}",
                 {
@@ -157,11 +180,7 @@
         }
 
         setInterval(periodic, 5000);
-    });
-</script>
 
-<script>
-	$(function() {
         // Ractive object
         var INPUT = new Ractive({
             el: '#input-target',
@@ -190,6 +209,11 @@
                 numberOfPoints: 0
             }
         });
+
+        function buttonActivate() {
+            console.log(this["waypointID"]);
+            getRoute(this["waypointID"]);
+        }
 
         function getWaypoints() {
             $.ajax("{{=URL('default', 'get_waypoints_by_name')}}",
