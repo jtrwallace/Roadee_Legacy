@@ -82,11 +82,16 @@ def add_review():
             averageCost = newAverageCost
             )
 
-    return
-
-
 def add_route():
-    return 0
+    db.route.update_or_insert((db.route.uuid == request.vars.unique_id),
+            startingPointLatitude = request.vars.data["startingPointLatitude"],
+            startingPointLongitude = request.vars.data["startingPointLongitude"],
+            endingPointLatitude = request.vars.data["endingPointLatitude"],
+            endingPointLongitude = request.vars.data["endingPointLongitude"],
+            userID = request.vars.data["userID"],
+            routeName = request.vars.data["routeName"],
+            routeType = request.vars.data["routeType"]
+            )
 
 def add_waypoint():
     db.waypoint.update_or_insert((db.waypoint.uuid == request.vars.unique_id),
@@ -102,7 +107,18 @@ def add_waypoint():
             #timeSpentList = request.vars.data["timeSpentLis"]t
             )
 
-    return
+def add_waypoint_to_route():
+    route = db(db.route.uuid == request.vars.unique_id).select().first()
+    waypoint = db(db.waypoint.uuid == request.vars.waypointID).select().first()
+
+    newWaypointList = route.waypointList
+    newWaypointList.append(request.vars.waypointID)
+    
+    db.route.update((db.route.uuid == request.vars.unique_id),
+            waypointList = newWaypointList,
+            totalDistance = request.vars.data["totalDistance"]
+            totalTime = request.vars.data["totalTime"]
+            )
 
 def add_waypoint_photo():
     waypoint = db(db.waypoint.uuid == request.vars.unique_id).select().first()
@@ -113,15 +129,12 @@ def add_waypoint_photo():
             photosURLList = newPhotosURLList
             )
 
-    return 0
-
 def get_reviews_by_waypoint():
     reviews = db(db.review.waypointID == request.vars.unique_id).select()
     return response.json(reviews)
 
 def get_routes_by_user():
     routes = db(db.route.userID == request.vars.unique_id).select().first()
-
     return response.json(routes)
 
 def get_waypoints_by_route():

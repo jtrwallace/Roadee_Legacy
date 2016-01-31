@@ -24,10 +24,10 @@ db.define_table('route',
     Field('endingPointLatitude', 'decimal(9,6)'),
     Field('endingPointLongitude', 'decimal(9,6)'),
     Field('waypointList', 'list:string'),
-    Field('totalDistance', 'double'),
+    Field('totalDistance', 'double', default = 0),
     Field('userID', 'string'),
     Field('routeName', 'string'),
-    Field('totalTime', 'integer'),
+    Field('totalTime', 'integer', default = 0),
     Field('routeType', 'string')
 )
 
