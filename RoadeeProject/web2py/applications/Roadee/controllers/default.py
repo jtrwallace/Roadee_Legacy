@@ -144,7 +144,7 @@ def get_waypoints_by_route():
     return response.json(waypoints)
 
 def get_waypoints_by_name():
-    search_input = request.vars.unique_id.lower()
+    search_input = request.vars.data["userInput"].lower()
     waypoints = db().select(db.waypoint.ALL)
 
     matched_waypoints = []

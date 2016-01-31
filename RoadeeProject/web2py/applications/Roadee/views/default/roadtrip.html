@@ -20,7 +20,7 @@
     <script src="{{=URL('static','js/modernizr-2.8.3.min.js')}}"></script>
     <!--[if lt IE 9]>
         <script src="{{=URL('static','js/respond-1.4.2.min.js')}}"></script>
-        <![endif]-->
+    <![endif]-->
 </head>
 
 <body>
@@ -63,22 +63,18 @@
 
 <script id="waypoint-template" type="text/ractive">
         <ul class="waypoint-list">
-            <li><p class="address-label">Starting Point</p></li>
-            <li><input class="address-input" id="pac-input-start" /></li>
-            <li><p class="address-label">Ending Point</p></li>
-            <li><input class="address-input" id="pac-input-end" /></li>
-            <li><p class="route-label">Trip Name</p></li>
-            <li><input class="route-name-input" id="route-name-input" type="text" name="routeName" value={% routeName %}/></li>
-            <li><p class="route-label">Trip Type</p></li>
-            <li>
-                <select class="route-type-input" id="route-type-input" type="text" name="routeType" value="{% routeType %}">
-                    <option value="family">Family</option>
-                    <option value="romantic">Romantic</option>
-                    <option value="adventure">Adventure</option>
-                </select>
-            </li>
-            <li class="flex-row"><p class="dist-label">Total Trip Distance: </p><p class="dist-text" type="text" name="totalDistance" value="{% totalDistance %}">DIST HERE</p></li>
-            <li class="flex-row"><p class="dist-label">Total Trip Time: </p><p class="time-text" type="text" name="totalTime" value="{% totalTime %}">TIME HERE</p></li>
+            {% #if waypoints.length > 0 %}
+		    {% #waypoints %}
+                 <li><p id="rating"> value={% waypoints['rating'] %} </p></li>
+                 <li><img id="waypointPicture" src={% waypoints['photosURLList'][0] %}></img></li>
+                 <li><p id="description"> {% waypoints['description'] %} </p></li>
+                 <li><p id="address"> {% waypoints['address'] %} </p></li>
+                 <li><p id="waypointName"> {% waypoints['waypointName'] %} </p></li>
+                 <li><p id="phoneNumber"> {% waypoints['phoneNumber'] %} </p></li>
+                 <li><p id="averageCost"> {% waypoints['averageCost'] %} </p></li>
+                 <li><p id="reviewList"> {% waypoints['averageCost'][0] %}</p></li>
+		    {% /waypoints %}
+		    {% /if %}
         </ul>
 </script>
 
@@ -126,6 +122,32 @@
                     }
                 }
         );
+
+        function periodic() {
+            /* user is logged in */
+            console.log("log:" +  "{{=auth.is_logged_in()}}");
+            if ("{{=auth.is_logged_in()}}" != "False") {
+                var routeObject = BODY.get('route');
+                $.ajax("{{=URL('default', 'add_route')}}",
+                        {
+                            data: routeObject,
+                            method: 'POST',
+                            success: function () {
+                                console.log("success");
+                            },
+                            error: function () {
+                                console.log("error");
+                            }
+                        }
+                );
+            }
+            /* user is not logged in */
+            else {
+                console.log("user is not logged in");
+            }
+        }
+
+        setInterval(periodic, 5000);
     });
 </script>
 
@@ -138,53 +160,22 @@
             delimiters: ['{%', '%}'],
             tripleDelimiters: ['{%%', '%%}'],
             data: {
-                /*uuid: "",
-                startingPointLatitude: "",
-                startingPointLongitude:"",
-                endingPointLatitude: "",
-                endingPointLongitude: "",
-                waypointList:"",
-                totalDistance:"",
-                userID:"",
-                routeName:"",
-                totalTime:"",
-                routeType:""*/
+                userInput: "",
+                waypoints: []
             }
         });
 
-        WAYPOINTS.on("route-type-input", function() {
-            $.ajax("{{=URL('default', 'update_waypoint')}}",
+        WAYPOINTS.on("pac-input", function() {
+            $.ajax("{{=URL('default', 'get_waypoints_by_name')}}",
 					{
 						data: {
-                            uuid: BODY.get('uuid'),
-                            startingPointLatitude: BODY.get('startingPointLatitude'),
-                            startingPointLongitude: BODY.get('startingPointLongitude'),
-                            endingPointLatitude: BODY.get('endingPointLatitude'),
-                            endingPointLongitude: BODY.get('endingPointLongitude'),
-                            waypointList: BODY.get('waypointList'),
-                            totalDistance: BODY.get('totalDistance'),
-                            userID: BODY.get('userID'),
-                            routeName: BODY.get('routeName'),
-                            totalTime: BODY.get('totalTime'),
-                            routeType: BODY.get('routeType')
+                            userInput: document.getElementById("pac-input").value
 						},
 						method: 'POST',
 
 						success: function(data) {
-                            /*if (data == "\"success\"") {
-                                alert(data);
-                                window.location.href = "{{=URL('default','index')}}";
-                            } else if (data == "\"username_failure\"") {
-                                BODY.set('username',"");
-                                BODY.set('email',"");
-                                BODY.set('password',"");
-                                alert("Username is already in use");
-                            } else {
-                                BODY.set('username',"");
-                                BODY.set('email',"");
-                                BODY.set('password',"");
-                                alert("Email address already in use");
-                            }*/
+                            console.log(data);
+                            WAYPOINTS.set('waypoints');
 						},
 						error: function() {
                             alert("An error occurred. Please try again");
@@ -192,6 +183,8 @@
 					}
 			);
         });
+
+
     });
 </script>
 <script>

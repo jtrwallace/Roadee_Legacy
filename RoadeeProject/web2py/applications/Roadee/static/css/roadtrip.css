@@ -91,6 +91,14 @@ html, body { height: 100%; margin: 0; padding: 0; }
     padding-left: 0px;
 }
 
+.waypoint-list {
+    list-style-type: none;
+    margin: auto;
+    overflow: auto;
+    width:90%;
+    padding-left: 0px;
+}
+
 .inner-list li {
     margin: 2%;
 }
