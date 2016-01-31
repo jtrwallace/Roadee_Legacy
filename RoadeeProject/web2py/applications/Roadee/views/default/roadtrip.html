@@ -63,10 +63,10 @@
 
 <script id="waypoint-template" type="text/ractive">
         <ul class="waypoint-list">
-            {% #if waypoints.length > 0 %}
+            {% #if numberOfPoints > 0 %}
 		    {% #waypoints %}
                  <li><p id="rating"> value={% waypoints['rating'] %} </p></li>
-                 <li><img id="waypointPicture" src={% waypoints['photosURLList'][0] %}></img></li>
+                 <li><img id="waypointPicture" src={% waypoints['photosURLList'][0] %}></li>
                  <li><p id="description"> {% waypoints['description'] %} </p></li>
                  <li><p id="address"> {% waypoints['address'] %} </p></li>
                  <li><p id="waypointName"> {% waypoints['waypointName'] %} </p></li>
@@ -94,7 +94,7 @@
         $.ajax("{{=URL('default', 'get_routes_by_user')}}",
                 {
                     data: {
-                        unique_id: "{{=auth.user_id}}" //request.vars.unique_id
+                        unique_id: 1//"{{=auth.user_id}}" //request.vars.unique_id
                     },
                     method: 'POST',
                     success: function (data) {
@@ -128,6 +128,7 @@
             console.log("log:" +  "{{=auth.is_logged_in()}}");
             if ("{{=auth.is_logged_in()}}" != "False") {
                 var routeObject = BODY.get('route');
+                console.log(routeObject);
                 $.ajax("{{=URL('default', 'add_route')}}",
                         {
                             data: routeObject,
@@ -161,7 +162,8 @@
             tripleDelimiters: ['{%%', '%%}'],
             data: {
                 userInput: "",
-                waypoints: []
+                waypoints: [],
+                numberOfPoints: 0
             }
         });
 
@@ -176,6 +178,7 @@
 						success: function(data) {
                             console.log(data);
                             WAYPOINTS.set('waypoints');
+                            WAYPOINTS.set('numberOfPoints', data.length);
 						},
 						error: function() {
                             alert("An error occurred. Please try again");
