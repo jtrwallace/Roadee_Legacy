@@ -194,7 +194,257 @@
         });
     });
 </script>
+<script>
+ function initAutocomplete() {
+     window.onload = function e () {
+         var map = new google.maps.Map(document.getElementById('map'), {
+             center: {lat: 37.8019, lng: -122.4189},
+             zoom: 15,
+             mapTypeId: google.maps.MapTypeId.ROADMAP
+         });
 
+         var bounds = new google.maps.LatLngBounds();
+
+         //Adds customer marker
+         var image = 'static/images/waypoint.png';
+
+         // Create the search box and link it to the UI element.
+         var input = document.getElementById('pac-input');
+         var inputStart = document.getElementById('pac-input-start');
+         var inputEnd = document.getElementById('pac-input-end');
+         var searchBox = new google.maps.places.SearchBox(input);
+         var searchBoxStart = new google.maps.places.SearchBox(inputStart);
+         var searchBoxEnd = new google.maps.places.SearchBox(inputEnd);
+         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+         //map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputEnd);
+
+         // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function () {
+             searchBox.setBounds(map.getBounds());
+         });
+
+         // Bias the SearchBox results towards current map's viewport.
+         map.addListener('bounds_changed', function () {
+             searchBoxStart.setBounds(map.getBounds());
+         });
+
+         // Bias the SearchBox results towards current map's viewport.
+         map.addListener('bounds_changed', function () {
+             searchBoxEnd.setBounds(map.getBounds());
+         });
+
+         var markers = [];
+
+         // Listen for the event fired when the user selects a prediction and retrieve
+         // more details for that place.
+         searchBox.addListener('places_changed', function () {
+             var places = searchBox.getPlaces();
+
+             if (places.length == 0) {
+                 return;
+             }
+
+             // Clear out the old markers.
+             markers.forEach(function (marker) {
+                 marker.setMap(null);
+             });
+             markers = [];
+
+             // For each place, get the icon, name and location.
+             var bounds = new google.maps.LatLngBounds();
+             places.forEach(function (place) {
+                 var icon = {
+                     url: place.icon,
+                     size: new google.maps.Size(71, 71),
+                     origin: new google.maps.Point(0, 0),
+                     anchor: new google.maps.Point(17, 34),
+                     scaledSize: new google.maps.Size(25, 25)
+                 };
+
+                 // Create a marker for each place.
+                 markers.push(new google.maps.Marker({
+                     map: map,
+                     icon: icon,
+                     title: place.name,
+                     position: place.geometry.location
+                 }));
+
+                 if (place.geometry.viewport) {
+                     // Only geocodes have viewport.
+                     bounds.union(place.geometry.viewport);
+                 } else {
+                     bounds.extend(place.geometry.location);
+                 }
+             });
+             map.fitBounds(bounds);
+         });
+
+         var markersStart = [];
+         // Listen for the event fired when the user selects a prediction and retrieve
+         // more details for that place.
+         searchBoxStart.addListener('places_changed', function () {
+             var places = searchBoxStart.getPlaces();
+
+             if (places.length == 0) {
+                 return;
+             }
+
+             // Clear out the old markers.
+             markersStart.forEach(function (marker) {
+                 marker.setMap(null);
+             });
+             markersStart = [];
+
+             // For each place, get the icon, name and location.
+             var bounds = new google.maps.LatLngBounds();
+             places.forEach(function (place) {
+                 var icon = {
+                     url: place.icon,
+                     size: new google.maps.Size(71, 71),
+                     origin: new google.maps.Point(0, 0),
+                     anchor: new google.maps.Point(17, 34),
+                     scaledSize: new google.maps.Size(25, 25)
+                 };
+
+                 // Create a marker for each place.
+                 markersStart.push(new google.maps.Marker({
+                     map: map,
+                     icon: icon,
+                     title: place.name,
+                     position: place.geometry.location
+                 }));
+
+                 if (place.geometry.viewport) {
+                     // Only geocodes have viewport.
+                     bounds.union(place.geometry.viewport);
+                 } else {
+                     bounds.extend(place.geometry.location);
+                 }
+             });
+             map.fitBounds(bounds);
+         });
+
+
+         var markersEnd = [];
+         // Listen for the event fired when the user selects a prediction and retrieve
+         // more details for that place.
+         searchBoxEnd.addListener('places_changed', function () {
+             var places = searchBoxEnd.getPlaces();
+
+             if (places.length == 0) {
+                 return;
+             }
+
+             // Clear out the old markers.
+             markersEnd.forEach(function (marker) {
+                 marker.setMap(null);
+             });
+             markersEnd = [];
+
+             // For each place, get the icon, name and location.
+             var bounds = new google.maps.LatLngBounds();
+             places.forEach(function (place) {
+                 var icon = {
+                     url: place.icon,
+                     size: new google.maps.Size(71, 71),
+                     origin: new google.maps.Point(0, 0),
+                     anchor: new google.maps.Point(17, 34),
+                     scaledSize: new google.maps.Size(25, 25)
+                 };
+
+                // Create a marker for each place.
+                markersEnd.push(new google.maps.Marker({
+                     map: map,
+                     icon: icon,
+                     title: place.name,
+                     position: place.geometry.location
+                 }));
+
+                 if (place.geometry.viewport) {
+                     // Only geocodes have viewport.
+                     bounds.union(place.geometry.viewport);
+                 } else {
+                     bounds.extend(place.geometry.location);
+                 }
+             });
+             map.fitBounds(bounds);
+         });
+         var bounds = new google.maps.LatLngBounds();
+         var markersArray = [];
+
+         var destinationIcon = 'https://chart.googleapis.com/chart?' +
+                 'chst=d_map_pin_letter&chld=D|FF0000|000000';
+         var originIcon = 'https://chart.googleapis.com/chart?' +
+                 'chst=d_map_pin_letter&chld=O|FFFF00|000000';
+
+         var geocoder = new google.maps.Geocoder;
+         console.log(document.getElementById('pac-input-start').value);
+         console.log(document.getElementById('pac-input-end').value);
+         var service = new google.maps.DistanceMatrixService;
+         service.getDistanceMatrix({
+
+             origins: [document.getElementById('pac-input-start').value],
+             destinations: [document.getElementById('pac-input-end').value],
+             travelMode: google.maps.TravelMode.DRIVING,
+             unitSystem: google.maps.UnitSystem.METRIC,
+             avoidHighways: false,
+             avoidTolls: false
+         }, function (response, status) {
+             if (status !== google.maps.DistanceMatrixStatus.OK) {
+                 alert('Error was: ' + status);
+             } else {
+                 console.log(response);
+                 var originList = response.originAddresses;
+                 var destinationList = response.destinationAddresses;
+                 var distanceDiv = document.getElementById('totalDistance');
+                 distanceDiv.innerHTML = '';
+                 var timeDiv = document.getElementById('totalTime');
+                 timeDiv.innerHTML = '';
+                 deleteMarkers(markersArray);
+
+                 var showGeocodedAddressOnMap = function (asDestination) {
+                     var icon = asDestination ? destinationIcon : originIcon;
+                     return function (results, status) {
+                         if (status === google.maps.GeocoderStatus.OK) {
+                             map.fitBounds(bounds.extend(results[0].geometry.location));
+                             markers.push(new google.maps.Marker({
+                                 map: map,
+                                 position: results[0].geometry.location,
+                                 icon: icon
+                             }));
+                         } else {
+                             alert('Geocode was not successful due to: ' + status);
+                         }
+                     };
+                 };
+
+                 for (var i = 0; i < originList.length; i++) {
+                     var results = response.rows[i].elements;
+                    geocoder.geocode({'address': originList[i]},
+                             showGeocodedAddressOnMap(false));
+                     for (var j = 0; j < results.length; j++) {
+                         geocoder.geocode({'address': destinationList[j]},
+                                 showGeocodedAddressOnMap(true));
+                         console.log(j);
+                        console.log(results[j].distance);
+
+                         distanceDiv.innerHTML += results[j].distance.text + '<br>';
+                         timeDiv.innerHTML += results[j].duration.text + '<br>';
+                     }
+                 }
+            }
+         });
+
+         function deleteMarkers(markersArray) {
+             for (var i = 0; i < markersArray.length; i++) {
+                 markersArray[i].setMap(null);
+             }
+             markersArray = [];
+         }
+     }
+ }
+
+</script>
 </html>
 
 
