@@ -116,7 +116,7 @@ def add_waypoint_to_route():
     
     db.route.update((db.route.uuid == request.vars.unique_id),
             waypointList = newWaypointList,
-            totalDistance = request.vars.data["totalDistance"]
+            totalDistance = request.vars.data["totalDistance"],
             totalTime = request.vars.data["totalTime"]
             )
 
