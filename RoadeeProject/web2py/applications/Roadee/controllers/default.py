@@ -61,7 +61,7 @@ def call():
     """
     return service()
 
-def add_review():
+def add_review_to_waypoint():
     db.review.update_or_insert((db.review.uuid == request.vars.unique_id),
             waypointID = request.vars.data["waypointID"],
             userID = request.vars.data["userID"],
@@ -120,7 +120,7 @@ def add_waypoint_to_route():
             totalTime = request.vars.data["totalTime"]
             )
 
-def add_waypoint_photo():
+def add_photo_to_waypoint():
     waypoint = db(db.waypoint.uuid == request.vars.unique_id).select().first()
     newPhotosURLList = waypoint.photosURLList
     newPhotosURLList.append(request.vars.data["photoURL"])
