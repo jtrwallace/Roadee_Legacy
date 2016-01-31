@@ -66,7 +66,7 @@ def add_review():
             waypointID = request.vars.data["waypointID"],
             userID = request.vars.data["userID"],
             rating = request.vars.data["rating"],
-            cost = request.vars.data["cost"],
+            placeCost = request.vars.data["cost"],
             reviewDescription = request.vars.data["reviewDescription"]
             )
 
@@ -190,7 +190,7 @@ def remove_review_from_waypoint():
     review = db(db.review.uuid == request.vars.unique_id).select().first()
     waypoint = db(db.waypoint.uuid == review.waypointID).select().first()
     newRating = (waypoint.rating * len(waypoint.reviewList) - review.rating) / (len(waypoint.reviewList) - 1)
-    newAverageCost = (waypoint.averageCost * len(waypoint.reviewList) - review.cost) / (len(waypoint.reviewList) - 1)
+    newAverageCost = (waypoint.averageCost * len(waypoint.reviewList) - review.placeCost) / (len(waypoint.reviewList) - 1)
     newReviewList = filter(lambda reviewID : reviewID == request.vars.unique_id, waypoint.reviewList)
 
     db.waypoint.update_or_insert((db.waypoint.uuid == review.waypointID),
