@@ -26,7 +26,7 @@
 <body>
     <div id="roadTripContainer" class="flex-row">
         <div id="mapContainer">
-            <input id="pac-input" />
+            <div id="input-target"></div>
             <div id="map"></div>
         </div>
         <div class="right-tab">
@@ -39,6 +39,10 @@
 
 
 </body>
+
+<script id="input-template" type="text/ractive">
+    <input id="pac-input" value="{% waypointInput %}"/>
+</script>
 
 <script id="route-template" type="text/ractive">
         <ul class="inner-list">
@@ -62,9 +66,9 @@
 </script>
 
 <script id="waypoint-template" type="text/ractive">
-        <ul class="waypoint-list">
-            {% #if numberOfPoints > 0 %}
-		    {% #waypoints %}
+        {% #if numberOfPoints > 0 %}
+        {% #waypoints %}
+		    <ul class="waypoint-list">
                  <li><p id="rating"> value={% waypoints['rating'] %} </p></li>
                  <li><img id="waypointPicture" src={% waypoints['photosURLList'][0] %}></li>
                  <li><p id="description"> {% waypoints['description'] %} </p></li>
@@ -73,13 +77,18 @@
                  <li><p id="phoneNumber"> {% waypoints['phoneNumber'] %} </p></li>
                  <li><p id="averageCost"> {% waypoints['averageCost'] %} </p></li>
                  <li><p id="reviewList"> {% waypoints['averageCost'][0] %}</p></li>
-		    {% /waypoints %}
-		    {% /if %}
-        </ul>
+		    </ul>
+        {% /waypoints %}
+        {% /if %}
+
 </script>
 
 <script>
-	$(function() {
+
+</script>
+
+<script>
+    $(function() {
         // Ractive object
         var BODY = new Ractive({
             el: '#route-target',
@@ -155,6 +164,22 @@
 <script>
 	$(function() {
         // Ractive object
+        var INPUT = new Ractive({
+            el: '#input-target',
+            template: '#input-template',
+            delimiters: ['{%', '%}'],
+            tripleDelimiters: ['{%%', '%%}'],
+            data: {
+                waypointInput: ""
+            }
+        });
+
+        $( "#pac-input" ).change(function() {
+            alert( "Handler for .change() called." );
+            getWaypoints();
+        });
+
+        // Ractive object
         var WAYPOINTS = new Ractive({
             el: '#waypoint-target',
             template: '#waypoint-template',
@@ -167,7 +192,7 @@
             }
         });
 
-        WAYPOINTS.on("pac-input", function() {
+        function getWaypoints() {
             $.ajax("{{=URL('default', 'get_waypoints_by_name')}}",
 					{
 						data: {
@@ -176,7 +201,7 @@
 						method: 'POST',
 
 						success: function(data) {
-                            console.log(data);
+                            console.log("waypoint: " + JSON.stringify(data, null, 4));
                             WAYPOINTS.set('waypoints');
                             WAYPOINTS.set('numberOfPoints', data.length);
 						},
@@ -185,9 +210,7 @@
                         }
 					}
 			);
-        });
-
-
+        }
     });
 </script>
 <script>
