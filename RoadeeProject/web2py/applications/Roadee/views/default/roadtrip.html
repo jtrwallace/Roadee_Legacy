@@ -94,7 +94,7 @@
         $.ajax("{{=URL('default', 'get_routes_by_user')}}",
                 {
                     data: {
-                        unique_id: 1//"{{=auth.user_id}}" //request.vars.unique_id
+                        unique_id: "{{=auth.user_id}}" //request.vars.unique_id
                     },
                     method: 'POST',
                     success: function (data) {
