@@ -75,7 +75,6 @@ def add_review_to_waypoint():
             )
 
 def add_route():
-<<<<<<< HEAD
     db.route.update_or_insert((db.route.uuid == request.vars["uuid"]),
             startingPointLatitude = request.vars["startingPointLatitude"],
             startingPointLongitude = request.vars["startingPointLongitude"],
