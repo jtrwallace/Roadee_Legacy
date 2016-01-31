@@ -24,9 +24,22 @@
 </head>
 
 <body>
+    <div id="nav">
+        <tr>
+            <td><a href="{{=URL('default','index')}}"><img src="{{=URL('static','images/logo.png')}}" alt="Roadee Logo"></a></td>
+            {{if not auth.is_logged_in():}}
+                <td>{{=A('Sign Up', _class='signup', _href=URL('default', 'user', args=['register'], vars=dict(_next=URL(args=request.args, vars=request.vars))))}}</td>
+                <td>{{=A('Log In', _class='login', _href=URL('default', 'user', args=['login'], vars=dict(_next=URL(args=request.args, vars=request.vars))))}}</td>
+            {{pass}}
+            {{if auth.is_logged_in():}}
+                <td>{{=A('Sign Out', _class='login', _href=URL('default', 'user', args=['logout'], vars=dict(_next=URL(args=request.args, vars=request.vars))))}}</td>
+            {{pass}}
+        </tr>
+    </div>
+
     <div id="roadTripContainer" class="flex-row">
-        <div id="mapContainer">
-            <div id="input-target"></div>
+        <div id="mapContain
+            <div id="input-target"></div>div>
             <div id="map"></div>
         </div>
         <div class="right-tab">
@@ -46,15 +59,13 @@
 
 <script id="route-template" type="text/ractive">
         <ul class="inner-list">
-            <li><p class="address-label">Starting Point</p></li>
-            <li><input class="address-input" id="pac-input-start" /></li>
-            <li><p class="address-label">Ending Point</p></li>
-            <li><input class="address-input" id="pac-input-end" /></li>
-            <li><p class="route-label">Trip Name</p></li>
-            <li><input class="route-name-input" id="route-name-input" type="text" name="routeName" value="{% route['routeName'] %}"/></li>
+            <li><input class="address-input" id="pac-input-start" placeholder="Start Destination"/></li>
+            <li><input class="address-input" id="pac-input-end" placeholder="End Destination"/></li>
+            <li><input class="route-name-input" id="route-name-input" type="text" placeholder="Trip Name" name="routeName" value="{% route['routeName'] %}"/></li>
             <li><p class="route-label">Trip Type</p></li>
             <li>
                 <select class="route-type-input" id="route-type-input" type="text" name="routeType" value="{% route['routeType'] %}">
+                    <option value="Default">Default</option>
                     <option value="Family">Family</option>
                     <option value="Romantic">Romantic</option>
                     <option value="Adventure">Adventure</option>
