@@ -11,6 +11,11 @@
 import json
 
 def index():
+    db.auth_user.profile.writable = False
+    db.auth_user.description.writable = False
+    db.auth_user.locationLatitude.writable = False
+    db.auth_user.locationLongitude.writable = False
+    db.auth_user.uuid.writable = False
     return dict(registerForm=auth.register(), loginForm=auth.login())
 
 def roadtrip():
