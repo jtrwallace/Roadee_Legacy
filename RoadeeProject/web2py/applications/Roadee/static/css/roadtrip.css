@@ -91,14 +91,23 @@ html, body { height: 100%; margin: 0; padding: 0; }
     padding-left: 0px;
 }
 
+#waypoint-target {
+    height: 25% !important;
+    overflow: auto;
+}
+
 .waypoint-list {
     list-style-type: none;
     margin: auto;
-    overflow: auto;
     width:90%;
     padding-left: 0px;
+    background-color: #0e90d2;
+    margin-top: 25px;
 }
 
+#waypointName {
+    font-size: 36px;
+}
 .inner-list li {
     margin: 2%;
 }
