@@ -144,7 +144,8 @@ def get_waypoints_by_name():
 
     matched_waypoints = []
     for waypoint in waypoints:
-        first_chars = waypoint["waypointName"][:len(search_input)].lower()
+        check_length = len(search_input) if len(search_input) <= len(waypoint["waypointName"]) else len(waypoint["waypointName"])
+        first_chars = waypoint["waypointName"][:check_length].lower()
         if search_input == first_chars:
             matched_waypoints.append(waypoint)
 
