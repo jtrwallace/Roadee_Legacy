@@ -1,0 +1,15 @@
+photosURLList: http://daviding.com/webphotos/albums/200812e-SantaCruz-Mountains/di_20081210-125834-santacruzboardwalk-beach-skyride.JPG
+locationLongitude: -122.0172
+locationLatitude: 36.9644
+description: Amusement park offers a variety of games & rides right on a mile-long stretch of sandy beach
+address: 400 Beach St, Santa Cruz, CA 95060
+waypointName: Beach Boardwalk
+reviews:
+
+rating: 4
+cost: 60
+reviewDescription: Fun for the whole family
+
+rating: 4
+cost: 25
+reviewDescription: Not a bad price

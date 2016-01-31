@@ -1,0 +1,15 @@
+photosURLList: https://res-5.cloudinary.com/simpleview/image/upload/f_auto,q_60,w_1200/v1/clients/monterey_county/EE9764434C2E06411FBECA7C33189403_14f2651a-d1d8-4936-aa46-d59e56c3d904.jpg
+locationLongitude: -121.807976
+locationLatitude: 36.270421
+description: Big Sur is a rugged stretch of California's central coast between Carmel and San Simeon
+address: Big Sur
+waypointName: Big Sur
+reviews:
+
+rating: 5
+cost: 0
+reviewDescription: A great place for sight seeing!
+
+rating: 4
+cost: 0
+reviewDescription: The Bixby Bridge was awesome

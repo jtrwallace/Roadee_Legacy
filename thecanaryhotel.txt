@@ -1,0 +1,15 @@
+photosURLList: http://2nbtoy3u3qzf34dru617v1vs.wpengine.netdna-cdn.com/wp-content/uploads/2015/08/canary1.jpg
+locationLongitude: -119.702781
+locationLatitude: 34.420631
+description: Stylish lodging with a rooftop pool, plus free perks including bikes & an evening wine hour.
+address: 31 W Carrillo St, Santa Barbara, CA 93101
+waypointName: The Canary Hotel
+reviews:
+
+rating: 4
+cost: 280
+reviewDescription: A very nice hotel to take a break from your roadtrip
+
+rating: 4
+cost: 322
+reviewDescription: It was pretty expensive

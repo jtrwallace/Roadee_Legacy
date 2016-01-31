@@ -1,0 +1,15 @@
+photosURLList: http://news.casaofsantacruz.com/wp-content/uploads/2015/11/MontereyBayAquarium_KelpForest.jpg
+locationLongitude: -121.893304
+locationLatitude: 36.603181
+description:  Well-known aquarium on a rocky coastline with exhibits ranging from otter habitats to touch pools
+address: 886 Cannery Row, Monterey, CA 93940
+waypointName: Monterey Bay Aquarium
+reviews:
+
+rating: 5
+cost: 0
+reviewDescription: A great place to bring your kids
+
+rating: 3
+cost: 0
+reviewDescription: It has a lot of interesting sealife

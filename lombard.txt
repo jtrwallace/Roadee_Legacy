@@ -1,0 +1,19 @@
+photosURLList: http://culturegeographic.com/wp-content/uploads/2015/08/lombard.jpg
+locationLongitude: -91.059658
+locationLatitude: 41.888722
+description: On a 27-degree angle, this famously crooked street features 8 hairpin turns & landscaped flowerbeds
+address: Lombard St, San Francisco, CA 94133
+waypointName: Lombard Street
+reviews:
+
+rating: 3
+cost: 0
+reviewDescription: What a crazy street
+
+rating: 4
+cost: 0
+reviewDescription: If your in sf you must visit this street
+
+rating: 2
+cost: 0
+reviewDescription: Nothing special
